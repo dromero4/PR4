@@ -1,5 +1,9 @@
 <?php 
 include 'navbar.view.php';
+$correu = isset($_POST['correu']) ? $_POST['correu'] : '';
+$usuari = isset($_POST['usuari']) ? $_POST['usuari'] : '';
+$contrassenya = isset($_POST['contrassenya']) ? $_POST['contrassenya'] : '';
+$contrassenya2 = isset($_POST['contrassenya2']) ? $_POST['contrassenya2'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -12,16 +16,16 @@ include 'navbar.view.php';
 <body>
     <form action="../controlador/controlador.php" method="post">
         <label for="correu"></label>
-        <input type="text" id="correu" name="correu" placeholder="Correu"><br><br>
+        <input type="text" id="correu" name="correu" placeholder="Correu" value="<?php echo htmlspecialchars($correu); ?>"><br><br>
 
         <label for="usuari"></label>
-        <input type="text" id="usuari" name="usuari" placeholder="Usuari"><br><br>
+        <input type="text" id="usuari" name="usuari" placeholder="Usuari" value="<?php echo htmlspecialchars($usuari); ?>"><br><br>
 
         <label for="contrassenya"></label>
-        <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya"><br><br>
+        <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya" value="<?php echo htmlspecialchars($contrassenya); ?>"><br><br>
 
         <label for="contrassenya2"></label>
-        <input type="password" id="contrassenya2" name="contrassenya2" placeholder="Contrassenya"><br><br>
+        <input type="password" id="contrassenya2" name="contrassenya2" placeholder="Contrassenya" value="<?php echo htmlspecialchars($contrassenya2); ?>"><br><br>
 
         <input type="submit" id="login" name="login" value="Sign Up">
     </form>
