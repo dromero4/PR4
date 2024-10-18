@@ -47,52 +47,69 @@ function verificarInsertar($model, $nom, $preu){
     return $verificar;
 }
 
-function modificar($model, $nom, $preu, $id){
+function modificar($model, $nom, $preu, $id, $correu){
     require '../connexio.php';
     if(!empty($model) && !empty($nom) && !empty($preu)){
-        $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, nom = :nom, preu = :preu WHERE id = $id");
+        $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, nom = :nom, preu = :preu WHERE id = $id AND correu = :correu");
         $modificarDades->bindParam(':model', $model);
+        $modificarDades->bindParam(':correu', $correu);
         $modificarDades->bindParam(':nom', $nom);
         $modificarDades->bindParam(':preu', $preu);
         $modificarDades->execute();
-        include_once '../vista/modificar.php';
-        echo "<br>Article amb ID: $id editat correctament";
+
+        if($correu == $_SESSION['correu']){
+            echo "No pots modificar aquest article perquè no ets el seu propietari";
+        } else {
+            include_once '../vista/modificar.php';
+            echo "<br>Article amb ID: $id editat correctament";
+            
+            
+        }
+        
     } else if(!empty($model) && !empty($nom) && empty($preu)){
-        $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, nom = :nom WHERE id = $id");
+        $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, nom = :nom WHERE id = $id AND correu = :correu");
         $modificarDades->bindParam(':model', $model);
+        $modificarDades->bindParam(':correu', $correu);
         $modificarDades->bindParam(':nom', $nom);
         $modificarDades->execute();
         include_once '../vista/modificar.php';
         echo "<br>Article amb ID: $id editat correctament";
     } else if(!empty($model) && !empty($preu) && empty($nom)){
-        $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, preu = :preu WHERE id = $id");
+        $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, preu = :preu WHERE id = $id AND correu = :correu");
         $modificarDades->bindParam(':model', $model);
+        $modificarDades->bindParam(':correu', $correu);
         $modificarDades->bindParam(':preu', $preu);
         $modificarDades->execute();
         include_once '../vista/modificar.php';
         echo "<br>Article amb ID: $id editat correctament";
     }  else if(!empty($nom) && !empty($preu) && empty($model)){
-        $modificarDades = $connexio->prepare("UPDATE articles SET nom = :nom, preu = :preu WHERE id = $id");
+        $modificarDades = $connexio->prepare("UPDATE articles SET nom = :nom, preu = :preu WHERE id = $id AND correu = :correu");
         $modificarDades->bindParam(':nom', $nom);
+        $modificarDades->bindParam(':correu', $correu);
         $modificarDades->bindParam(':preu', $preu);
         $modificarDades->execute();
         include_once '../vista/modificar.php';
         echo "<br>Article amb ID: $id editat correctament";
     }  else if(!empty($nom) && empty($preu) && empty($model)){
-        $modificarDades = $connexio->prepare("UPDATE articles SET nom = :nom WHERE id = $id");
+        $modificarDades = $connexio->prepare("UPDATE articles SET nom = :nom WHERE id = $id AND correu = :correu");
         $modificarDades->bindParam(':nom', $nom);
+        $modificarDades->bindParam(':correu', $correu);
         $modificarDades->execute();
         include_once '../vista/modificar.php';
         echo "<br>Article amb ID: $id editat correctament";
     }  else if(!empty($preu) && empty($nom) && empty($model)){
-        $modificarDades = $connexio->prepare("UPDATE articles SET preu = :preu WHERE id = $id");
+        $modificarDades = $connexio->prepare("UPDATE articles SET preu = :preu WHERE id = $id AND correu = :correu");
+
         $modificarDades->bindParam(':preu', $preu);
+        $modificarDades->bindParam(':correu', $correu);
         $modificarDades->execute();
         include_once '../vista/modificar.php';
         echo "<br>Article amb ID: $id editat correctament";
     }  else if(!empty($model) && empty($nom) && empty($preu)){
-        $modificarDades = $connexio->prepare("UPDATE articles SET model = :model WHERE id = $id");
+        $modificarDades = $connexio->prepare("UPDATE articles SET model = :model WHERE id = $id AND correu = :correu");
+
         $modificarDades->bindParam(':model', $model);
+        $modificarDades->bindParam(':correu', $correu);
         $modificarDades->execute();
         include_once '../vista/modificar.php';
         echo "<br>Article amb ID: $id editat correctament";

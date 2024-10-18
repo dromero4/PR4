@@ -20,17 +20,36 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     switch ($login){
         case 'Log In':
-            if(!empty($usuari) && !empty($contrassenya)){
-                if(verificarCompte($usuari, $contrassenya)){
+            if (!empty($usuari) && !empty($contrassenya)) {
+                if (verificarCompte($usuari, $contrassenya)) {
                     session_start();
+                    
+                    // Establece el tiempo de expiración de la sesión en 40 minutos
+                    $timeout_duration = 40 * 60; // 40 minutos en segundos
+        
+                    // Verifica si la sesión ha sido iniciada
+                    if (isset($_SESSION['LAST_ACTIVITY'])) {
+                        // Calcula el tiempo transcurrido desde la última actividad
+                        $elapsed_time = time() - $_SESSION['LAST_ACTIVITY'];
+        
+                        // Si ha pasado más tiempo que el límite establecido, destruye la sesión
+                        if ($elapsed_time > $timeout_duration) {
+                            session_unset();     // Libera todas las variables de sesión
+                            session_destroy();   // Destruye la sesión
+                            header("Location: ../vista/login.php"); // Redirige al usuario a la página de login
+                            exit;
+                        }
+                    }
+        
+                    // Actualiza la última actividad
+                    $_SESSION['LAST_ACTIVITY'] = time();
+        
                     $_SESSION['usuari'] = $usuari;
                     $resultatCorreu = seleccionarCorreu($usuari);
                     $_SESSION['correu'] = $resultatCorreu['correu'];
-                    if(isset($_SESSION['usuari'])){
-                        
-                        $missatges[] = "Benvingut " . $_SESSION['usuari'] . "<br>";
-                        $missatges[] = "Correu: " . $_SESSION['correu'];
-                        
+        
+                    if (isset($_SESSION['usuari'])) {
+                        header('Location:../vista/consultar.php');
                     }
                 } else {
                     include '../vista/login.php';
@@ -40,12 +59,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 include_once '../vista/login.php';
                 $missatges[] = "<br>Has d'introduïr les dades";
             }
-
+        
             foreach ($missatges as $missatge) {
                 include_once '../vista/navbar.view.php';
                 echo $missatge;
             }
             break;
+        
         case 'Sign Up':
             if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
                 $contrassenyaHash = password_hash($contrassenya, PASSWORD_DEFAULT);
@@ -106,11 +126,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         case 'Modificar':
             if($id){
                 if(verificarID($id)){
-                    modificar($model, $nom, $preu, $id);
-                } else {
                     include '../vista/modificar.php';
-                    echo "No s'ha trobat l'ID $id";
-                }
+                    if(isset($_SESSION['usuari'])){
+                        modificar($model, $nom, $preu, $id, $_SESSION['correu']);
+                    } else {
+                        include '../vista/modificar.php';
+                        echo "No s'ha trobat l'ID $id";
+                    }
+                    }
+                    
                 
             } else {
                 include '../vista/modificar.php';
