@@ -129,19 +129,19 @@ function verificarID($id){
     }
 }
 
-function insertarUsuari($correu, $usuari, $contrassenya){
+function insertarUsuari($correu, $usuari, $contrassenyaHash){
     try{
         require '../connexio.php';
         $insertarUsuari = $connexio->prepare("INSERT INTO usuaris(correu, usuari, contrassenya) VALUES(:correu, :usuari, :contrassenya)");
         $insertarUsuari->bindParam(":correu", $correu);
         $insertarUsuari->bindParam(":usuari", $usuari);
-        $insertarUsuari->bindParam(":contrassenya", $contrassenya);
+        $insertarUsuari->bindParam(":contrassenya", $contrassenyaHash);
         $insertarUsuari->execute();
         if($insertarUsuari){
             return true;
         }
     } catch (PDOException $e){
-        echo "";
+        echo $e->getMessage();
     }
     
 }
@@ -170,13 +170,24 @@ function verificarUsuari($usuari){
 
 function verificarCompte($usuari, $contrassenya){
     require '../connexio.php';
-    $verificarCompte = $connexio->prepare("SELECT * FROM usuaris WHERE usuari = :usuari AND contrassenya = :contrassenya");
-    $verificarCompte->bindParam(":usuari", $usuari);
-    $verificarCompte->bindParam(":contrassenya", $contrassenya);
-    $verificarCompte->execute();
 
-    if($verificarCompte->rowCount() > 0){
-        return true;
+    $verificarContrassenya = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE usuari = :usuari");
+    $verificarContrassenya->bindParam(":usuari", $usuari);
+    $verificarContrassenya->execute();
+
+    $resultat = $verificarContrassenya->fetch(PDO::FETCH_ASSOC);
+
+    if($resultat){
+        $hash = $resultat['contrassenya'];
+
+        if(password_verify($contrassenya, $hash)){
+            echo "Passwords validated<br>";
+            return true;
+        } else {
+            echo "Passwords not validated<br>";
+            return false;
+        }
     }
+    
 }
 ?>

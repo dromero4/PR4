@@ -14,6 +14,8 @@ $usuari = $_POST['usuari'] ?? null;
 $contrassenya = $_POST['contrassenya'] ?? null;
 $contrassenya2 = $_POST['contrassenya2'] ?? null;
 
+
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     switch ($crudSubmit){
@@ -64,6 +66,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 if(verificarCompte($usuari, $contrassenya)){
                     session_start();
                     echo "Benvingut $usuari";
+                } else {
+                    echo "usuari no trobat";
                 }
             } else {
                 include_once '../vista/login.php';
@@ -73,6 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         case 'Sign Up':
             if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
+                $contrassenyaHash = password_hash($contrassenya, PASSWORD_DEFAULT);
                 include_once '../vista/signup.php';
                 if(strlen($correu) > 40){
                     echo "<br>El correu ha de tenir menys de 40 caràcters...";
@@ -85,10 +90,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         echo "<br>El nom d'usuari ja existeix";
                     } else {
                         if($contrassenya == $contrassenya2){
-                            if(strlen($contrassenya) > 20 && strlen($contrassenya2) > 20){
-                                echo "<br>La contrassenya ha de tenir menys de 20 caràcters";
+                            if(strlen($contrassenya) < 5 && strlen($contrassenya2) < 5){
+                                echo "<br>La contrassenya ha de tenir més de 5 caràcters";
                             } else {
-                                if(insertarUsuari($correu, $usuari, $contrassenya)){
+                                if(insertarUsuari($correu, $usuari, $contrassenyaHash)){
                                     echo "<br>Usuari creat correctament<br>";
                                     ?>
                                     <a href="../vista/login.php"><button>Fes login</button></a>
