@@ -1,5 +1,6 @@
 <!-- David Romero -->
 <?php
+session_start();
 include_once 'navbar.view.php';
 ?>
 <!DOCTYPE html>
@@ -12,60 +13,119 @@ include_once 'navbar.view.php';
 <body>
 
 <?php
-// Configuración de la paginación
-$articulosPorPagina = 5; // Número de artículos por página
-$pagina = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Página actual
-$pagina = max($pagina, 1);
-$start = ($pagina - 1) * $articulosPorPagina; // Punto de inicio de la consulta
+if(!$_SESSION['usuari']){
+    // Configuración de la paginación
+    $articulosPorPagina = 5; // Número de artículos por página
+    $pagina = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Página actual
+    $pagina = max($pagina, 1);
+    $start = ($pagina - 1) * $articulosPorPagina; // Punto de inicio de la consulta
 
-try {
-    require '../connexio.php';
-    // Consulta para contar el número total de artículos
-    $query = $connexio->query("SELECT COUNT(*) FROM articles");
-    $total = $query->fetchColumn(); // Total de artículos
+    try {
+        require '../connexio.php';
+        // Consulta para contar el número total de artículos
+        $query = $connexio->query("SELECT COUNT(*) FROM articles");
+        $total = $query->fetchColumn(); // Total de artículos
 
-    // Calcular el número total de páginas
-    $pages = ceil($total / $articulosPorPagina);
+        // Calcular el número total de páginas
+        $pages = ceil($total / $articulosPorPagina);
 
-    // Consulta para obtener los artículos para la página actual
-    $query = $connexio->prepare("SELECT * FROM articles LIMIT :start, :articulosPorPagina");
-    $query->bindValue(':start', $start, PDO::PARAM_INT);
-    $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
-    $query->execute();
-    $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+        // Consulta para obtener los artículos para la página actual
+        $query = $connexio->prepare("SELECT * FROM articles LIMIT :start, :articulosPorPagina");
+        $query->bindValue(':start', $start, PDO::PARAM_INT);
+        $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
+        $query->execute();
+        $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    // Mostrar los artículos
-    if ($fetch) {
-        echo "<table border='1'>";
-        echo "<tr><th>ID</th><th>Model</th><th>Nom</th><th>Preu</th></tr>";
-        foreach ($fetch as $entrada) {
-            echo "<tr>
-                <td>".$entrada['id']."</td>
-                <td>".$entrada['model']."</td>
-                <td>".$entrada['nom']."</td>
-                <td>".$entrada['preu']."</td>
-                </tr>";
+        // Mostrar los artículos
+        if ($fetch) {
+            echo "<table border='1'>";
+            echo "<tr><th>ID</th><th>Model</th><th>Nom</th><th>Preu</th><th>Correu</th></tr>";
+            foreach ($fetch as $entrada) {
+                echo "<tr>
+                    <td>".$entrada['id']."</td>
+                    <td>".$entrada['model']."</td>
+                    <td>".$entrada['nom']."</td>
+                    <td>".$entrada['preu']."</td>
+                    <td>".$entrada['correu']."</td>
+                    </tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "No se encontraron artículos.";
         }
-        echo "</table>";
-    } else {
-        echo "No se encontraron artículos.";
+
+        // Mostrar la paginación
+        if ($pages > 1): ?>
+            <?php for ($i = 1; $i <= $pages; $i++): ?>
+                <a href="?page=<?= htmlspecialchars($i); ?>" 
+                   class="<?= $i === $pagina ? 'active' : ''; ?>">
+                    <?= htmlspecialchars($i); ?>
+                </a>
+            <?php endfor; ?>
+        <?php endif; ?>
+
+    <?php
+    } catch (PDOException $e) {
+
+        echo "Error: " . $e->getMessage();
     }
+} else {
+    // Configuración de la paginación
+    $articulosPorPagina = 5; // Número de artículos por página
+    $pagina = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Página actual
+    $pagina = max($pagina, 1);
+    $start = ($pagina - 1) * $articulosPorPagina; // Punto de inicio de la consulta
 
-    // Mostrar la paginación
-    if ($pages > 1): ?>
-        <?php for ($i = 1; $i <= $pages; $i++): ?>
-            <a href="?page=<?= htmlspecialchars($i); ?>" 
-               class="<?= $i === $pagina ? 'active' : ''; ?>">
-                <?= htmlspecialchars($i); ?>
-            </a>
-        <?php endfor; ?>
-    <?php endif; ?>
+    try {
+        require '../connexio.php';
+        // Consulta para contar el número total de artículos
+        $query = $connexio->query("SELECT COUNT(*) FROM articles");
+        $total = $query->fetchColumn(); // Total de artículos
 
-<?php
-} catch (PDOException $e) {
-    
-    echo "Error: " . $e->getMessage();
+        // Calcular el número total de páginas
+        $pages = ceil($total / $articulosPorPagina);
+
+        // Consulta para obtener los artículos para la página actual
+        $query = $connexio->prepare("SELECT * FROM articles LIMIT :start, :articulosPorPagina");
+        $query->bindValue(':start', $start, PDO::PARAM_INT);
+        $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
+        $query->execute();
+        $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        // Mostrar los artículos
+        if ($fetch) {
+            echo "<table border='1'>";
+            echo "<tr><th>ID</th><th>Model</th><th>Nom</th><th>Preu</th></tr>";
+            foreach ($fetch as $entrada) {
+                echo "<tr>
+                    <td>".$entrada['id']."</td>
+                    <td>".$entrada['model']."</td>
+                    <td>".$entrada['nom']."</td>
+                    <td>".$entrada['preu']."</td>
+                    </tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "No se encontraron artículos.";
+        }
+
+        // Mostrar la paginación
+        if ($pages > 1): ?>
+            <?php for ($i = 1; $i <= $pages; $i++): ?>
+                <a href="?page=<?= htmlspecialchars($i); ?>" 
+                   class="<?= $i === $pagina ? 'active' : ''; ?>">
+                    <?= htmlspecialchars($i); ?>
+                </a>
+            <?php endfor; ?>
+        <?php endif; ?>
+
+    <?php
+    } catch (PDOException $e) {
+
+        echo "Error: " . $e->getMessage();
+    }
 }
+
 ?>
 
 </body>

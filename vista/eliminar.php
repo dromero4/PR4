@@ -1,5 +1,7 @@
 <?php
+session_start();
 include 'navbar.view.php';
+
 ?>
 
 <!DOCTYPE html>

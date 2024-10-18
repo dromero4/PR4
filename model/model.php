@@ -1,5 +1,4 @@
 <?php
-
 function isEmpty($model, $nom, $preu){
     $empty = false;
 
@@ -19,12 +18,13 @@ function isEmpty($model, $nom, $preu){
     return $empty;
 }
 
-function insertar($model, $nom, $preu){
+function insertar($model, $nom, $preu, $correu){
     require '../connexio.php';
-    $insertarArticle = $connexio->prepare("INSERT INTO articles (model, nom, preu) VALUES(:model, :nom, :preu)");
+    $insertarArticle = $connexio->prepare("INSERT INTO articles (model, nom, preu, correu) VALUES(:model, :nom, :preu, :correu)");
     $insertarArticle->bindParam(":model", $model);
     $insertarArticle->bindParam(":nom", $nom);
     $insertarArticle->bindParam(":preu", $preu);
+    $insertarArticle->bindParam(":correu", $correu);
     $insertarArticle->execute();
 
     $ultimID = $connexio->lastInsertId();
@@ -187,5 +187,21 @@ function verificarCompte($usuari, $contrassenya){
         }
     }
     
+}
+
+function seleccionarCorreu($usuari){
+    require '../connexio.php';
+
+    if(verificarUsuari($usuari)){
+        $correo = $connexio->prepare("SELECT correu FROM usuaris WHERE usuari = :usuari");
+        $correo->bindParam(":usuari", $usuari);
+        $correo->execute();
+        
+        $resultat = $correo->fetch(PDO::FETCH_ASSOC);
+        
+        return $resultat;
+    } else {
+        echo "Hi ha hagut un problema";
+    }
 }
 ?>
