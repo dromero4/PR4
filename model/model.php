@@ -181,10 +181,8 @@ function verificarCompte($usuari, $contrassenya){
         $hash = $resultat['contrassenya'];
 
         if(password_verify($contrassenya, $hash)){
-            echo "Passwords validated<br>";
             return true;
         } else {
-            echo "Passwords not validated<br>";
             return false;
         }
     }
