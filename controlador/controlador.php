@@ -12,6 +12,7 @@ $login = $_POST['login'] ?? null;
 $correu = $_POST['correu'] ?? null;
 $usuari = $_POST['usuari'] ?? null;
 $contrassenya = $_POST['contrassenya'] ?? null;
+$contrassenya2 = $_POST['contrassenya2'] ?? null;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
@@ -83,18 +84,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     } else if(verificarUsuari($usuari)){
                         echo "<br>El nom d'usuari ja existeix";
                     } else {
-                        if(strlen($contrassenya) > 20){
-                            echo "<br>La contrassenya ha de tenir menys de 20 caràcters";
-                        } else {
-                            if(insertarUsuari($correu, $usuari, $contrassenya)){
-                                echo "<br>Usuari creat correctament<br>";
-                                ?>
-                                <a href="../vista/login.php"><button>Fes login</button></a>
-                                <?php
+                        if($contrassenya == $contrassenya2){
+                            if(strlen($contrassenya) > 20 && strlen($contrassenya2) > 20){
+                                echo "<br>La contrassenya ha de tenir menys de 20 caràcters";
                             } else {
-                                include_once '../vista/signup.php';
-                                echo "<br>No s'ha pogut crear l'usuari";
+                                if(insertarUsuari($correu, $usuari, $contrassenya)){
+                                    echo "<br>Usuari creat correctament<br>";
+                                    ?>
+                                    <a href="../vista/login.php"><button>Fes login</button></a>
+                                    <?php
+                                } else {
+                                    include_once '../vista/signup.php';
+                                    echo "<br>No s'ha pogut crear l'usuari";
+                                }
                             }
+                        } else {
+                            include_once '../vista/signup.php';
+                            echo "Les contrassenyes han de ser iguals...";
                         }
                     }
                 }                

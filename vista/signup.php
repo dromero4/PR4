@@ -20,6 +20,9 @@ include 'navbar.view.php';
         <label for="contrassenya"></label>
         <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya"><br><br>
 
+        <label for="contrassenya2"></label>
+        <input type="password" id="contrassenya2" name="contrassenya2" placeholder="Contrassenya"><br><br>
+
         <input type="submit" id="login" name="login" value="Sign Up">
     </form>
 </body>
