@@ -162,6 +162,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }   
     
     if($reiniciarPassword == 'reiniciarPassword'){
+        include '../vista/navbar.view.php';
         include '../vista/reiniciarPassword.php';
         if(!empty($contrassenya)){
             if(verificarCorreu($correu)){
