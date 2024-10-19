@@ -206,6 +206,27 @@ function verificarCompte($usuari, $contrassenya){
     
 }
 
+function verificarCompteCorreu($correu, $contrassenya){
+    require '../connexio.php';
+
+    $verificarContrassenya = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
+    $verificarContrassenya->bindParam(":correu", $correu);
+    $verificarContrassenya->execute();
+
+    $resultat = $verificarContrassenya->fetch(PDO::FETCH_ASSOC);
+
+    if($resultat){
+        $hash = $resultat['contrassenya'];
+
+        if(password_verify($contrassenya, $hash)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+}
+
 function seleccionarCorreu($usuari){
     require '../connexio.php';
 
@@ -220,5 +241,41 @@ function seleccionarCorreu($usuari){
     } else {
         echo "Hi ha hagut un problema";
     }
+}
+
+function reiniciarPassword($correu, $contrassenya, $contrassenyaCanviar){
+    require '../connexio.php';
+    $reiniciarPassword = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
+    $reiniciarPassword->bindParam(":correu", $correu);
+    $reiniciarPassword->execute();
+
+    $pswd = $reiniciarPassword->fetch(PDO::FETCH_ASSOC);
+
+    $contrassenyaHash = password_hash($contrassenyaCanviar, PASSWORD_DEFAULT);
+    if(password_verify($contrassenya, $pswd['contrassenya'])){
+        $canviarContrassenya = $connexio->prepare("UPDATE usuaris SET contrassenya = :nuevaContrassenya WHERE correu = :correu");
+        $canviarContrassenya->bindParam(":nuevaContrassenya", $contrassenyaHash);
+        $canviarContrassenya->bindParam(":correu", $correu);
+        
+        if($canviarContrassenya->execute()){
+            echo "La contrassenya s'ha canviat correctament";
+        } else {
+            echo "Hi ha hagut un problema";
+        }
+        
+
+    } else {
+        echo "No es correcte!";
+    }
+}
+
+function verificarContrassenya($contrassenya2){
+    $resultat = false;
+    if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/", $contrassenya2)){
+        $resultat = true;
+    }
+
+
+    return $resultat;
 }
 ?>

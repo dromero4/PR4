@@ -17,7 +17,11 @@ include 'navbar.view.php';
         <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya"><br><br>
 
         <input type="submit" id="login" name="login" value="Log In"><br><br>
+
+        
     </form>
+
+    <a href="reiniciarPassword.php"><button>Has oblidat la contrassenya?</button></a><br><br>
 </body>
 </html>
 

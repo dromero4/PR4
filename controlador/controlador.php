@@ -14,6 +14,9 @@ $usuari = $_POST['usuari'] ?? null;
 $contrassenya = $_POST['contrassenya'] ?? null;
 $contrassenya2 = $_POST['contrassenya2'] ?? null;
 
+$reiniciarPassword = $_POST['reiniciarPassword'] ?? null;
+$contrassenyaCanviar = $_POST['contrassenyaCanviar'] ?? null;
+
 $missatges = [];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -53,7 +56,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     }
                 } else {
                     include '../vista/login.php';
-                    $missatges[] = "<br>usuari no trobat";
+                    $missatges[] = "<br>Contrassenya incorrecte";
                 }
             } else {
                 include_once '../vista/login.php';
@@ -81,7 +84,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         echo "<br>El nom d'usuari ja existeix";
                     } else {
                         if($contrassenya == $contrassenya2){
-                            if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/", $contrassenya) && (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/", $contrassenya2))){
+                            if(verificarContrassenya($contrassenya)){
                                 echo "<br>La contrassenya ha de tenir:
                                 <br>- Al menys 5 caràcters.
                                 <br>- Al menys una lletra majuscula.
@@ -156,6 +159,32 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 }
             }
             break;
-    }    
+    }   
+    
+    if($reiniciarPassword == 'reiniciarPassword'){
+        include '../vista/reiniciarPassword.php';
+        if(!empty($contrassenya)){
+            if(verificarCorreu($correu)){
+                if(verificarCompteCorreu($correu, $contrassenya)){
+                    if(verificarContrassenya($contrassenya2)){
+                        reiniciarPassword($correu, $contrassenya, $contrassenyaCanviar);
+                    } else {
+                        echo "<br>La contrassenya ha de tenir:
+                        <br>- Al menys 5 caràcters.
+                        <br>- Al menys una lletra majuscula.
+                        <br>- Al menys una lletra minúscula.
+                        <br>- Al menys un numero.
+                        <br>- Al menys un caràcter especial.";
+                    }
+                } else {
+                    echo "<br>Contrassenya incorrecte...";
+                }
+            } else {
+                echo "<br>No s'ha trobat el compte...";
+            }
+        } else {
+            echo "Has d'omplir la contrassenya...";
+        }
+    }
 }
 ?>
