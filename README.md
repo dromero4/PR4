@@ -30,6 +30,9 @@ A la secció d'usuaris hi podem trobar: `correu`, `usuari` i `contrassenya`.
 ### Model:
 - **Model.php**: fitxer on es guarden les funcions per accedir i gestionar la base de dades.
 
+### Extra: 
+- **connexio.php**: fitxer per poder connectar-se a la base de dades.
+- **index.php**: fitxer inicial.
 ## Eines Utilitzades:
 - **MySQL**
 - **PHP**
