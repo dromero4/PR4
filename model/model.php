@@ -1,4 +1,8 @@
 <?php
+//DAVID ROMERO
+
+//Funcio per verificar si els articles no son buits. 
+//Retorna si son buits o no (Bool)
 function isEmpty($model, $nom, $preu){
     $empty = false;
 
@@ -18,6 +22,7 @@ function isEmpty($model, $nom, $preu){
     return $empty;
 }
 
+//Funcio per insertar l'article a la base de dades. També mostra l'ID.
 function insertar($model, $nom, $preu, $correu){
     require '../connexio.php';
     $insertarArticle = $connexio->prepare("INSERT INTO articles (model, nom, preu, correu) VALUES(:model, :nom, :preu, :correu)");
@@ -31,6 +36,7 @@ function insertar($model, $nom, $preu, $correu){
     echo "Inserit correctament! ID: $ultimID";
 }
 
+//Verifica si l'article que vols inserir no existeixi a la base de dades
 function verificarInsertar($model, $nom, $preu){
     $verificar = false;
     require '../connexio.php';
@@ -47,6 +53,7 @@ function verificarInsertar($model, $nom, $preu){
     return $verificar;
 }
 
+//Funcio per modificar un article (en cas de ser el seu)
 function modificar($model, $nom, $preu, $id, $correu){
     require '../connexio.php';
     if(!empty($model) && !empty($nom) && !empty($preu)){
@@ -58,6 +65,7 @@ function modificar($model, $nom, $preu, $id, $correu){
         $modificarDades->execute();
 
         if($correu == $_SESSION['correu']){
+            //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
             echo "No pots modificar aquest article perquè no ets el seu propietari";
         } else {
             include_once '../vista/modificar.php';
@@ -66,6 +74,7 @@ function modificar($model, $nom, $preu, $id, $correu){
             
         }
         
+        //Aqui son comprobacions varies en funcio del que estigui omplert o no, ja que a l'hora de modificar, no has de modificar tot si no vols.
     } else if(!empty($model) && !empty($nom) && empty($preu)){
         $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, nom = :nom WHERE id = $id AND correu = :correu");
         $modificarDades->bindParam(':model', $model);
@@ -120,6 +129,7 @@ function modificar($model, $nom, $preu, $id, $correu){
     
 }
 
+//Funcio per eliminar l'ID
 function eliminar($id){
 
     require '../connexio.php';
@@ -132,6 +142,7 @@ function eliminar($id){
     }
 }
 
+//Funcio per verificar previament si existeix l'ID a la base de dades
 function verificarID($id){
     require '../connexio.php';
 
@@ -146,6 +157,7 @@ function verificarID($id){
     }
 }
 
+//Funcio per insertar usuari
 function insertarUsuari($correu, $usuari, $contrassenyaHash){
     try{
         require '../connexio.php';
@@ -163,6 +175,7 @@ function insertarUsuari($correu, $usuari, $contrassenyaHash){
     
 }
 
+//Funcio per verificar si el correu existeix a l'hora de registrar-se
 function verificarCorreu($correu){
     require '../connexio.php';
     $verificarCorreu = $connexio->prepare("SELECT * FROM usuaris WHERE correu = :correu");
@@ -174,6 +187,7 @@ function verificarCorreu($correu){
     }
 }
 
+//Funcio per verificar si l'usuari existeix a l'hora de registarr-se
 function verificarUsuari($usuari){
     require '../connexio.php';
     $verificarUsuari = $connexio->prepare("SELECT * FROM usuaris WHERE usuari = :usuari");
@@ -185,6 +199,7 @@ function verificarUsuari($usuari){
     }
 }
 
+//Funcio per verificar si la contrassenya i l'usuari coincideix a l'hora de logar-se
 function verificarCompte($usuari, $contrassenya){
     require '../connexio.php';
 
@@ -192,11 +207,15 @@ function verificarCompte($usuari, $contrassenya){
     $verificarContrassenya->bindParam(":usuari", $usuari);
     $verificarContrassenya->execute();
 
+    //Agafem la contrassenya
     $resultat = $verificarContrassenya->fetch(PDO::FETCH_ASSOC);
 
     if($resultat){
+        //i la guardem a una variable per poder verificar-la
         $hash = $resultat['contrassenya'];
 
+        //Funcio interna del php per poder verificar una contrassenya que sigui encriptada
+        //password_verify NOMES FUNCIONA AMB password_hash();
         if(password_verify($contrassenya, $hash)){
             return true;
         } else {
@@ -206,6 +225,7 @@ function verificarCompte($usuari, $contrassenya){
     
 }
 
+//Funcio per veure si el correu coincideix amb la contrassenya
 function verificarCompteCorreu($correu, $contrassenya){
     require '../connexio.php';
 
@@ -218,6 +238,8 @@ function verificarCompteCorreu($correu, $contrassenya){
     if($resultat){
         $hash = $resultat['contrassenya'];
 
+        //Funcio interna del php per poder verificar una contrassenya que sigui encriptada
+        //password_verify NOMES FUNCIONA AMB password_hash();
         if(password_verify($contrassenya, $hash)){
             return true;
         } else {
@@ -227,6 +249,7 @@ function verificarCompteCorreu($correu, $contrassenya){
     
 }
 
+//Funcio per seleccionar el correu en questió de l'usuari que estigui logat
 function seleccionarCorreu($usuari){
     require '../connexio.php';
 
@@ -243,6 +266,11 @@ function seleccionarCorreu($usuari){
     }
 }
 
+//Funcio per reiniciar el password
+//Parametres: 
+// correu: correu de l'usuari que vols canviar la contrassenya
+// contrassenya: contrassenya actual de l'usuari que hem posat
+// contrassenyaCanviar: nova contrassenya
 function reiniciarPassword($correu, $contrassenya, $contrassenyaCanviar){
     require '../connexio.php';
     $reiniciarPassword = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
@@ -269,6 +297,7 @@ function reiniciarPassword($correu, $contrassenya, $contrassenyaCanviar){
     }
 }
 
+//Aqui verifiquem que la contrassenya cumpleixi diversos valors.
 function verificarContrassenya($contrassenya2){
     $resultat = false;
     if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/", $contrassenya2)){

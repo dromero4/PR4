@@ -1,5 +1,6 @@
 <?php
 session_start();
+//Inserim la navbar per poder-nos moure de lloc
 include 'navbar.view.php';
 
 ?>
@@ -15,8 +16,10 @@ include 'navbar.view.php';
     <h3>Quin article vols esborrar? </h3>
     <form action="../controlador/controlador.php" method="POST">
         <label for="id"></label>
-        <input type="number" name="id" placeholder="ID: ">
+        <!-- input per inserir l'ID -->
+        <input type="number" name="id" placeholder="ID: "> 
 
+        <!-- Botó per submit -->
         <input type="submit" name="Enviar" value="Eliminar">
     </form>
 </body>

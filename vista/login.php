@@ -1,4 +1,5 @@
 <?php
+//Incluïm el navbar per poder-nos moure de lloc
 include 'navbar.view.php';
 ?>
 <!DOCTYPE html>
@@ -9,6 +10,7 @@ include 'navbar.view.php';
     <title>Login</title>
 </head>
 <body>
+    <!-- Inputs diversos per poder inserir les dades de l'usuari -->
     <form action="../controlador/controlador.php" method="post">
         <label for="usuari"></label>
         <input type="text" id="usuari" name="usuari" placeholder="Usuari"><br><br>
@@ -21,10 +23,12 @@ include 'navbar.view.php';
         
     </form>
 
-    <a href="reiniciarPassword.php"><button>Has oblidat la contrassenya?</button></a><br><br>
+    <!-- En cas de voler canviar la contrassenya -->
+    <a href="reiniciarPassword.php"><button>Vols canviar la contrassenya?</button></a><br><br>
 </body>
 </html>
 
 <?php
+//incluim els articles perque l'usuari no logat els pugui veure
 include 'consultar.php';
 ?>

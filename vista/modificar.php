@@ -1,5 +1,7 @@
 <?php
+//DAVID ROMERO
 session_start();
+//Incluïm el navbar per poder-nos moure de lloc
 include 'navbar.view.php';
 
 ?>
@@ -12,6 +14,7 @@ include 'navbar.view.php';
     <title>Insertar article</title>
 </head>
 <body>
+    <!-- Inputs diversos per modificar els articles -->
     <h3>Quin article vols modificar?</h3>
     <form action="../controlador/controlador.php" method="POST">
         <label for="id"></label>

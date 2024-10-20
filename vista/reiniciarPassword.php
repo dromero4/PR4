@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- DAVID ROMERO -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +7,7 @@
     <title>Reiniciar Password</title>
 </head>
 <body>
+    <!-- Formulari per reinciiar el password -->
     <form action="../controlador/controlador.php" method="post">
     <label for="correu"></label>
         <input type="text" id="correu" name="correu" placeholder="Correu" value=""><br><br>
