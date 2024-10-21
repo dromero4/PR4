@@ -1,3 +1,6 @@
+<?php 
+include_once 'navbar.view.php';
+?>
 <!DOCTYPE html>
 <!-- DAVID ROMERO -->
 <html lang="en">
