@@ -1,0 +1,224 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h3 {
+    text-align: center;
+    margin-top: 3%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding-top: 60px; /* Para evitar que el contenido se superponga con el navbar */
+}
+
+/* Navbar */
+nav {
+    background-color: #333; /* Fondo oscuro */
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between; /* Separar los elementos a la izquierda y derecha */
+    align-items: center;
+    position: fixed; /* Fijo en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+/* Enlaces del navbar a la izquierda */
+nav .left a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+nav .left a:hover {
+    color: #ddd; /* Color al pasar el ratón */
+}
+
+/* Botones de login/signup a la derecha */
+nav .right a button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav .right a button:hover {
+    background-color: #777;
+}
+
+/* Mensajes de error */
+.error {
+    background-color: #ffcccc;
+    color: #d8000c;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #d8000c;
+}
+
+.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #3c763d;
+}
+
+/* Formularios */
+form {
+    max-width: 400px;
+    margin: 100px auto; /* Centrar el formulario */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+form input[type="text"], 
+form input[type="password"], 
+form input[type="number"],
+form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Botón de submit */
+form input[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+form input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Botón de reset */
+form input[type="reset"] {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+form input[type="reset"]:hover {
+    background-color: #c0392b;
+}
+
+/* Estilo de tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #333;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Enlaces de paginación */
+.pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.pagination a {
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+
+.pagination a:hover {
+    background-color: #f4f4f4;
+}
+
+.pagination a.active {
+    background-color: #333;
+    color: white;
+    border: none;
+}
+
+/* Botones generales */
+button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Mensaje de validación (para campos de formularios) */
+.error-message {
+    color: #d8000c;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.success-message {
+    color: #3c763d;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
