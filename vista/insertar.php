@@ -1,0 +1,35 @@
+<?php
+session_start();
+//Inserim la navbar per poder-nos moure de lloc
+include 'navbar.view.php';
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar article</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <h3>Quin element vols inserir? </h3>
+    <form action="../controlador/controlador.php" method="POST">
+        <label for="model"></label>
+        <!-- input per inserir el model de l'article -->
+        <input type="text" id="model" name="model" placeholder="Model: "><br><br>
+
+        <label for="nom"></label>
+        <!-- input per inserir el nom de l'article -->
+        <input type="text" id="nom" name="nom" placeholder="Nom: "><br><br>
+
+        <label for="preu"></label>
+        <!-- input per inserir el preu de l'article -->
+        <input type="number" id="preu" name="preu" placeholder="Preu: "><br><br>
+
+        <!-- botó type submit -->
+        <input type="submit" name="Enviar" value="Insertar">
+    </form>
+</body>
+</html>
