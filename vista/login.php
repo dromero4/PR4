@@ -23,13 +23,5 @@ include 'navbar.view.php';
 
         
     </form>
-
-    <!-- En cas de voler canviar la contrassenya -->
-    <a href="reiniciarPassword.php"><button>Vols canviar la contrassenya?</button></a><br><br>
 </body>
 </html>
-
-<?php
-//incluim els articles perque l'usuari no logat els pugui veure
-include 'consultar.php';
-?>

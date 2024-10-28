@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include_once 'navbar.view.php';
 ?>
 <!DOCTYPE html>
@@ -22,7 +23,7 @@ include_once 'navbar.view.php';
         <label for="contrassenya2"></label>
         <input type="password" id="contrassenyaCanviar" name="contrassenyaCanviar" placeholder="Nova contrassenya" value=""><br><br>
 
-        <input type="submit" id="reiniciarPassword" name="reiniciarPassword" value="reiniciarPassword">
+        <input type="submit" id="reiniciarPassword" name="reiniciarPassword" value="Enviar">
     </form>
 </body>
 </html>
