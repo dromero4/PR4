@@ -1,4 +1,6 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 //DAVID ROMERO
 
 //Funcio per verificar si els articles no son buits. 
@@ -306,5 +308,51 @@ function verificarContrassenya($contrassenya2){
 
 
     return $resultat;
+}
+
+function enviarMail($correu){
+    require '../connexio.php';
+    require '../PHPMailer/src/Exception.php';
+    require '../PHPMailer/src/PHPMailer.php';
+    require '../PHPMailer/src/SMTP.php';
+    
+    $token = bin2hex(random_bytes(16));
+    $token_expires = date('Y-m-d H:i:s', time() + 60 * 30);
+
+    $insertarTokenBaseDades = $connexio->prepare("UPDATE usuaris SET token = :token AND token_expires = :token_expires WHERE correu = :correu");
+    $insertarTokenBaseDades->bindParam(":token", $token);
+    $insertarTokenBaseDades->bindParam(":token_expires", $token_expires);
+    $insertarTokenBaseDades->bindParam(":correu", $correu);
+    
+    if($insertarTokenBaseDades->execute()){
+        $dirBase = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');  //Això us retorna el directori base.
+        $protocol = "http";
+        $host = $_SERVER['HTTP_HOST'];  //nom del domini
+        $resetLink = define("BASE_RESET_URL", $protocol . "://" . $host . $dirBase . "/resetingPassword.php?token=".$token);
+
+        $mail = new PHPMailer(true);
+        try {
+            // Configuración del servidor SMTP
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'd.romero@sapalomera.cat';
+            $mail->Password = 'ndrfaxgrenbsyczy';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+        
+            // Configuración del correo
+            $mail->setFrom('tu-email@gmail.com', 'admin');
+            $mail->addAddress($correu); // Destinatario
+        
+            $mail->isHTML(true);
+            $mail->Subject = 'Restablecimiento de password';
+            $mail->Body    = 'Haz clic en el siguiente enlace para restablecer tu contraseña: ' . $resetLink;
+        
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Error al enviar el correo: {$mail->ErrorInfo}";
+        }
+    }
 }
 ?>

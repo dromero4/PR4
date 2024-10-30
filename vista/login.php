@@ -20,8 +20,11 @@ include 'navbar.view.php';
         <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya"><br><br>
 
         <input type="submit" id="login" name="login" value="Log In"><br><br>
-
-        
     </form>
+
+    <form action="../vista/forgotPassword.php" method="post">
+        <input type="submit" id="forgotPassword" name="forgotPassword" value="Has oblidat la contrassenya?">
+    </form>
+    
 </body>
 </html>

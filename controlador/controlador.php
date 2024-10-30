@@ -21,6 +21,8 @@ $contrassenya2 = $_POST['contrassenya2'] ?? null; //Variable per verificar la co
 $reiniciarPassword = $_POST['reiniciarPassword'] ?? null; //En cas de voler canviar la contrassenya, aquesta variable s'inicialitza
 $contrassenyaCanviar = $_POST['contrassenyaCanviar'] ?? null; //Variable per la nova contrassenya en cas de voler canviar-la
 
+$forgotPassword = $_POST['forgotPassword'] ?? null; //En cas d'haver oblidat el password
+$contrassenyaReiniciada = $_POST['contrassenyaReiniciada'] ?? null; //Link contrassenya despres del correu
 $missatges = []; //Gestió de missatges / errors.
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -208,6 +210,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
         } else {
             echo "Has d'omplir la contrassenya...";
+        }
+    }
+
+    if($forgotPassword == 'Enviar correu'){
+        include_once '../vista/forgotPassword.php';
+        if(!empty($correu)){
+            if(verificarCorreu($correu)){
+                echo enviarMail($correu);
+                echo "Verifica el teu correu ($correu), t'hem enviat un ellaç perquè puguis reestablir la teva contrassenya...";
+            }
+        } else {
+            echo "Has d'omplir el correu";
         }
     }
 }
