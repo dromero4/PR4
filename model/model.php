@@ -3,26 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 //DAVID ROMERO
 
-//Funcio per verificar si els articles no son buits. 
-//Retorna si son buits o no (Bool)
-function isEmpty($model, $nom, $preu){
-    $empty = false;
 
-    if(empty($model)) {
-        $empty = true;
-        echo "<br>Has d'inserir el model";
-    }
-    if(empty($nom)){
-        $empty = true;
-        echo "<br>Has d'inserir el nom";
-    } 
-    if(empty($preu)){
-        $empty = true;
-        echo "<br>Has d'inserir el preu";
-    } 
-
-    return $empty;
-}
 
 //Funcio per insertar l'article a la base de dades. També mostra l'ID.
 function insertar($model, $nom, $preu, $correu){
@@ -355,4 +336,6 @@ function enviarMail($correu){
         }
     }
 }
+
+
 ?>

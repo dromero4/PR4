@@ -35,3 +35,7 @@ $contrassenya2 = isset($_POST['contrassenya2']) ? $_POST['contrassenya2'] : '';
     </form>
 </body>
 </html>
+
+<?php
+
+?>

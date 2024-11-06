@@ -30,107 +30,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     switch ($login){
         case 'Log In':
             //Si l'usuari i la contrassenya no son buits
-            if (!empty($usuari) && !empty($contrassenya)) {
-                if (verificarCompte($usuari, $contrassenya)) {
-                    session_start();
-                    
-                    //Estableix el tems d'expiracio de la sessio a 40 minuts
-                    $timeout_duration = 40 * 60;
-        
-                    // Verifica si hi ha alguna sessió activa.
-                    if (isset($_SESSION['LAST_ACTIVITY'])) {
-                        //Calcula el temps transcurrit des de l'ultima activitat
-                        $elapsed_time = time() - $_SESSION['LAST_ACTIVITY'];
-        
-                        //Si ha passat més temps del limit que hem establert, et fa fora de la sessió
-                        if ($elapsed_time > $timeout_duration) {
-                            session_unset(); //"Allibera" les variables utilitzades
-                            session_destroy();   //Destrueix la sessio
-                            header("Location: ../vista/login.php"); //Un cop destruïda, l'usuari s'enva a la pagina del login
-                            exit;
-                        }
-                    }
-        
-                    // Ultima activitat
-                    $_SESSION['LAST_ACTIVITY'] = time();
-        
-                    //Variables de l'usuari
-                    $_SESSION['usuari'] = $usuari;
-                    $resultatCorreu = seleccionarCorreu($usuari);
-                    $_SESSION['correu'] = $resultatCorreu['correu'];
-        
-                    //En cas d'estar logat, s'enva directament a la pagina de consultar articles.
-                    if (isset($_SESSION['usuari'])) {
-                        header('Location:../vista/consultar.php');
-                    }
-                } else {
-                    //En cas de no ser correcte la contrassenya
-                    include '../vista/login.php';
-                    $missatges[] = "<br>Contrassenya incorrecte";
-                }
-            } else {
-                //En cas de no haver omplert els camps
-                include_once '../vista/login.php';
-                $missatges[] = "<br>Has d'introduïr les dades";
-            }
-        
-            //Mostra els missatges
-            foreach ($missatges as $missatge) {
-                include_once '../vista/navbar.view.php';
-                echo $missatge;
-            }
+            include_once 'controlador-login.php';
             break;
-        
             //Per registrar-se
         case 'Sign Up':
-            //En cas de ser totes les variables omplertes
-            if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
-                //encriptem la contrassenya a hash per així ja tenir la contrassenya encriptada
-                $contrassenyaHash = password_hash($contrassenya, PASSWORD_DEFAULT);
-                include_once '../vista/signup.php';
-                //Verifiquem si el correu es més llarg de 40 caràcters
-                if(strlen($correu) > 40){
-                    echo "<br>El correu ha de tenir menys de 40 caràcters...";
-                } else if (verificarCorreu($correu)){ //Verifiquem si ja existeix el correu
-                    echo "<br>El correu ja existeix";
-                } else {
-                    if(strlen($usuari) > 20){ //verifiquem que no sigui massa llarg el nom d'usuari
-                        echo "<br>El nom d'usuari ha de tenir menys de 20 caràcters...";
-                    } else if(verificarUsuari($usuari)){ //I verifiquem que no existeixi previament
-                        echo "<br>El nom d'usuari ja existeix";
-                    } else {
-                        if($contrassenya == $contrassenya2){ //Al cas de confirmar la contrassenya
-                            if(verificarContrassenya($contrassenya)){ //Verifiquem que la contrassenya compleixi certs valors.
-                                echo "<br>La contrassenya ha de tenir:
-                                <br>- Al menys 5 caràcters.
-                                <br>- Al menys una lletra majuscula.
-                                <br>- Al menys una lletra minúscula.
-                                <br>- Al menys un numero.
-                                <br>- Al menys un caràcter especial.";
-                            } else {
-                                if(insertarUsuari($correu, $usuari, $contrassenyaHash)){ //En cas de ser tot correcte, inserim l'usuari a la base de dades amb la contrassenya encriptada
-                                    echo "<br>Usuari creat correctament<br>";
-                                    ?>
-                                    <a href="../vista/login.php"><button>Fes login</button></a>
-                                    <?php
-                                } else {
-                                    //En cas d'haver algun error
-                                    include_once '../vista/signup.php';
-                                    echo "<br>No s'ha pogut crear l'usuari";
-                                }
-                            }
-                        } else {
-                            //En cas de no ser les contrassenyes de registre iguals
-                            include_once '../vista/signup.php';
-                            echo "Les contrassenyes han de ser iguals...";
-                        }
-                    }
-                }                
-            } else {
-                //En cas de no haver omplert les dades
-                include '../vista/signup.php';
-                echo "<br>Has d'introduïr les dades...";
-            }
+            include_once 'controlador-signup.php';
             break;
     }
 
@@ -157,7 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         include '../vista/modificar.php';
                         echo "No s'ha trobat l'ID $id";
                     }
-                    }
+                }
                     
                 
             } else {
@@ -224,5 +128,26 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             echo "Has d'omplir el correu";
         }
     }
+}
+
+//Funcio per verificar si els articles no son buits. 
+//Retorna si son buits o no (Bool)
+function isEmpty($model, $nom, $preu){
+    $empty = false;
+
+    if(empty($model)) {
+        $empty = true;
+        echo "<br>Has d'inserir el model";
+    }
+    if(empty($nom)){
+        $empty = true;
+        echo "<br>Has d'inserir el nom";
+    } 
+    if(empty($preu)){
+        $empty = true;
+        echo "<br>Has d'inserir el preu";
+    } 
+
+    return $empty;
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 //Incluïm el navbar per poder-nos moure de lloc
-include 'navbar.view.php';
+include_once 'navbar.view.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,3 +28,7 @@ include 'navbar.view.php';
     
 </body>
 </html>
+
+<?php
+    
+?>
