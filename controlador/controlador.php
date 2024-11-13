@@ -94,48 +94,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     //A l'hora de reiniciar password
     if($reiniciarPassword == 'Enviar'){
-        include_once '../vista/navbar.view.php';
-        include_once '../vista/reiniciarPassword.php';
-        include_once '../model/model.php';
-        if(!empty($contrassenya) && !empty($contrassenyaCanviar)){
-            if(verificarCompteCorreu($_SESSION['correu'], $contrassenya)){
-                if(verificarContrassenya($contrassenyaCanviar)){
-                    if(reiniciarPassword($_SESSION['correu'], $contrassenya, $contrassenyaCanviar)){
-                        $missatges[] = "No s'ha pogut canviar la contrassenya";
-                    } else {
-                        $missatges[] = "Password canviada correctament";
-                        
-                    }
-                } else {
-                    $missatges[] = 'La contrassenya no és vàlida<br>
-                                    Ha de tenir com a minim:<br>
-                                        - 5 caràcters<br>
-                                        - Una lletra majuscula<br>
-                                        - Una lletra minuscula<br>
-                                        - Un numero<br>
-                                        - Un caràcter especial';
-                }
-            } else {
-                $missatges[] = "Contrassenya incorrecte";
-            }
-        } else {
-            $missatges[] = "Has d'omplir els camps";
-        }
-
-        
-        mostrarMissatges($missatges);
+        include_once 'controlador-reiniciarPassword.php';
     }
 
     if($forgotPassword == 'Enviar correu'){
-        include_once '../vista/forgotPassword.php';
-        if(!empty($correu)){
-            if(verificarCorreu($correu)){
-                echo enviarMail($correu);
-                echo "Verifica el teu correu ($correu), t'hem enviat un ellaç perquè puguis reestablir la teva contrassenya...";
-            }
-        } else {
-            echo "Has d'omplir el correu";
-        }
+        include_once 'controlador-forgotPassword.php';
     }
 }
 
