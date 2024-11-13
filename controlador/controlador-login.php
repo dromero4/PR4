@@ -31,7 +31,7 @@ if (!empty($usuari) && !empty($contrassenya)) {
         
                     //En cas d'estar logat, s'enva directament a la pagina de consultar articles.
                     if (isset($_SESSION['usuari'])) {
-                        header('Location:../vista/consultar.php');
+                        header('Location:../index.php');
                     }
                 } else {
                     //En cas de no ser correcte la contrassenya

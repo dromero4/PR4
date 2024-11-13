@@ -1,3 +1,3 @@
 <?php
-Header('Location:vista/consultar.php');
+Header('Location:vista/consultar.php'); 
 ?>

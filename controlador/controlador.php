@@ -15,7 +15,7 @@ $login = $_POST['login'] ?? null;
 //Variables dels usuaris
 $correu = $_POST['correu'] ?? null;
 $usuari = $_POST['usuari'] ?? null;
-$contrassenya = $_POST['contrassenya'] ?? null;
+$contrassenya = $_POST['contrassenya'] ?? null; 
 $contrassenya2 = $_POST['contrassenya2'] ?? null; //Variable per verificar la contrassenya al signup
 
 $reiniciarPassword = $_POST['reiniciarPassword'] ?? null; //En cas de voler canviar la contrassenya, aquesta variable s'inicialitza
@@ -41,80 +41,89 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     //A l'hora de l'usuari (un cop logat) vol fer qualsevol cosa, aqui la controlem.
     switch ($crudSubmit){
         case 'Insertar': //En cas d'insertar
+            include_once '../vista/insertar.php';
             if(verificarInsertar($model, $nom, $preu) == true){ //Aqui verifiquem si el model que hem inserit ja existeix a la base de dades
-                echo "Aquest producte ja existeix";
+                $missatges[] = "Aquest producte ja existeix";
             } else {
-                include_once '../vista/insertar.php';
+                
                 if(!isEmpty($model, $nom, $preu)){ //Si no son buits i si no son a la base de dades, afegim l'article.
                     insertar($model, $nom, $preu, $_SESSION['correu']); //Amb el correu de la persona logada que l'hagi inserit
                 }
             }
+
+            mostrarMissatges($missatges);
             break;
             //En cas de voler modificar
         case 'Modificar':
+            include_once '../vista/modificar.php';
             if($id){
                 if(verificarID($id)){ //verifiquem que l'id de l'article que vol verificar no sigui buit
-                    include '../vista/modificar.php';
                     if(isset($_SESSION['usuari'])){ //En cas d'estar logat, només deixarà modificar l'article creat per aquest mateix usuari
-                        modificar($model, $nom, $preu, $id, $_SESSION['correu']);
-                    } else {
-                        include '../vista/modificar.php';
-                        echo "No s'ha trobat l'ID $id";
+                        modificar($model, $nom, $preu, $id, getCorreuByID($id));
                     }
+                } else {
+                    $missatges[] = "No s'ha trobat l'ID $id";
                 }
                     
                 
             } else {
-                include '../vista/modificar.php';
-                echo "Has d'inserir l'ID";
+                $missatges[] = "Has d'inserir l'ID";
             }
+
+            mostrarMissatges($missatges);
             break;        
         case 'Eliminar':
+            include_once '../vista/eliminar.php';
             //pel cas d'eliminar
             if($id){ //si l'id no es buit
                 if(verificarID($id)){ //verifiquem que l'id existeixi
-                    include '../vista/eliminar.php';
                     if(eliminar($id)){ //i si existeix, l'elimina
-                        echo "Eliminat correctament ID: $id";
+                        $missatges[] = "Eliminat correctament ID: $id";
                     } else {
-                        echo "No s'ha pogut eliminar...";
+                        $missatges[] = "No s'ha pogut eliminar...";
                     }
                 } else {
                     //En cas de no haver trobat l'id
-                    include '../vista/eliminar.php';
-                    echo "No s'ha trobat l'ID $id";
+                    $missatges[] = "No s'ha trobat l'ID $id";
                 }
             }
+
+            mostrarMissatges($missatges);
             break;
     }   
     
     //A l'hora de reiniciar password
     if($reiniciarPassword == 'Enviar'){
-        include '../vista/navbar.view.php';
-        include '../vista/reiniciarPassword.php';
-        if(!empty($contrassenya)){ //si no s'ha deixada buida la contrassenya
-            if(verificarCorreu($correu)){ //verifiquem que el correu existeixi
-                if(verificarCompteCorreu($correu, $contrassenya)){ //Aqui verifiquem que el correu coincideixi amb la contrassenya
-                    if(verificarContrassenya($contrassenya2)){ //I verifiquem la contrassenya
-                        reiniciarPassword($correu, $contrassenya, $contrassenyaCanviar); //En cas de ser tot correcte, reinicia la contrassenya
+        include_once '../vista/navbar.view.php';
+        include_once '../vista/reiniciarPassword.php';
+        include_once '../model/model.php';
+        if(!empty($contrassenya) && !empty($contrassenyaCanviar)){
+            if(verificarCompteCorreu($_SESSION['correu'], $contrassenya)){
+                if(verificarContrassenya($contrassenyaCanviar)){
+                    if(reiniciarPassword($_SESSION['correu'], $contrassenya, $contrassenyaCanviar)){
+                        $missatges[] = "No s'ha pogut canviar la contrassenya";
                     } else {
-                        //En cas de no ser correcte, et mostra un missatge de com ha de ser la contrassenya
-                        echo "<br>La contrassenya ha de tenir:
-                        <br>- Al menys 5 caràcters.
-                        <br>- Al menys una lletra majuscula.
-                        <br>- Al menys una lletra minúscula.
-                        <br>- Al menys un numero.
-                        <br>- Al menys un caràcter especial.";
+                        $missatges[] = "Password canviada correctament";
+                        
                     }
                 } else {
-                    echo "<br>Contrassenya incorrecte...";
+                    $missatges[] = 'La contrassenya no és vàlida<br>
+                                    Ha de tenir com a minim:<br>
+                                        - 5 caràcters<br>
+                                        - Una lletra majuscula<br>
+                                        - Una lletra minuscula<br>
+                                        - Un numero<br>
+                                        - Un caràcter especial';
                 }
             } else {
-                echo "<br>No s'ha trobat el compte...";
+                $missatges[] = "Contrassenya incorrecte";
             }
         } else {
-            echo "Has d'omplir la contrassenya...";
+            $missatges[] = "Has d'omplir els camps";
         }
+
+        
+        mostrarMissatges($missatges);
     }
 
     if($forgotPassword == 'Enviar correu'){
@@ -149,5 +158,11 @@ function isEmpty($model, $nom, $preu){
     } 
 
     return $empty;
+}
+
+function mostrarMissatges($missatges){
+    foreach ($missatges as $missatge) { 
+        echo $missatge . "\n"; 
+    }
 }
 ?>

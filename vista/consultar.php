@@ -24,7 +24,7 @@ $start = ($pagina - 1) * $articulosPorPagina; // Punt d'inici de la consulta
 
 if(!(isset($_SESSION['usuari']))){
     try {
-        require 'connexio.php';
+        require '../connexio.php';
         //Numero total d'articles
         $query = $connexio->query("SELECT COUNT(*) FROM articles");
         $total = $query->fetchColumn(); //I ho guardem a una variable

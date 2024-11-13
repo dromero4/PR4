@@ -1,5 +1,5 @@
 <?php
-include_once '../vista/navbar.view.php';
+include 'navbar.view.php';
 ?>
 
 

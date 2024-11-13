@@ -1,6 +1,6 @@
 <?php 
 session_start();
-include_once 'navbar.view.php';
+include 'navbar.view.php';
 ?>
 <!DOCTYPE html>
 <!-- DAVID ROMERO -->
@@ -15,8 +15,6 @@ include_once 'navbar.view.php';
     <!-- Formulari per reinciiar el password -->
     <form action="../controlador/controlador.php" method="post">
     <label for="correu"></label>
-        <input type="text" id="correu" name="correu" placeholder="El teu correu" value=""><br><br>
-
         <label for="contrassenya"></label>
         <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya actual" value=""><br><br>
 

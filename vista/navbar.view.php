@@ -39,4 +39,3 @@ $vistaDir = "../vista";
 
 </body>
 </html>
-
