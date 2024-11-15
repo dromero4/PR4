@@ -1,45 +1,32 @@
-<!-- David Romero -->
 <?php
 session_start();
-include_once 'navbar.view.php';
-include_once '../model/model.php';
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar Artículos</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
+include 'navbar.view.php';
 
-<?php
-$articulosPorPagina = 5; // Número d'articles per pàgina
-$pagina = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Pàgina actual
-$pagina = max($pagina, 1);
-$start = ($pagina - 1) * $articulosPorPagina; // Punt d'inici de la consulta
+$articulosPorPagina = 5; // Definir la cantidad de artículos por página
 
-
-
-if(!(isset($_SESSION['usuari']))){
+if (!(isset($_SESSION['usuari']))) {
     try {
         require '../connexio.php';
-        //Numero total d'articles
-        $query = $connexio->query("SELECT COUNT(*) FROM articles");
-        $total = $query->fetchColumn(); //I ho guardem a una variable
-    
-        $pages = ceil($total / $articulosPorPagina);  // Calcular el numero total de pàgines
+        require '../Model/model.php';
 
-        // articles per la pagina actual
-        $query = $connexio->prepare("SELECT * FROM articles LIMIT :start, :articulosPorPagina");
-        $query->bindValue(':start', $start, PDO::PARAM_INT);
-        $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
-        $query->execute();
-        $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
+        // Definir la página actual
+        if (!isset($_GET['page']) || $_GET['page'] < 1) {
+            $pagina = 1;
+        } else {
+            $pagina = $_GET['page'];
+        }
 
+        // Calcular el valor de $start para la paginación
+        $start = ($pagina - 1) * $articulosPorPagina;
 
-        // Mostrar els articles
+        // Número total de artículos
+        $total = obtenerTotalArticulos($connexio);
+        $pages = ceil($total / $articulosPorPagina);  // Calcular el número total de páginas
+
+        // Artículos para la página actual
+        $fetch = obtenerArticulos($connexio, $start, $articulosPorPagina);
+
+        // Mostrar los artículos
         if ($fetch) {
             echo "<table border='1'>";
             echo "<tr><th>ID</th><th>Model</th><th>Nom</th><th>Preu</th><th>Correu</th></tr>";
@@ -57,7 +44,7 @@ if(!(isset($_SESSION['usuari']))){
             echo "<br>No se encontraron artículos.";
         }
 
-        // Mostrar la paginació
+        // Mostrar la paginación
         if ($pages > 1): ?>
             <?php for ($i = 1; $i <= $pages; $i++): ?>
                 <a href="?page=<?= htmlspecialchars($i); ?>" 
@@ -69,36 +56,31 @@ if(!(isset($_SESSION['usuari']))){
 
     <?php
     } catch (PDOException $e) {
-
         echo "Error: " . $e->getMessage();
     }
 } else {
     try {
         require '../connexio.php';
-        // Consulta per comptar el número total d'articles
-        
-        
+        require '../Model/model.php';
 
-        $query = $connexio->prepare("SELECT COUNT(*) FROM articles WHERE correu = :correu");
-        $query->bindParam(":correu", $_SESSION['correu']);
-        $query->execute();
-        $total = $query->fetchColumn(); //Numero total d'articles per usuari
+        // Definir la página actual
+        if (!isset($_GET['page']) || $_GET['page'] < 1) {
+            $pagina = 1;
+        } else {
+            $pagina = $_GET['page'];
+        }
 
-        
+        // Calcular el valor de $start para la paginación
+        $start = ($pagina - 1) * $articulosPorPagina;
 
+        // Número total de artículos para el usuario
+        $total = obtenerTotalArticulosPorUsuario($connexio, $_SESSION['correu']);
         $pages = ceil($total / $articulosPorPagina);
-// Consulta per obtenir els articles per a la pàgina actual
-        $query = $connexio->prepare("SELECT * FROM articles WHERE correu = :correu LIMIT :start, :articulosPorPagina");
-        $query->bindValue(':start', $start, PDO::PARAM_INT);
-        $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
-        $query->bindParam(":correu", $_SESSION['correu']);
-        $query->execute();
-        $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        
-        
+        // Artículos para la página actual del usuario
+        $fetch = obtenerArticulosPorUsuario($connexio, $start, $articulosPorPagina, $_SESSION['correu']);
 
-        // Mostrar els articles
+        // Mostrar los artículos
         if ($fetch) {
             echo "<table border='1'>";
             echo "<tr><th>ID</th><th>Model</th><th>Nom</th><th>Preu</th><th>Correu</th></tr>";
@@ -116,7 +98,7 @@ if(!(isset($_SESSION['usuari']))){
             echo "<br>No se encontraron artículos.";
         }
 
-        // Mostrar la paginació
+        // Mostrar la paginación
         if ($pages > 1): ?>
             <?php for ($i = 1; $i <= $pages; $i++): ?>
                 <a href="?page=<?= htmlspecialchars($i); ?>" 
@@ -128,12 +110,7 @@ if(!(isset($_SESSION['usuari']))){
 
     <?php
     } catch (PDOException $e) {
-
         echo "Error: " . $e->getMessage();
     }
 }
-
 ?>
-
-</body>
-</html>

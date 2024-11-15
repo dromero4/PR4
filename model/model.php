@@ -451,4 +451,33 @@ function updatePassword($correu, $new_password){
     }
 
 }
+
+function obtenerTotalArticulos($connexio) {
+    $query = $connexio->query("SELECT COUNT(*) FROM articles");
+    return $query->fetchColumn();
+}
+
+function obtenerTotalArticulosPorUsuario($connexio, $correu) {
+    $query = $connexio->prepare("SELECT COUNT(*) FROM articles WHERE correu = :correu");
+    $query->bindParam(":correu", $correu);
+    $query->execute();
+    return $query->fetchColumn();
+}
+
+function obtenerArticulos($connexio, $start, $articulosPorPagina) {
+    $query = $connexio->prepare("SELECT * FROM articles LIMIT :start, :articulosPorPagina");
+    $query->bindValue(':start', $start, PDO::PARAM_INT);
+    $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function obtenerArticulosPorUsuario($connexio, $start, $articulosPorPagina, $correu) {
+    $query = $connexio->prepare("SELECT * FROM articles WHERE correu = :correu LIMIT :start, :articulosPorPagina");
+    $query->bindValue(':start', $start, PDO::PARAM_INT);
+    $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
+    $query->bindParam(":correu", $correu);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>

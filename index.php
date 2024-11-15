@@ -1,4 +1,4 @@
-<!-- v-1.05 -->
+<!-- v-1.06 -->
 <?php
 Header('Location:vista/consultar.php'); 
 ?>
