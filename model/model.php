@@ -226,6 +226,7 @@ function verificarCompte($usuari, $contrassenya){
 
         //Funcio interna del php per poder verificar una contrassenya que sigui encriptada
         //password_verify NOMES FUNCIONA AMB password_hash();
+        
         if(password_verify($contrassenya, $hash)){
             return true;
         } else {
@@ -333,7 +334,7 @@ function enviarMail($correu){
     $token = bin2hex(random_bytes(16));
     $token_expires = date('Y-m-d H:i:s', time() + 60 * 30);
 
-    $insertarTokenBaseDades = $connexio->prepare("UPDATE usuaris SET token = :token AND token_expires = :token_expires WHERE correu = :correu");
+    $insertarTokenBaseDades = $connexio->prepare("UPDATE usuaris SET token = :token, token_expires = :token_expires WHERE correu = :correu");
     $insertarTokenBaseDades->bindParam(":token", $token);
     $insertarTokenBaseDades->bindParam(":token_expires", $token_expires);
     $insertarTokenBaseDades->bindParam(":correu", $correu);
@@ -356,12 +357,15 @@ function enviarMail($correu){
             $mail->Port = 587;
         
             // Configuración del correo
-            $mail->setFrom('tu-email@gmail.com', 'admin');
+            $mail->setFrom('d.romero@sapalomera.cat', 'admin');
             $mail->addAddress($correu); // Destinatario
         
             $mail->isHTML(true);
             $mail->Subject = 'Restablecimiento de password';
-            $mail->Body    = 'Haz clic en el siguiente enlace para restablecer tu contraseña: ' . $resetLink;
+            $mail->Body = "Haz click en este enlace para reiniciar la contraseña: 
+            <a href='http://localhost/Servidor/PR4-NEW/vista/resetingPassword.php?token=" . urlencode($token) . "&email=" . urlencode($correu) . "'>Restablecer Contraseña</a>";
+
+
         
             $mail->send();
         } catch (Exception $e) {
@@ -380,7 +384,71 @@ function getCorreuByID($id){
     }
 }
 
+// function getNamebyCorreu($correu){
+//     require '../connexio.php';
 
+//     $getNameByCorreu = $connexio->prepare("SELECT usuari FROM usuaris WHERE correu = :correu");
+//     $getNameByCorreu->bindParam(":correu", $correu);
+//     $getNameByCorreu->execute();
 
+//     $usuari = $getNameByCorreu->fetch(PDO::FETCH_ASSOC);
 
+//     if($getNameByCorreu->execute()){
+//         return $usuari['usuari'];
+
+//     } else {
+//         echo "Hi ha hagut un problema...";
+//     }
+// }
+
+function verificarToken($token, $correu){
+    require '../connexio.php';
+
+    $verificarToken = $connexio->prepare("SELECT token, token_expires FROM usuaris WHERE correu = :correu");
+    $verificarToken->bindParam(":correu", $correu);
+    $verificarToken->execute();
+
+    if($verificarToken->rowCount() > 0){
+        $resultat = $verificarToken->fetch(PDO::FETCH_ASSOC);
+
+        if($resultat['token'] === $token){
+            $expiracioToken = New DateTime($resultat['token_expires']);
+            $dataActual = new DateTime();
+
+            if($expiracioToken > $dataActual){
+                return false; //Token caducat
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+function updatePassword($correu, $new_password){
+    require '../connexio.php';
+
+    $getPassword = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
+    $getPassword->bindParam(":correu", $correu);
+    $getPassword->execute();
+
+    $resultat = $getPassword->fetch(PDO::FETCH_ASSOC);
+
+    if($resultat){
+        $contrassenya = password_hash($new_password, PASSWORD_DEFAULT);
+        
+        $updatePassword = $connexio->prepare("UPDATE usuaris SET contrassenya = :contrassenya WHERE correu = :correu");
+        $updatePassword->bindParam(":contrassenya", $contrassenya);
+        $updatePassword->bindParam(":correu", $correu);
+        if($updatePassword->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+}
 ?>

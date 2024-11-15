@@ -1,11 +1,17 @@
 <?php
+include_once 'controlador.php';
 include_once '../vista/forgotPassword.php';
+
 if(!empty($correu)){
     if(verificarCorreu($correu)){
-        echo enviarMail($correu);
-        echo "Verifica el teu correu ($correu), t'hem enviat un ellaç perquè puguis reestablir la teva contrassenya...";
+        enviarMail($correu);
+        $missatges[] = "Verifica el teu correu ($correu), t'hem enviat un ellaç perquè puguis reestablir la teva contrassenya...";
+    } else {
+        $missatges[] = "El correu no existeix";
     }
 } else {
-    echo "Has d'omplir el correu";
+    $missatges[] = "Has d'omplir el correu";
 }
+
+mostrarMissatges($missatges);
 ?>

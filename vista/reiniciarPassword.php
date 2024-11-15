@@ -13,7 +13,7 @@ include 'navbar.view.php';
 </head>
 <body>
     <!-- Formulari per reinciiar el password -->
-    <form action="../controlador/controlador.php" method="post">
+    <form action="../controlador/controlador-reiniciarPassword.php" method="post">
     <label for="correu"></label>
         <label for="contrassenya"></label>
         <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya actual" value=""><br><br>

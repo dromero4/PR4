@@ -1,5 +1,5 @@
 <?php
-include_once 'controlador.php';
+include_once 'controlador-resetingPassword.php';
 if (!empty($usuari) && !empty($contrassenya)) {
                 if (verificarCompte($usuari, $contrassenya)) {
                     session_start();
@@ -44,9 +44,9 @@ if (!empty($usuari) && !empty($contrassenya)) {
                 $missatges[] = "<br>Has d'introduïr les dades";
             }
         
-            //Mostra els missatges
-            foreach ($missatges as $missatge) {
-                include_once '../vista/navbar.view.php';
-                echo $missatge;
-            }
+    //Mostra els missatges
+foreach ($missatges as $missatge) {
+    include_once '../vista/navbar.view.php';
+    echo $missatge;
+}
 ?>

@@ -1,6 +1,6 @@
 <?php
 //DAVID ROMERO
-include '../model/model.php'; //Crida al fitxer model per poder accedir a les funcions del mateix.
+include_once '../model/model.php'; //Crida al fitxer model per poder accedir a les funcions del mateix.
 $crudSubmit = $_POST['Enviar'] ?? null; //Funcio per seleccionar depenent del que hagi triat l'usuari (ediar, inserir...)
 
 //Variables dels articles
@@ -18,12 +18,13 @@ $usuari = $_POST['usuari'] ?? null;
 $contrassenya = $_POST['contrassenya'] ?? null; 
 $contrassenya2 = $_POST['contrassenya2'] ?? null; //Variable per verificar la contrassenya al signup
 
-$reiniciarPassword = $_POST['reiniciarPassword'] ?? null; //En cas de voler canviar la contrassenya, aquesta variable s'inicialitza
 $contrassenyaCanviar = $_POST['contrassenyaCanviar'] ?? null; //Variable per la nova contrassenya en cas de voler canviar-la
 
-$forgotPassword = $_POST['forgotPassword'] ?? null; //En cas d'haver oblidat el password
-$contrassenyaReiniciada = $_POST['contrassenyaReiniciada'] ?? null; //Link contrassenya despres del correu
+
+$contrassenyaReiniciada = $_POST['contrassenyaReiniciada1'] ?? null; //Link contrassenya despres del correu
+$botoContrassenyaReiniciada = $_POST['contrassenyaReiniciada'] ?? null;
 $missatges = []; //Gestió de missatges / errors.
+
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
@@ -90,16 +91,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             mostrarMissatges($missatges);
             break;
-    }   
-    
-    //A l'hora de reiniciar password
-    if($reiniciarPassword == 'Enviar'){
-        include_once 'controlador-reiniciarPassword.php';
-    }
-
-    if($forgotPassword == 'Enviar correu'){
-        include_once 'controlador-forgotPassword.php';
-    }
+    }    
 }
 
 //Funcio per verificar si els articles no son buits. 

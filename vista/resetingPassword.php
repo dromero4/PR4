@@ -11,7 +11,9 @@ include '../vista/navbar.view.php';
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <form action="../controlador/controlador.php" method="post">
+    <form action="../controlador/controlador-resetingPassword.php" method="post">
+        <input type="hidden" name="token" value="<?php echo $_GET['token']; ?>">
+        <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>">
         <label for="contrassenya1"></label>
         <input type="password" id="contrassenyaReiniciada1" name="contrassenyaReiniciada1" placeholder="Contrassenya"><br><br>
 
