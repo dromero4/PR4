@@ -7,7 +7,7 @@ $articulosPorPagina = 5; // Definir la cantidad de artículos por página
 if (!(isset($_SESSION['usuari']))) {
     try {
         require '../connexio.php';
-        require '../Model/model.php';
+        require '../model/model.php';
 
         // Definir la página actual
         if (!isset($_GET['page']) || $_GET['page'] < 1) {

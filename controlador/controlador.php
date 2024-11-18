@@ -1,6 +1,7 @@
 <?php
 //DAVID ROMERO
 include_once '../model/model.php'; //Crida al fitxer model per poder accedir a les funcions del mateix.
+
 $crudSubmit = $_POST['Enviar'] ?? null; //Funcio per seleccionar depenent del que hagi triat l'usuari (ediar, inserir...)
 
 //Variables dels articles
@@ -9,17 +10,18 @@ $model = $_POST['model'] ?? null;
 $nom = $_POST['nom'] ?? null;
 $preu = $_POST['preu'] ?? null;
 
-//variable del login
-$login = $_POST['login'] ?? null;
-
 //Variables dels usuaris
 $correu = $_POST['correu'] ?? null;
 $usuari = $_POST['usuari'] ?? null;
 $contrassenya = $_POST['contrassenya'] ?? null; 
-$contrassenya2 = $_POST['contrassenya2'] ?? null; //Variable per verificar la contrassenya al signup
+$contrassenya2 = $_POST['contrassenya2'] ?? null;
+
+//variable del login
+$login = $_POST['login'] ?? null;
+
+ //Variable per verificar la contrassenya al signup
 
 $contrassenyaCanviar = $_POST['contrassenyaCanviar'] ?? null; //Variable per la nova contrassenya en cas de voler canviar-la
-
 
 $contrassenyaReiniciada = $_POST['contrassenyaReiniciada1'] ?? null; //Link contrassenya despres del correu
 $botoContrassenyaReiniciada = $_POST['contrassenyaReiniciada'] ?? null;
@@ -28,9 +30,9 @@ $missatges = []; //Gestió de missatges / errors.
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
+
     switch ($login){
         case 'Log In':
-            //Si l'usuari i la contrassenya no son buits
             include_once 'controlador-login.php';
             break;
             //Per registrar-se

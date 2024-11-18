@@ -1,0 +1,4 @@
+RewriteRule ^$ http://www.davidromero.cat/PR4-NEW/index.php [R=301,L]
+
+<!-- Errors -->
+ErrorDocument 404 http://localhost/Servidor/PR4-NEW/errors/404.html
