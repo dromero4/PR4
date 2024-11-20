@@ -61,8 +61,8 @@ if (!(isset($_SESSION['usuari']))) {
     }
 } else {
     try {
-        require '../database/connexio.php';
-        require '../Model/model.php';
+        require 'database/connexio.php';
+        require 'model/model.php';
 
         // Definir la página actual
         if (!isset($_GET['page']) || $_GET['page'] < 1) {
