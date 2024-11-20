@@ -1,7 +1,7 @@
 <?php
 define('DB_VAR', [
     'DB_HOST' => 'www.davidromero.cat',
-    'DB_NAME' => 'ddb237123',
+    'DB_NAME' => 'ddbb.davidromero.cat',
     'DB_USER' => 'ddb237123',
     'DB_PASSWORD' => 'davidD1234%',
 ]);
