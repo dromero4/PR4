@@ -2,10 +2,12 @@
 include_once '../vista/navbar.view.php';
 include_once '../vista/reiniciarPassword.php';
 include_once '../model/model.php';
+require_once '../controlador/controlador.php';
+
 if(!empty($contrassenya) && !empty($contrassenyaCanviar)){
-    if(verificarCompteCorreu($_SESSION['correu'], $contrassenya)){
+    if(verificarCompteCorreu($_SESSION['correu'], $contrassenya, $connexio)){
         if(verificarContrassenya($contrassenyaCanviar)){
-            if(reiniciarPassword($_SESSION['correu'], $contrassenya, $contrassenyaCanviar)){
+            if(reiniciarPassword($_SESSION['correu'], $contrassenya, $contrassenyaCanviar, $connexio)){
                 $missatges[] = "No s'ha pogut canviar la contrassenya";
             } else {
                 $missatges[] = "Password canviada correctament";

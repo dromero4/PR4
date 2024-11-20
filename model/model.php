@@ -3,8 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 //DAVID ROMERO
 //Funcio per insertar l'article a la base de dades. També mostra l'ID.
-function insertar($model, $nom, $preu, $correu){
-    require '../connexio.php';
+function insertar($model, $nom, $preu, $correu, $connexio){
     $insertarArticle = $connexio->prepare("INSERT INTO articles (model, nom, preu, correu) VALUES(:model, :nom, :preu, :correu)");
     $insertarArticle->bindParam(":model", $model);
     $insertarArticle->bindParam(":nom", $nom);
@@ -17,9 +16,8 @@ function insertar($model, $nom, $preu, $correu){
 }
 
 //Verifica si l'article que vols inserir no existeixi a la base de dades
-function verificarInsertar($model, $nom, $preu){
+function verificarInsertar($model, $nom, $preu, $connexio){
     $verificar = false;
-    require '../connexio.php';
     $verificarInsertar = $connexio->prepare("SELECT * FROM articles WHERE model = :model AND nom = :nom AND preu = :preu");
     $verificarInsertar->bindParam(":model", $model);
     $verificarInsertar->bindParam(":nom", $nom);
@@ -34,8 +32,7 @@ function verificarInsertar($model, $nom, $preu){
 }
 
 //Funcio per modificar un article (en cas de ser el seu)
-function modificar($model, $nom, $preu, $id, $correu){
-    require '../connexio.php';
+function modificar($model, $nom, $preu, $id, $correu, $connexio){
     if(!empty($model) && !empty($nom) && !empty($preu)){
         if($correu != $_SESSION['correu']){
             //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
@@ -140,9 +137,7 @@ function modificar($model, $nom, $preu, $id, $correu){
 }
 
 //Funcio per eliminar l'ID
-function eliminar($id){
-
-    require '../connexio.php';
+function eliminar($id, $connexio){
     $eliminar = $connexio->prepare("DELETE FROM articles WHERE id = :id");
     $eliminar->bindParam(":id", $id);
     $eliminar->execute();
@@ -153,8 +148,7 @@ function eliminar($id){
 }
 
 //Funcio per verificar previament si existeix l'ID a la base de dades
-function verificarID($id){
-    require '../connexio.php';
+function verificarID($id, $connexio){
 
     $verificar = $connexio->prepare("SELECT * FROM articles WHERE id = :id");
     $verificar->bindParam(":id", $id);
@@ -168,9 +162,8 @@ function verificarID($id){
 }
 
 //Funcio per insertar usuari
-function insertarUsuari($correu, $usuari, $contrassenyaHash){
+function insertarUsuari($correu, $usuari, $contrassenyaHash, $connexio){
     try{
-        require '../connexio.php';
         $insertarUsuari = $connexio->prepare("INSERT INTO usuaris(correu, usuari, contrassenya) VALUES(:correu, :usuari, :contrassenya)");
         $insertarUsuari->bindParam(":correu", $correu);
         $insertarUsuari->bindParam(":usuari", $usuari);
@@ -186,8 +179,7 @@ function insertarUsuari($correu, $usuari, $contrassenyaHash){
 }
 
 //Funcio per verificar si el correu existeix a l'hora de registrar-se
-function verificarCorreu($correu){
-    require '../connexio.php';
+function verificarCorreu($correu, $connexio){
     $verificarCorreu = $connexio->prepare("SELECT * FROM usuaris WHERE correu = :correu");
     $verificarCorreu->bindParam(":correu", $correu);
     $verificarCorreu->execute();
@@ -198,8 +190,7 @@ function verificarCorreu($correu){
 }
 
 //Funcio per verificar si l'usuari existeix a l'hora de registarr-se
-function verificarUsuari($usuari){
-    require '../connexio.php';
+function verificarUsuari($usuari, $connexio){
     $verificarUsuari = $connexio->prepare("SELECT * FROM usuaris WHERE usuari = :usuari");
     $verificarUsuari->bindParam(":usuari", $usuari);
     $verificarUsuari->execute();
@@ -210,8 +201,7 @@ function verificarUsuari($usuari){
 }
 
 //Funcio per verificar si la contrassenya i l'usuari coincideix a l'hora de logar-se
-function verificarCompte($usuari, $contrassenya){
-    require '../connexio.php';
+function verificarCompte($usuari, $contrassenya, $connexio){
 
     $verificarContrassenya = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE usuari = :usuari");
     $verificarContrassenya->bindParam(":usuari", $usuari);
@@ -237,8 +227,7 @@ function verificarCompte($usuari, $contrassenya){
 }
 
 //Funcio per veure si el correu coincideix amb la contrassenya
-function verificarCompteCorreu($correu, $contrassenya){
-    require '../connexio.php';
+function verificarCompteCorreu($correu, $contrassenya, $connexio){
 
     $verificarContrassenya = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
     $verificarContrassenya->bindParam(":correu", $correu);
@@ -261,10 +250,9 @@ function verificarCompteCorreu($correu, $contrassenya){
 }
 
 //Funcio per seleccionar el correu en questió de l'usuari que estigui logat
-function seleccionarCorreu($usuari){
-    require '../connexio.php';
+function seleccionarCorreu($usuari, $connexio){
 
-    if(verificarUsuari($usuari)){
+    if(verificarUsuari($usuari, $connexio)){
         $correo = $connexio->prepare("SELECT correu FROM usuaris WHERE usuari = :usuari");
         $correo->bindParam(":usuari", $usuari);
         $correo->execute();
@@ -282,9 +270,8 @@ function seleccionarCorreu($usuari){
 // correu: correu de l'usuari que vols canviar la contrassenya
 // contrassenya: contrassenya actual de l'usuari que hem posat
 // contrassenyaCanviar: nova contrassenya
-function reiniciarPassword($correu, $contrassenya, $contrassenyaCanviar){
+function reiniciarPassword($correu, $contrassenya, $contrassenyaCanviar, $connexio){
     try{
-        require '../connexio.php';
         $reiniciarPassword = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
         $reiniciarPassword->bindParam(":correu", $correu);
         $reiniciarPassword->execute();
@@ -325,8 +312,7 @@ function verificarContrassenya($contrassenya2){
     return $resultat;
 }
 
-function enviarMail($correu){
-    require '../connexio.php';
+function enviarMail($correu, $connexio){
     require '../lib/PHPMailer/src/Exception.php';
     require '../lib/PHPMailer/src/PHPMailer.php';
     require '../lib/PHPMailer/src/SMTP.php';
@@ -374,8 +360,7 @@ function enviarMail($correu){
     }
 }
 
-function getCorreuByID($id){
-    require '../connexio.php';
+function getCorreuByID($id, $connexio){
     $getCorreuByID = $connexio->prepare("SELECT correu FROM articles WHERE id = :id");
     $getCorreuByID->bindParam(":id", $id);
     if($getCorreuByID->execute()){
@@ -384,8 +369,7 @@ function getCorreuByID($id){
     }
 }
 
-// function getNamebyCorreu($correu){
-//     require '../connexio.php';
+// function getNamebyCorreu($correu, $connexio){
 
 //     $getNameByCorreu = $connexio->prepare("SELECT usuari FROM usuaris WHERE correu = :correu");
 //     $getNameByCorreu->bindParam(":correu", $correu);
@@ -401,8 +385,7 @@ function getCorreuByID($id){
 //     }
 // }
 
-function verificarToken($token, $correu){
-    require '../connexio.php';
+function verificarToken($token, $correu, $connexio){
 
     $verificarToken = $connexio->prepare("SELECT token, token_expires FROM usuaris WHERE correu = :correu");
     $verificarToken->bindParam(":correu", $correu);
@@ -428,8 +411,7 @@ function verificarToken($token, $correu){
     }
 }
 
-function updatePassword($correu, $new_password){
-    require '../connexio.php';
+function updatePassword($correu, $new_password, $connexio){
 
     $getPassword = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
     $getPassword->bindParam(":correu", $correu);

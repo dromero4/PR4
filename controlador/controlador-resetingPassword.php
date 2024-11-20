@@ -9,10 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $new_contrassenya = $_POST['contrassenyaReiniciada1'];
         $new_contrassenya2 = $_POST['contrassenyaReiniciada2'];
 
-        if(verificarToken($token, $correu)){
+        if(verificarToken($token, $correu, $connexio)){
             if(verificarContrassenya($new_contrassenya) && verificarContrassenya($new_contrassenya2)){
                 if($new_contrassenya == $new_contrassenya2){
-                    if(updatePassword($correu, $new_contrassenya)){
+                    if(updatePassword($correu, $new_contrassenya, $connexio)){
                         $missatges[] = "Contrassenya canviada correctament.";
                     } else {
                         $missatges[] = "La contrassenya no s'ha pogut recuperar...";

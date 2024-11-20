@@ -1,10 +1,12 @@
 <!-- David Romero -->
 
 <?php 
-$direccio = "www.davidromero.cat";
-$nomBBDD = "bbdd.davidromero.cat";
-$usuaris = "ddb237123";
-$contrasenya = "davidD1234%";
+require_once __DIR__ . '/env.php';
+
+$direccio = DB_VAR['DB_HOST'];
+$nomBBDD = DB_VAR['DB_NAME'];
+$usuaris = DB_VAR['DB_USER'];
+$contrasenya = DB_VAR['DB_PASSWORD'];
 
 //  fitxer per a la connexio a la base de dades
     try{

@@ -8,12 +8,12 @@ if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
     //Verifiquem si el correu es més llarg de 40 caràcters
     if(strlen($correu) > 40){
         echo "<br>El correu ha de tenir menys de 40 caràcters...";
-    } else if (verificarCorreu($correu)){ //Verifiquem si ja existeix el correu
+    } else if (verificarCorreu($correu, $connexio)){ //Verifiquem si ja existeix el correu
         echo "<br>El correu ja existeix";
     } else {
         if(strlen($usuari) > 20){ //verifiquem que no sigui massa llarg el nom d'usuari
             echo "<br>El nom d'usuari ha de tenir menys de 20 caràcters...";
-        } else if(verificarUsuari($usuari)){ //I verifiquem que no existeixi previament
+        } else if(verificarUsuari($usuari, $connexio)){ //I verifiquem que no existeixi previament
             echo "<br>El nom d'usuari ja existeix";
         } else {
             if($contrassenya == $contrassenya2){ //Al cas de confirmar la contrassenya
@@ -25,7 +25,7 @@ if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
                     <br>- Al menys un numero.
                     <br>- Al menys un caràcter especial.";
                 } else {
-                    if(insertarUsuari($correu, $usuari, $contrassenyaHash)){ //En cas de ser tot correcte, inserim l'usuari a la base de dades amb la contrassenya encriptada
+                    if(insertarUsuari($correu, $usuari, $contrassenyaHash, $connexio)){ //En cas de ser tot correcte, inserim l'usuari a la base de dades amb la contrassenya encriptada
                         echo  "<br>Usuari creat correctament<br>";
                         ?>
                         <a href="../vista/login.php"><button>Fes login</button></a>

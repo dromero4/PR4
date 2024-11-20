@@ -2,7 +2,7 @@
 include_once 'controlador-resetingPassword.php';
 
     if (!empty($usuari) && !empty($contrassenya)) {
-        if (verificarCompte($usuari, $contrassenya)) {
+        if (verificarCompte($usuari, $contrassenya, $connexio)) {
             session_start();
             
             //Estableix el tems d'expiracio de la sessio a 40 minuts
@@ -27,7 +27,7 @@ include_once 'controlador-resetingPassword.php';
 
             //Variables de l'usuari
             $_SESSION['usuari'] = $usuari;
-            $resultatCorreu = seleccionarCorreu($usuari);
+            $resultatCorreu = seleccionarCorreu($usuari, $connexio);
             $_SESSION['correu'] = $resultatCorreu['correu'];
 
             //En cas d'estar logat, s'enva directament a la pagina de consultar articles.
