@@ -2,7 +2,7 @@
 
 <?php 
 $direccio = "www.davidromero.cat";
-$nomBBDD = "ddb237123";
+$nomBBDD = "bbdd.davidromero.cat";
 $usuaris = "ddb237123";
 $contrasenya = "davidD1234%";
 
