@@ -1,7 +1,7 @@
 <!-- David Romero -->
 
 <?php 
-$direccio = "https://www.davidromero.cat";
+$direccio = "www.davidromero.cat";
 $nomBBDD = "ddb237123";
 $usuaris = "ddb237123";
 $contrasenya = "davidD1234%";
