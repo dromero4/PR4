@@ -2,13 +2,13 @@
 session_start();
 require_once __DIR__ . '/database/env.php';
 include __DIR__ . '/vista/navbar.view.php';
+require 'database/connexio.php';
+require 'model/model.php';
 
 $articulosPorPagina = 5; // Definir la cantidad de artículos por página
 
 if (!(isset($_SESSION['usuari']))) {
     try {
-        require '../database/connexio.php';
-        require '../model/model.php';
 
         // Definir la página actual
         if (!isset($_GET['page']) || $_GET['page'] < 1) {
@@ -61,8 +61,6 @@ if (!(isset($_SESSION['usuari']))) {
     }
 } else {
     try {
-        require 'database/connexio.php';
-        require 'model/model.php';
 
         // Definir la página actual
         if (!isset($_GET['page']) || $_GET['page'] < 1) {
