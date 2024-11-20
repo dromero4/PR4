@@ -4,7 +4,6 @@ include_once '../model/model.php'; //Crida al fitxer model per poder accedir a l
 require_once '../database/connexio.php';
 
 $crudSubmit = $_POST['Enviar'] ?? null; //Funcio per seleccionar depenent del que hagi triat l'usuari (ediar, inserir...)
-
 //Variables dels articles
 $id = $_POST['id'] ?? null;
 $model = $_POST['model'] ?? null; 
@@ -30,8 +29,6 @@ $missatges = []; //Gestió de missatges / errors.
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    
-
     switch ($login){
         case 'Log In':
             include_once 'controlador-login.php';
