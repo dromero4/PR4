@@ -1,10 +1,10 @@
 <!-- David Romero -->
 
 <?php 
-$direccio = "localhost";
-$nomBBDD = "pt02_david_romero";
-$usuaris = "root";
-$contrasenya = "";
+$direccio = "https://www.davidromero.cat";
+$nomBBDD = "ddb237123";
+$usuaris = "ddb237123";
+$contrasenya = "davidD1234%";
 
 //  fitxer per a la connexio a la base de dades
     try{
