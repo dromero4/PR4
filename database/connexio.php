@@ -1,7 +1,7 @@
 <!-- David Romero -->
 
 <?php 
-require_once __DIR__ . '/env.php';
+require_once 'env.php';
 
 $direccio = DB_VAR['DB_HOST'];
 $nomBBDD = DB_VAR['DB_NAME'];
