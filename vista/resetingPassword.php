@@ -12,8 +12,9 @@ include '../vista/navbar.view.php';
 </head>
 <body>
     <form action="../controlador/controlador-resetingPassword.php" method="post">
-        <input type="hidden" name="token" value="<?php echo $_GET['token']; ?>">
-        <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>">
+        <input type="hidden" name="token" value="<?php echo isset($_GET['token']) ? $_GET['token'] : ''; ?>">
+        <input type="hidden" name="email" value="<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>">
+
         <label for="contrassenya1"></label>
         <input type="password" id="contrassenyaReiniciada1" name="contrassenyaReiniciada1" placeholder="Contrassenya"><br><br>
 
@@ -21,6 +22,8 @@ include '../vista/navbar.view.php';
         <input type="password" id="contrassenyaReiniciada2" name="contrassenyaReiniciada2" placeholder="Confirma la contrassenya"><br><br>
 
         <input type="submit" id="contrassenyaReiniciada" name="contrassenyaReiniciada" value="Enviar"><br><br>
+
+        
     </form>
 </body>
 </html>
