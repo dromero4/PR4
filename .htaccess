@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteCond %{HTTP_HOST} ^www\.davidromero\.cat$ [NC]
-RewriteRule ^$ www.davidromero.cat/PR4-NEW/index.php [R=301,L]
+RewriteCond %{HTTP_HOST} ^localhost$ [NC]
+RewriteRule ^$ localhost/Servidor/PR4-NEW/index.php [R=301,L]
 
-ErrorDocument 404 https://www.davidromero.cat/PR4-NEW/errors/404.html
+ErrorDocument 404 localhost/Servidor/PR4-NEW/errors/404.html

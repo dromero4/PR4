@@ -1,9 +1,9 @@
 <?php
 define('DB_VAR', [
-    'DB_HOST' => 'ddbb.davidromero.cat',
-    'DB_NAME' => 'ddb237123',
-    'DB_USER' => 'ddb237123',
-    'DB_PASSWORD' => 'davidD1234%',
+    'DB_HOST' => 'localhost',
+    'DB_NAME' => 'pt02_david_romero',
+    'DB_USER' => 'root',
+    'DB_PASSWORD' => '',
 ]);
 
 define('BASE_PATH', dirname(__DIR__) . '/');
