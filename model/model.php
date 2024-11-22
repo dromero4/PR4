@@ -349,7 +349,7 @@ function enviarMail($correu, $connexio){
             $mail->isHTML(true);
             $mail->Subject = 'Restablecimiento de password';
             $mail->Body = "Haz click en este enlace para reiniciar la contraseña: 
-            <a href='http://localhost/Servidor/PR4-NEW/vista/resetingPassword.php?token=" . urlencode($token) . "&email=" . urlencode($correu) . "'>Restablecer Contraseña</a>";
+            <a href='http://www.davidromero.cat/PR4-NEW/vista/resetingPassword.php?token=" . urlencode($token) . "&email=" . urlencode($correu) . "'>Restablecer Contraseña</a>";
 
 
         
