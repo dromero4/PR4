@@ -1,6 +1,6 @@
 <?php 
 session_start();
-include 'navbar.view.php';
+include_once 'navbar.view.php';
 ?>
 <!DOCTYPE html>
 <!-- DAVID ROMERO -->

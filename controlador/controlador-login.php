@@ -36,7 +36,7 @@ include_once 'controlador-resetingPassword.php';
             }
         } else {
             //En cas de no ser correcte la contrassenya
-            include '../vista/login.php';
+            include_once '../vista/login.php';
             $missatges[] = "<br>Contrassenya incorrecte";
         }
     } else {

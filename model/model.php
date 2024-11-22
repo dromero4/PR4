@@ -313,9 +313,9 @@ function verificarContrassenya($contrassenya2){
 }
 
 function enviarMail($correu, $connexio){
-    require '../lib/PHPMailer/src/Exception.php';
-    require '../lib/PHPMailer/src/PHPMailer.php';
-    require '../lib/PHPMailer/src/SMTP.php';
+    require_once '../lib/PHPMailer/src/Exception.php';
+    require_once '../lib/PHPMailer/src/PHPMailer.php';
+    require_once '../lib/PHPMailer/src/SMTP.php';
     
     $token = bin2hex(random_bytes(16));
     $token_expires = date('Y-m-d H:i:s', time() + 60 * 30);

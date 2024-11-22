@@ -1,7 +1,7 @@
 <?php
 session_start();
 //Inserim la navbar per poder-nos moure de lloc
-include 'navbar.view.php';
+include_once 'navbar.view.php';
 
 ?>
 

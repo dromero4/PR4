@@ -2,7 +2,7 @@
 //DAVID ROMERO
 session_start();
 //Incluïm el navbar per poder-nos moure de lloc
-include 'navbar.view.php';
+include_once 'navbar.view.php';
 
 ?>
 

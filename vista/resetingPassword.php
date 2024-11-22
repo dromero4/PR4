@@ -1,5 +1,5 @@
 <?php
-include '../vista/navbar.view.php';
+include_once '../vista/navbar.view.php';
 ?>
 
 <!DOCTYPE html>

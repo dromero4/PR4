@@ -1,5 +1,5 @@
 <?php
-include 'navbar.view.php';
+include_once 'navbar.view.php';
 ?>
 
 

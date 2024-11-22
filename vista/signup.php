@@ -1,6 +1,6 @@
 <?php 
 //Incluïm el navbar per poder-nos moure de lloc
-include 'navbar.view.php';
+include_once 'navbar.view.php';
 
 //Variables perque en cas d'equivocar-se, es quedi al input el que hem ficat perque no s'esborri
 $correu = isset($_POST['correu']) ? $_POST['correu'] : '';
