@@ -347,8 +347,9 @@ function enviarMail($correu, $connexio){
             <a href='http://www.davidromero.cat/PR4-NEW/vista/resetingPassword.php?token=" . urlencode($token) . "&email=" . urlencode($correu) . "'>Restablecer Contraseña</a>";
 
 
-        
-            $mail->send();
+            if(!$mail->send()){
+                throw new Error("Hi ha hagut un problema...");
+            }
         } catch (Exception $e) {
             echo "Error al enviar el correo: {$mail->ErrorInfo}";
         }
