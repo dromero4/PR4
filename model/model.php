@@ -326,11 +326,6 @@ function enviarMail($correu, $connexio){
     $insertarTokenBaseDades->bindParam(":correu", $correu);
     
     if($insertarTokenBaseDades->execute()){
-        $dirBase = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');  //Això us retorna el directori base.
-        $protocol = "http";
-        $host = $_SERVER['HTTP_HOST'];  //nom del domini
-        $resetLink = define("BASE_RESET_URL", $protocol . "://" . $host . $dirBase . "/resetingPassword.php?token=".$token);
-
         $mail = new PHPMailer(true);
         try {
             // Configuración del servidor SMTP
