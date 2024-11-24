@@ -7,8 +7,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if(verificarCorreu($correu, $connexio)){
             if(enviarMail($correu, $connexio)){
                 $missatges[] = "Verifica el teu correu ($correu), t'hem enviat un ellaç perquè puguis reestablir la teva contrassenya...";
-            } else {
-                $missatges[] = "Hi ha hagut algun problema...";
             }
             
         } else {
