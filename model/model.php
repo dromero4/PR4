@@ -362,7 +362,7 @@ function enviarMail($correu, $connexio){
 
     try{
         $token = bin2hex(random_bytes(16));
-        $token_expires = date('Y-m-d H:i:s', time() + 60 * 60 * 24);
+        $token_expires = date('Y-m-d H:i:s', time() + 60 * 30);
     
         $insertarTokenBaseDades = $connexio->prepare("UPDATE usuaris SET token = :token, token_expires = :token_expires WHERE correu = :correu");
         $insertarTokenBaseDades->bindParam(":token", $token);
