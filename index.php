@@ -29,18 +29,12 @@ try {
         $pages = ceil($total / $articulosPorPagina);
         $fetch = obtenerArticulos($connexio, $start, $articulosPorPagina, $orderBy);
     } else {
-
-        
         // Usuario autenticado
         $total = obtenerTotalArticulosPorUsuario($connexio, $_SESSION['correu']);
         $pages = ceil($total / $articulosPorPagina);
         $fetch = obtenerArticulosPorUsuario($connexio, $start, $articulosPorPagina, $_SESSION['correu'], $orderBy);
 
-        if(isset($_POST['rememberMe'])){
-            $remember = $_POST['rememberMe'];
-
-            var_dump($remember);
-        }
+        
     }
 
     // Mostrar los artículos
@@ -57,6 +51,8 @@ try {
             </tr>";
         }
         echo "</table>";
+
+        
     } else {
         echo "<br>No se encontraron artículos.";
        
@@ -74,6 +70,8 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+
+
 ?>
 
 <!DOCTYPE html>

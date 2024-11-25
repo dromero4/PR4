@@ -1,6 +1,9 @@
 <?php
 //Incluïm el navbar per poder-nos moure de lloc
 include_once 'navbar.view.php';
+
+$cookie_user = !(empty($_POST['usuari'])) ? $_POST['usuari'] : (isset($_COOKIE['cookie_user']) ? $_COOKIE['cookie_user'] : "");
+$checked = !(empty($_POST['remember'])) ? "checked" : (isset($_COOKIE['cookie_remember']) ? "checked" : "");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,12 +17,12 @@ include_once 'navbar.view.php';
     <!-- Inputs diversos per poder inserir les dades de l'usuari -->
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="post">
         <label for="usuari"></label>
-        <input type="text" id="usuari" name="usuari" placeholder="Usuari"><br><br>
+        <input type="text" id="usuari" name="usuari" value="<?=$cookie_user?>" placeholder="Usuari"><br><br>
 
         <label for="contrassenya"></label>
         <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya"><br><br>
 
-        <input type="checkbox" id="rememberMe"> Remember Me<br><br>
+        <input type="checkbox" name="rememberMe" value=1 <?=$checked?>> Remember Me<br><br>
 
         <input type="submit" id="login" name="login" value="Log In"><br><br>
     </form>
