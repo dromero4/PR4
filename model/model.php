@@ -495,6 +495,27 @@ function obtenerTotalArticulos($connexio) {
     return $query->fetchColumn();
 }
 
+function obtenerArticulosPorUsuario($connexio, $start, $articulosPorPagina, $correu, $orderBy) {
+    $orderClause = generarOrdenSQL($orderBy);
+    $query = $connexio->prepare("SELECT * FROM articles WHERE correu = :correu ORDER BY $orderClause LIMIT :start, :articulosPorPagina");
+    $query->bindValue(':start', $start, PDO::PARAM_INT);
+    $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
+    $query->bindParam(":correu", $correu);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+function obtenerArticulos($connexio, $start, $articulosPorPagina, $orderBy) {
+    $orderClause = generarOrdenSQL($orderBy);
+    $query = $connexio->prepare("SELECT * FROM articles ORDER BY $orderClause LIMIT :start, :articulosPorPagina");
+    $query->bindValue(':start', $start, PDO::PARAM_INT);
+    $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 function obtenerTotalArticulosPorUsuario($connexio, $correu) {
     $query = $connexio->prepare("SELECT COUNT(*) FROM articles WHERE correu = :correu");
     $query->bindParam(":correu", $correu);
@@ -502,20 +523,16 @@ function obtenerTotalArticulosPorUsuario($connexio, $correu) {
     return $query->fetchColumn();
 }
 
-function obtenerArticulos($connexio, $start, $articulosPorPagina) {
-    $query = $connexio->prepare("SELECT * FROM articles LIMIT :start, :articulosPorPagina");
-    $query->bindValue(':start', $start, PDO::PARAM_INT);
-    $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
-    $query->execute();
-    return $query->fetchAll(PDO::FETCH_ASSOC);
+
+function generarOrdenSQL($orderBy) {
+    $ordenesValidos = [
+        'dateAsc' => 'id ASC',
+        'dateDesc' => 'id DESC',
+        'AlphabeticallyAsc' => 'nom ASC',
+        'AlphabeticallyDesc' => 'nom DESC'
+    ];
+    // Si el valor no es válido, usar 'id ASC' como predeterminado
+    return $ordenesValidos[$orderBy] ?? 'id ASC';
 }
 
-function obtenerArticulosPorUsuario($connexio, $start, $articulosPorPagina, $correu) {
-    $query = $connexio->prepare("SELECT * FROM articles WHERE correu = :correu LIMIT :start, :articulosPorPagina");
-    $query->bindValue(':start', $start, PDO::PARAM_INT);
-    $query->bindValue(':articulosPorPagina', $articulosPorPagina, PDO::PARAM_INT);
-    $query->bindParam(":correu", $correu);
-    $query->execute();
-    return $query->fetchAll(PDO::FETCH_ASSOC);
-}
 ?>
