@@ -1,5 +1,4 @@
 <?php
-
     if (!empty($usuari) && !empty($contrassenya)) {
         if (verificarCompte($usuari, $contrassenya, $connexio)) {
             session_start();

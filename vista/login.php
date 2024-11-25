@@ -12,7 +12,7 @@ include_once 'navbar.view.php';
 </head>
 <body>
     <!-- Inputs diversos per poder inserir les dades de l'usuari -->
-    <form action="../controlador/controlador.php" method="post">
+    <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="post">
         <label for="usuari"></label>
         <input type="text" id="usuari" name="usuari" placeholder="Usuari"><br><br>
 
@@ -22,7 +22,7 @@ include_once 'navbar.view.php';
         <input type="submit" id="login" name="login" value="Log In"><br><br>
     </form>
 
-    <form action="../vista/forgotPassword.php" method="post">
+    <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../vista/forgotPassword.php'); ?>" method="post">
         <input type="submit" id="forgotPassword" name="forgotPassword" value="Has oblidat la contrassenya?">
     </form>
     
