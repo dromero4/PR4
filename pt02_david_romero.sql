@@ -1,5 +1,3 @@
-
-
 --
 -- Estructura de tabla para la tabla `articles`
 --
@@ -41,7 +39,16 @@ INSERT INTO `articles` (`id`, `model`, `nom`, `preu`, `correu`) VALUES
 (31, '6', '6', 6, 'goku777@gmail.com'),
 (32, '7', '7', 7, 'goku777@gmail.com'),
 (33, '8', '8', 8, 'goku777@gmail.com'),
-(34, 'articleEditatDavid', 'articleEditatDavid', 6, 'david@gmail.com');
+(34, 'articleEditatDavid', 'articleEditatDavid', 6, 'david@gmail.com'),
+(35, 'pdd', 'dsda', 555, 'prueba@prueba.com'),
+(36, '3', '3', 43, 'prueba@prueba.com'),
+(37, 'eiwruoiewurioewur', 'ruiewuroiewurioew', 9, 'prueba@prueba.com'),
+(39, 'sd', 'dsa', 32, 'prueba2@prueba.com'),
+(40, '1', '2', 3, 'davidromerog765@gmail.com'),
+(41, 'eqw', 'e', 231, 'prueba@prueba.com'),
+(42, 'prueba', 'prueba', 432, 'prueba@prueba.com'),
+(43, 'e', 'e', 2765, 'prueba@prueba.com'),
+(44, 'prueba', 'prueba', 9999, 'prueba@prueba.com');
 
 -- --------------------------------------------------------
 
@@ -52,15 +59,18 @@ INSERT INTO `articles` (`id`, `model`, `nom`, `preu`, `correu`) VALUES
 CREATE TABLE `usuaris` (
   `correu` varchar(40) NOT NULL,
   `usuari` varchar(20) NOT NULL,
-  `contrassenya` varchar(255) NOT NULL
+  `contrassenya` varchar(255) NOT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `token_expires` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuaris`
 --
 
-INSERT INTO `usuaris` (`correu`, `usuari`, `contrassenya`) VALUES
-('prueba@prueba.com', 'prueba', '$2y$10$bhgAucGG0yTobq1LVKNCaOb8Fd.jwlvEmP8utmsW9dmC.SXiozrW6');
+INSERT INTO `usuaris` (`correu`, `usuari`, `contrassenya`, `token`, `token_expires`) VALUES
+('davidromerog765@gmail.com', 'david', '$2y$10$qoV9nBzRae0FNNY/L38DXuOl5j1FYC8OQKsaLl8PjgLajdERl7p7i', 'cccb8dfeb3fc3f54d6d83dbc941174fe', '2024-11-25'),
+('prueba@prueba.com', 'prueba', '$2y$10$7RbRt7m5jVKZjyJNo4jS4utDNkWJJpf.qLHuir9LWyLsQuUlSCBCq', NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -88,6 +98,6 @@ ALTER TABLE `usuaris`
 -- AUTO_INCREMENT de la tabla `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 COMMIT;
 
