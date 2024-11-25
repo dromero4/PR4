@@ -17,7 +17,7 @@ include_once 'navbar.view.php';
 <body>
     <!-- Inputs diversos per modificar els articles -->
     <h3>Quin article vols modificar?</h3>
-    <form action="../controlador/controlador.php" method="POST">
+    <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="POST">
         <label for="id"></label>
         <input type="number" id="id" name="id" placeholder="ID: "><br><br>
 

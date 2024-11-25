@@ -11,7 +11,7 @@ include_once '../vista/navbar.view.php';
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <form action="../controlador/controlador-resetingPassword.php" method="post">
+    <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador-resetingPassword.php'); ?>" method="post">
         <input type="hidden" name="token" value="<?php echo isset($_GET['token']) ? $_GET['token'] : ''; ?>">
         <input type="hidden" name="email" value="<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>">
 

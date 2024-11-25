@@ -18,7 +18,7 @@ $contrassenya2 = isset($_POST['contrassenya2']) ? $_POST['contrassenya2'] : '';
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <form action="../controlador/controlador.php" method="post">
+    <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="post">
         <label for="correu"></label>
         <input type="text" id="correu" name="correu" placeholder="Correu" value="<?php echo htmlspecialchars($correu); ?>"><br><br>
 

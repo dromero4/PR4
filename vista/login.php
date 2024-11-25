@@ -19,6 +19,8 @@ include_once 'navbar.view.php';
         <label for="contrassenya"></label>
         <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya"><br><br>
 
+        <input type="checkbox" id="rememberMe"> Remember Me<br><br>
+
         <input type="submit" id="login" name="login" value="Log In"><br><br>
     </form>
 
