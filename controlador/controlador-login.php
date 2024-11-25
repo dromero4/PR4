@@ -1,5 +1,4 @@
 <?php
-include_once 'controlador-resetingPassword.php';
 
     if (!empty($usuari) && !empty($contrassenya)) {
         if (verificarCompte($usuari, $contrassenya, $connexio)) {
