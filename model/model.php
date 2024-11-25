@@ -4,161 +4,184 @@ use PHPMailer\PHPMailer\Exception;
 //DAVID ROMERO
 //Funcio per insertar l'article a la base de dades. També mostra l'ID.
 function insertar($model, $nom, $preu, $correu, $connexio){
-    $insertarArticle = $connexio->prepare("INSERT INTO articles (model, nom, preu, correu) VALUES(:model, :nom, :preu, :correu)");
-    $insertarArticle->bindParam(":model", $model);
-    $insertarArticle->bindParam(":nom", $nom);
-    $insertarArticle->bindParam(":preu", $preu);
-    $insertarArticle->bindParam(":correu", $correu);
-    $insertarArticle->execute();
-
-    $ultimID = $connexio->lastInsertId();
-    echo "Inserit correctament! ID: $ultimID";
+    try{
+        $insertarArticle = $connexio->prepare("INSERT INTO articles (model, nom, preu, correu) VALUES(:model, :nom, :preu, :correu)");
+        $insertarArticle->bindParam(":model", $model);
+        $insertarArticle->bindParam(":nom", $nom);
+        $insertarArticle->bindParam(":preu", $preu);
+        $insertarArticle->bindParam(":correu", $correu);
+        $insertarArticle->execute();
+    
+        $ultimID = $connexio->lastInsertId();
+        echo "Inserit correctament! ID: $ultimID";
+    } catch (Error $e){
+        throw new Error($e->getMessage());
+    }
+    
 }
 
 //Verifica si l'article que vols inserir no existeixi a la base de dades
 function verificarInsertar($model, $nom, $preu, $connexio){
-    $verificar = false;
-    $verificarInsertar = $connexio->prepare("SELECT * FROM articles WHERE model = :model AND nom = :nom AND preu = :preu");
-    $verificarInsertar->bindParam(":model", $model);
-    $verificarInsertar->bindParam(":nom", $nom);
-    $verificarInsertar->bindParam(":preu", $preu);
-    $verificarInsertar->execute();
-
-    if($verificarInsertar->rowCount() != 0){
-        $verificar = true;
+    try{
+        $verificar = false;
+        $verificarInsertar = $connexio->prepare("SELECT * FROM articles WHERE model = :model AND nom = :nom AND preu = :preu");
+        $verificarInsertar->bindParam(":model", $model);
+        $verificarInsertar->bindParam(":nom", $nom);
+        $verificarInsertar->bindParam(":preu", $preu);
+        $verificarInsertar->execute();
+    
+        if($verificarInsertar->rowCount() != 0){
+            $verificar = true;
+        }
+    
+        return $verificar;
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
-
-    return $verificar;
+    
 }
 
 //Funcio per modificar un article (en cas de ser el seu)
 function modificar($model, $nom, $preu, $id, $correu, $connexio){
-    if(!empty($model) && !empty($nom) && !empty($preu)){
-        if($correu != $_SESSION['correu']){
-            //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
-            echo "No pots modificar aquest article perquè no ets el seu propietari";
-        } else {
-            $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, nom = :nom, preu = :preu WHERE id = $id AND correu = :correu");
-            $modificarDades->bindParam(':model', $model);
-            $modificarDades->bindParam(':correu', $correu);
-            $modificarDades->bindParam(':nom', $nom);
-            $modificarDades->bindParam(':preu', $preu);
-            $modificarDades->execute();
+    try{
+        if(!empty($model) && !empty($nom) && !empty($preu)){
+            if($correu != $_SESSION['correu']){
+                //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
+                echo "No pots modificar aquest article perquè no ets el seu propietari";
+            } else {
+                $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, nom = :nom, preu = :preu WHERE id = $id AND correu = :correu");
+                $modificarDades->bindParam(':model', $model);
+                $modificarDades->bindParam(':correu', $correu);
+                $modificarDades->bindParam(':nom', $nom);
+                $modificarDades->bindParam(':preu', $preu);
+                $modificarDades->execute();
+                include_once '../vista/modificar.php';
+                echo "<br>Article amb ID: $id editat correctament";
+            }
+            
+            //Aqui son comprobacions varies en funcio del que estigui omplert o no, ja que a l'hora de modificar, no has de modificar tot si no vols.
+        } else if(!empty($model) && !empty($nom) && empty($preu)){
+            if($correu != $_SESSION['correu']){
+                //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
+                echo "No pots modificar aquest article perquè no ets el seu propietari";
+            } else {
+                $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, nom = :nom WHERE id = $id AND correu = :correu");
+                $modificarDades->bindParam(':model', $model);
+                $modificarDades->bindParam(':correu', $correu);
+                $modificarDades->bindParam(':nom', $nom);
+                $modificarDades->execute();
+                include_once '../vista/modificar.php';
+                echo "<br>Article amb ID: $id editat correctament";
+            }
+            
+        } else if(!empty($model) && !empty($preu) && empty($nom)){
+            if($correu != $_SESSION['correu']){
+                //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
+                echo "No pots modificar aquest article perquè no ets el seu propietari";
+            } else {
+                $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, preu = :preu WHERE id = $id AND correu = :correu");
+                $modificarDades->bindParam(':model', $model);
+                $modificarDades->bindParam(':correu', $correu);
+                $modificarDades->bindParam(':preu', $preu);
+                $modificarDades->execute();
+                include_once '../vista/modificar.php';
+                echo "<br>Article amb ID: $id editat correctament";
+            }
+            
+        }  else if(!empty($nom) && !empty($preu) && empty($model)){
+            if($correu != $_SESSION['correu']){
+                //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
+                echo "No pots modificar aquest article perquè no ets el seu propietari";
+            } else {
+                $modificarDades = $connexio->prepare("UPDATE articles SET nom = :nom, preu = :preu WHERE id = $id AND correu = :correu");
+                $modificarDades->bindParam(':nom', $nom);
+                $modificarDades->bindParam(':correu', $correu);
+                $modificarDades->bindParam(':preu', $preu);
+                $modificarDades->execute();
+                include_once '../vista/modificar.php';
+                echo "<br>Article amb ID: $id editat correctament";
+            }
+            
+        }  else if(!empty($nom) && empty($preu) && empty($model)){
+            if($correu != $_SESSION['correu']){
+                //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
+                echo "No pots modificar aquest article perquè no ets el seu propietari";
+            } else {
+                $modificarDades = $connexio->prepare("UPDATE articles SET nom = :nom WHERE id = $id AND correu = :correu");
+                $modificarDades->bindParam(':nom', $nom);
+                $modificarDades->bindParam(':correu', $correu);
+                $modificarDades->execute();
+                include_once '../vista/modificar.php';
+                echo "<br>Article amb ID: $id editat correctament";
+            }
+            
+        }  else if(!empty($preu) && empty($nom) && empty($model)){
+            if($correu != $_SESSION['correu']){
+                //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
+                echo "No pots modificar aquest article perquè no ets el seu propietari";
+            } else {
+                $modificarDades = $connexio->prepare("UPDATE articles SET preu = :preu WHERE id = $id AND correu = :correu");
+                $modificarDades->bindParam(':preu', $preu);
+                $modificarDades->bindParam(':correu', $correu);
+                $modificarDades->execute();
+                include_once '../vista/modificar.php';
+                echo "<br>Article amb ID: $id editat correctament";
+            }
+            
+        }  else if(!empty($model) && empty($nom) && empty($preu)){
+            if($correu != $_SESSION['correu']){
+                //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
+                echo "No pots modificar aquest article perquè no ets el seu propietari";
+            } else {
+                $modificarDades = $connexio->prepare("UPDATE articles SET model = :model WHERE id = $id AND correu = :correu");
+                $modificarDades->bindParam(':model', $model);
+                $modificarDades->bindParam(':correu', $correu);
+                $modificarDades->execute();
+                include_once '../vista/modificar.php';
+                echo "<br>Article amb ID: $id editat correctament";
+            }
+        }else {
             include_once '../vista/modificar.php';
-            echo "<br>Article amb ID: $id editat correctament";
+            echo "<br>No s'ha modificat cap dada";
         }
-        
-        //Aqui son comprobacions varies en funcio del que estigui omplert o no, ja que a l'hora de modificar, no has de modificar tot si no vols.
-    } else if(!empty($model) && !empty($nom) && empty($preu)){
-        if($correu != $_SESSION['correu']){
-            //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
-            echo "No pots modificar aquest article perquè no ets el seu propietari";
-        } else {
-            $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, nom = :nom WHERE id = $id AND correu = :correu");
-            $modificarDades->bindParam(':model', $model);
-            $modificarDades->bindParam(':correu', $correu);
-            $modificarDades->bindParam(':nom', $nom);
-            $modificarDades->execute();
-            include_once '../vista/modificar.php';
-            echo "<br>Article amb ID: $id editat correctament";
-        }
-        
-    } else if(!empty($model) && !empty($preu) && empty($nom)){
-        if($correu != $_SESSION['correu']){
-            //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
-            echo "No pots modificar aquest article perquè no ets el seu propietari";
-        } else {
-            $modificarDades = $connexio->prepare("UPDATE articles SET model = :model, preu = :preu WHERE id = $id AND correu = :correu");
-            $modificarDades->bindParam(':model', $model);
-            $modificarDades->bindParam(':correu', $correu);
-            $modificarDades->bindParam(':preu', $preu);
-            $modificarDades->execute();
-            include_once '../vista/modificar.php';
-            echo "<br>Article amb ID: $id editat correctament";
-        }
-        
-    }  else if(!empty($nom) && !empty($preu) && empty($model)){
-        if($correu != $_SESSION['correu']){
-            //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
-            echo "No pots modificar aquest article perquè no ets el seu propietari";
-        } else {
-            $modificarDades = $connexio->prepare("UPDATE articles SET nom = :nom, preu = :preu WHERE id = $id AND correu = :correu");
-            $modificarDades->bindParam(':nom', $nom);
-            $modificarDades->bindParam(':correu', $correu);
-            $modificarDades->bindParam(':preu', $preu);
-            $modificarDades->execute();
-            include_once '../vista/modificar.php';
-            echo "<br>Article amb ID: $id editat correctament";
-        }
-        
-    }  else if(!empty($nom) && empty($preu) && empty($model)){
-        if($correu != $_SESSION['correu']){
-            //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
-            echo "No pots modificar aquest article perquè no ets el seu propietari";
-        } else {
-            $modificarDades = $connexio->prepare("UPDATE articles SET nom = :nom WHERE id = $id AND correu = :correu");
-            $modificarDades->bindParam(':nom', $nom);
-            $modificarDades->bindParam(':correu', $correu);
-            $modificarDades->execute();
-            include_once '../vista/modificar.php';
-            echo "<br>Article amb ID: $id editat correctament";
-        }
-        
-    }  else if(!empty($preu) && empty($nom) && empty($model)){
-        if($correu != $_SESSION['correu']){
-            //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
-            echo "No pots modificar aquest article perquè no ets el seu propietari";
-        } else {
-            $modificarDades = $connexio->prepare("UPDATE articles SET preu = :preu WHERE id = $id AND correu = :correu");
-            $modificarDades->bindParam(':preu', $preu);
-            $modificarDades->bindParam(':correu', $correu);
-            $modificarDades->execute();
-            include_once '../vista/modificar.php';
-            echo "<br>Article amb ID: $id editat correctament";
-        }
-        
-    }  else if(!empty($model) && empty($nom) && empty($preu)){
-        if($correu != $_SESSION['correu']){
-            //En cas de no tenir el mateix correu que l'article, no et deixa modificar.
-            echo "No pots modificar aquest article perquè no ets el seu propietari";
-        } else {
-            $modificarDades = $connexio->prepare("UPDATE articles SET model = :model WHERE id = $id AND correu = :correu");
-            $modificarDades->bindParam(':model', $model);
-            $modificarDades->bindParam(':correu', $correu);
-            $modificarDades->execute();
-            include_once '../vista/modificar.php';
-            echo "<br>Article amb ID: $id editat correctament";
-        }
-    }else {
-        include_once '../vista/modificar.php';
-        echo "<br>No s'ha modificat cap dada";
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
+    
     
 }
 
 //Funcio per eliminar l'ID
 function eliminar($id, $connexio){
-    $eliminar = $connexio->prepare("DELETE FROM articles WHERE id = :id");
-    $eliminar->bindParam(":id", $id);
-    $eliminar->execute();
-
-    if($eliminar){
-        return true;
+    try{
+        $eliminar = $connexio->prepare("DELETE FROM articles WHERE id = :id");
+        $eliminar->bindParam(":id", $id);
+        $eliminar->execute();
+    
+        if($eliminar){
+            return true;
+        }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
 }
 
 //Funcio per verificar previament si existeix l'ID a la base de dades
 function verificarID($id, $connexio){
-
-    $verificar = $connexio->prepare("SELECT * FROM articles WHERE id = :id");
-    $verificar->bindParam(":id", $id);
-    $verificar->execute();
-
-    if($verificar->rowCount() == 0){
-        return false;
-    } else {
-        return true;
+    try{
+        $verificar = $connexio->prepare("SELECT * FROM articles WHERE id = :id");
+        $verificar->bindParam(":id", $id);
+        $verificar->execute();
+    
+        if($verificar->rowCount() == 0){
+            return false;
+        } else {
+            return true;
+        }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
+    
 }
 
 //Funcio per insertar usuari
@@ -172,7 +195,7 @@ function insertarUsuari($correu, $usuari, $contrassenyaHash, $connexio){
         if($insertarUsuari){
             return true;
         }
-    } catch (PDOException $e){
+    } catch (Error $e){
         echo $e->getMessage();
     }
     
@@ -180,89 +203,109 @@ function insertarUsuari($correu, $usuari, $contrassenyaHash, $connexio){
 
 //Funcio per verificar si el correu existeix a l'hora de registrar-se
 function verificarCorreu($correu, $connexio){
-    $verificarCorreu = $connexio->prepare("SELECT * FROM usuaris WHERE correu = :correu");
-    $verificarCorreu->bindParam(":correu", $correu);
-    $verificarCorreu->execute();
-
-    if($verificarCorreu->rowCount() > 0){
-        return true;
-    }
-}
-
-//Funcio per verificar si l'usuari existeix a l'hora de registarr-se
-function verificarUsuari($usuari, $connexio){
-    $verificarUsuari = $connexio->prepare("SELECT * FROM usuaris WHERE usuari = :usuari");
-    $verificarUsuari->bindParam(":usuari", $usuari);
-    $verificarUsuari->execute();
-
-    if($verificarUsuari->rowCount() > 0){
-        return true;
-    }
-}
-
-//Funcio per verificar si la contrassenya i l'usuari coincideix a l'hora de logar-se
-function verificarCompte($usuari, $contrassenya, $connexio){
-
-    $verificarContrassenya = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE usuari = :usuari");
-    $verificarContrassenya->bindParam(":usuari", $usuari);
-    $verificarContrassenya->execute();
-
-    //Agafem la contrassenya
-    $resultat = $verificarContrassenya->fetch(PDO::FETCH_ASSOC);
-
-    if($resultat){
-        //i la guardem a una variable per poder verificar-la
-        $hash = $resultat['contrassenya'];
-
-        //Funcio interna del php per poder verificar una contrassenya que sigui encriptada
-        //password_verify NOMES FUNCIONA AMB password_hash();
-        
-        if(password_verify($contrassenya, $hash)){
+    try{
+        $verificarCorreu = $connexio->prepare("SELECT * FROM usuaris WHERE correu = :correu");
+        $verificarCorreu->bindParam(":correu", $correu);
+        $verificarCorreu->execute();
+    
+        if($verificarCorreu->rowCount() > 0){
             return true;
-        } else {
-            return false;
         }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
     
 }
 
+//Funcio per verificar si l'usuari existeix a l'hora de registarr-se
+function verificarUsuari($usuari, $connexio){
+    try{
+        $verificarUsuari = $connexio->prepare("SELECT * FROM usuaris WHERE usuari = :usuari");
+        $verificarUsuari->bindParam(":usuari", $usuari);
+        $verificarUsuari->execute();
+    
+        if($verificarUsuari->rowCount() > 0){
+            return true;
+        }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
+    }
+    
+}
+
+//Funcio per verificar si la contrassenya i l'usuari coincideix a l'hora de logar-se
+function verificarCompte($usuari, $contrassenya, $connexio){
+    try{
+        $verificarContrassenya = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE usuari = :usuari");
+        $verificarContrassenya->bindParam(":usuari", $usuari);
+        $verificarContrassenya->execute();
+    
+        //Agafem la contrassenya
+        $resultat = $verificarContrassenya->fetch(PDO::FETCH_ASSOC);
+    
+        if($resultat){
+            //i la guardem a una variable per poder verificar-la
+            $hash = $resultat['contrassenya'];
+    
+            //Funcio interna del php per poder verificar una contrassenya que sigui encriptada
+            //password_verify NOMES FUNCIONA AMB password_hash();
+            
+            if(password_verify($contrassenya, $hash)){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
+    }
+}
+
 //Funcio per veure si el correu coincideix amb la contrassenya
 function verificarCompteCorreu($correu, $contrassenya, $connexio){
-
-    $verificarContrassenya = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
-    $verificarContrassenya->bindParam(":correu", $correu);
-    $verificarContrassenya->execute();
-
-    $resultat = $verificarContrassenya->fetch(PDO::FETCH_ASSOC);
-
-    if($resultat){
-        $hash = $resultat['contrassenya'];
-
-        //Funcio interna del php per poder verificar una contrassenya que sigui encriptada
-        //password_verify NOMES FUNCIONA AMB password_hash();
-        if(password_verify($contrassenya, $hash)){
-            return true;
-        } else {
-            return false;
+    try{
+        $verificarContrassenya = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
+        $verificarContrassenya->bindParam(":correu", $correu);
+        $verificarContrassenya->execute();
+    
+        $resultat = $verificarContrassenya->fetch(PDO::FETCH_ASSOC);
+    
+        if($resultat){
+            $hash = $resultat['contrassenya'];
+    
+            //Funcio interna del php per poder verificar una contrassenya que sigui encriptada
+            //password_verify NOMES FUNCIONA AMB password_hash();
+            if(password_verify($contrassenya, $hash)){
+                return true;
+            } else {
+                return false;
+            }
         }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
+    
     
 }
 
 //Funcio per seleccionar el correu en questió de l'usuari que estigui logat
 function seleccionarCorreu($usuari, $connexio){
-
-    if(verificarUsuari($usuari, $connexio)){
-        $correo = $connexio->prepare("SELECT correu FROM usuaris WHERE usuari = :usuari");
-        $correo->bindParam(":usuari", $usuari);
-        $correo->execute();
-        
-        $resultat = $correo->fetch(PDO::FETCH_ASSOC);
-        
-        return $resultat;
-    } else {
-        echo "Hi ha hagut un problema";
+    try{
+        if(verificarUsuari($usuari, $connexio)){
+            $correo = $connexio->prepare("SELECT correu FROM usuaris WHERE usuari = :usuari");
+            $correo->bindParam(":usuari", $usuari);
+            $correo->execute();
+            
+            $resultat = $correo->fetch(PDO::FETCH_ASSOC);
+            
+            return $resultat;
+        } else {
+            echo "Hi ha hagut un problema";
+        }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
+    
 }
 
 //Funcio per reiniciar el password
@@ -293,7 +336,7 @@ function reiniciarPassword($correu, $contrassenya, $contrassenyaCanviar, $connex
             return false;
         }
     } catch (Error $e){
-        return $e;
+        throw new Error($e->getMessage());
     }
     
     
@@ -316,14 +359,19 @@ function enviarMail($correu, $connexio){
     require_once '../lib/PHPMailer/src/Exception.php';
     require_once '../lib/PHPMailer/src/PHPMailer.php';
     require_once '../lib/PHPMailer/src/SMTP.php';
-    
-    $token = bin2hex(random_bytes(16));
-    $token_expires = date('Y-m-d H:i:s', time() + 60 * 30);
 
-    $insertarTokenBaseDades = $connexio->prepare("UPDATE usuaris SET token = :token, token_expires = :token_expires WHERE correu = :correu");
-    $insertarTokenBaseDades->bindParam(":token", $token);
-    $insertarTokenBaseDades->bindParam(":token_expires", $token_expires);
-    $insertarTokenBaseDades->bindParam(":correu", $correu);
+    try{
+        $token = bin2hex(random_bytes(16));
+        $token_expires = date('Y-m-d H:i:s', time() + 60 * 30);
+    
+        $insertarTokenBaseDades = $connexio->prepare("UPDATE usuaris SET token = :token, token_expires = :token_expires WHERE correu = :correu");
+        $insertarTokenBaseDades->bindParam(":token", $token);
+        $insertarTokenBaseDades->bindParam(":token_expires", $token_expires);
+        $insertarTokenBaseDades->bindParam(":correu", $correu);
+    } catch (Error $e){
+        throw new Error($e->getMessage());
+    }
+    
     
     if($insertarTokenBaseDades->execute()){
         $mail = new PHPMailer(true);
@@ -358,12 +406,17 @@ function enviarMail($correu, $connexio){
 }
 
 function getCorreuByID($id, $connexio){
-    $getCorreuByID = $connexio->prepare("SELECT correu FROM articles WHERE id = :id");
-    $getCorreuByID->bindParam(":id", $id);
-    if($getCorreuByID->execute()){
-        $correu = $getCorreuByID->fetch(PDO::FETCH_ASSOC);
-        return $correu['correu'];
+    try{
+        $getCorreuByID = $connexio->prepare("SELECT correu FROM articles WHERE id = :id");
+        $getCorreuByID->bindParam(":id", $id);
+        if($getCorreuByID->execute()){
+            $correu = $getCorreuByID->fetch(PDO::FETCH_ASSOC);
+            return $correu['correu'];
+        }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
+    
 }
 
 // function getNamebyCorreu($correu, $connexio){
@@ -383,52 +436,58 @@ function getCorreuByID($id, $connexio){
 // }
 
 function verificarToken($token, $correu, $connexio){
-
-    $verificarToken = $connexio->prepare("SELECT token, token_expires FROM usuaris WHERE correu = :correu");
-    $verificarToken->bindParam(":correu", $correu);
-    $verificarToken->execute();
-
-    if($verificarToken->rowCount() > 0){
-        $resultat = $verificarToken->fetch(PDO::FETCH_ASSOC);
-
-        if($resultat['token'] === $token){
-            $expiracioToken = New DateTime($resultat['token_expires']);
-            $dataActual = new DateTime();
-
-            if($expiracioToken > $dataActual){
-                return false; //Token caducat
+    try{
+        $verificarToken = $connexio->prepare("SELECT token, token_expires FROM usuaris WHERE correu = :correu");
+        $verificarToken->bindParam(":correu", $correu);
+        $verificarToken->execute();
+    
+        if($verificarToken->rowCount() > 0){
+            $resultat = $verificarToken->fetch(PDO::FETCH_ASSOC);
+    
+            if($resultat['token'] === $token){
+                $expiracioToken = New DateTime($resultat['token_expires']);
+                $dataActual = new DateTime();
+    
+                if($expiracioToken > $dataActual){
+                    return false; //Token caducat
+                } else {
+                    return true;
+                }
             } else {
-                return true;
+                return false;
             }
         } else {
             return false;
         }
-    } else {
-        return false;
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
+    
 }
 
 function updatePassword($correu, $new_password, $connexio){
-
-    $getPassword = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
-    $getPassword->bindParam(":correu", $correu);
-    $getPassword->execute();
-
-    $resultat = $getPassword->fetch(PDO::FETCH_ASSOC);
-
-    if($resultat){
-        $contrassenya = password_hash($new_password, PASSWORD_DEFAULT);
-        
-        $updatePassword = $connexio->prepare("UPDATE usuaris SET contrassenya = :contrassenya WHERE correu = :correu");
-        $updatePassword->bindParam(":contrassenya", $contrassenya);
-        $updatePassword->bindParam(":correu", $correu);
-        if($updatePassword->execute()){
-            return true;
-        } else {
-            return false;
+    try{
+        $getPassword = $connexio->prepare("SELECT contrassenya FROM usuaris WHERE correu = :correu");
+        $getPassword->bindParam(":correu", $correu);
+        $getPassword->execute();
+    
+        $resultat = $getPassword->fetch(PDO::FETCH_ASSOC);
+    
+        if($resultat){
+            $contrassenya = password_hash($new_password, PASSWORD_DEFAULT);
+            
+            $updatePassword = $connexio->prepare("UPDATE usuaris SET contrassenya = :contrassenya WHERE correu = :correu");
+            $updatePassword->bindParam(":contrassenya", $contrassenya);
+            $updatePassword->bindParam(":correu", $correu);
+            if($updatePassword->execute()){
+                return true;
+            } else {
+                return false;
+            }
         }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
-
 }
 
 function obtenerTotalArticulos($connexio) {
