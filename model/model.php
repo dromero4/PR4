@@ -449,9 +449,9 @@ function verificarToken($token, $correu, $connexio){
                 $dataActual = new DateTime();
     
                 if($expiracioToken > $dataActual){
-                    return false; //Token caducat
-                } else {
                     return true;
+                } else {
+                    return false;
                 }
             } else {
                 return false;
