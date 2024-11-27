@@ -1,7 +1,5 @@
 <?php
     if (!empty($usuari) && !empty($contrassenya)) {
-        $rememberMe = $_POST['rememberMe'];
-
         if (verificarCompte($usuari, $contrassenya, $connexio)) {
             session_start();
             
@@ -30,21 +28,23 @@
             $resultatCorreu = seleccionarCorreu($usuari, $connexio);
             $_SESSION['correu'] = $resultatCorreu['correu'];
 
+            //rememberMe
+            $remember = $_POST['rememberMe'] ?? null;
+            if ($remember === 'on') {
+                // Si está marcado, guardamos las cookies
+                setcookie('cookie_user', $usuari, time() + 60 * 60 * 24 * 30, "/"); // 1 mes
+                setcookie('cookie_password', $contrassenya, time() + 60 * 60 * 24 * 30, "/");
+            } else {
+                // Si no está marcado, eliminamos las cookies
+                setcookie('cookie_user', '', time() - 3600, "/");
+                setcookie('cookie_password', '', time() - 3600, "/");
+            }
+
+            
+
             //En cas d'estar logat, s'enva directament a la pagina de consultar articles.
             if (isset($_SESSION['usuari'])) {
                 header('Location:../index.php');
-            }
-
-            if ($rememberMe) {
-                setcookie('cookie_user', $usuari, time() + (30 * 24 * 60 * 60), "/"); // 30 días
-                setcookie('cookie_password', $contrassenya, time() + (30 * 24 * 60 * 60), "/");
-                setcookie('cookie_remember', '1', time() + (30 * 24 * 60 * 60), "/");
-                
-            } else {
-                // Eliminar cookies si no está marcada
-                setcookie('cookie_user', '', time() - 3600, "/");
-                setcookie('cookie_password', '', time() - 3600, "/");
-                setcookie('cookie_remember', '', time() - 3600, "/");
             }
         } else {
             //En cas de no ser correcte la contrassenya

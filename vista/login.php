@@ -2,9 +2,9 @@
 //Incluïm el navbar per poder-nos moure de lloc
 include_once 'navbar.view.php';
 
-$cookie_user = !(empty($_POST['usuari'])) ? $_POST['usuari'] : (isset($_COOKIE['cookie_user']) ? $_COOKIE['cookie_user'] : "");
-$cookie_password = !(empty($_POST['contrassenya'])) ? $_POST['contrassenya'] : (isset($_COOKIE['cookie_password']) ? $_COOKIE['cookie_password'] : "");
-$checked = !(empty($_POST['remember'])) ? "checked" : (isset($_COOKIE['cookie_remember']) ? "checked" : "");
+$cookie_user = isset($_COOKIE['cookie_user']) ? $_COOKIE['cookie_user'] : '';
+$cookie_pass = isset($_COOKIE['cookie_password']) ? $_COOKIE['cookie_password'] : '';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,12 +18,12 @@ $checked = !(empty($_POST['remember'])) ? "checked" : (isset($_COOKIE['cookie_re
     <!-- Inputs diversos per poder inserir les dades de l'usuari -->
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="post">
         <label for="usuari"></label>
-        <input type="text" id="usuari" name="usuari" value="<?=$cookie_user?>" placeholder="Usuari"><br><br>
+        <input type="text" id="usuari" name="usuari" placeholder="Usuari" value="<?php echo $cookie_user?>"><br><br>
 
         <label for="contrassenya"></label>
-        <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya" value="<?=$cookie_password?>"><br><br>
+        <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya" value="<?php echo $cookie_pass?>"><br><br>
 
-        <input type="checkbox" name="rememberMe" value=<?=$checked?>> Remember Me<br><br>
+        <input type="checkbox" name="rememberMe" <?php echo isset($_COOKIE['cookie_user']) ? 'checked' : ''; ?>> Remember Me<br><br>
 
         <input type="submit" id="login" name="login" value="Log In"><br><br>
     </form>
@@ -35,6 +35,3 @@ $checked = !(empty($_POST['remember'])) ? "checked" : (isset($_COOKIE['cookie_re
 </body>
 </html>
 
-<?php
-    
-?>
