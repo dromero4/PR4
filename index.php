@@ -33,8 +33,6 @@ try {
         $total = obtenerTotalArticulosPorUsuario($connexio, $_SESSION['correu']);
         $pages = ceil($total / $articulosPorPagina);
         $fetch = obtenerArticulosPorUsuario($connexio, $start, $articulosPorPagina, $_SESSION['correu'], $orderBy);
-
-        
     }
 
     // Mostrar los artículos

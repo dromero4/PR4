@@ -3,6 +3,7 @@
 include_once 'navbar.view.php';
 
 $cookie_user = !(empty($_POST['usuari'])) ? $_POST['usuari'] : (isset($_COOKIE['cookie_user']) ? $_COOKIE['cookie_user'] : "");
+$cookie_password = !(empty($_POST['contrassenya'])) ? $_POST['contrassenya'] : (isset($_COOKIE['cookie_password']) ? $_COOKIE['cookie_password'] : "");
 $checked = !(empty($_POST['remember'])) ? "checked" : (isset($_COOKIE['cookie_remember']) ? "checked" : "");
 ?>
 <!DOCTYPE html>
@@ -20,9 +21,9 @@ $checked = !(empty($_POST['remember'])) ? "checked" : (isset($_COOKIE['cookie_re
         <input type="text" id="usuari" name="usuari" value="<?=$cookie_user?>" placeholder="Usuari"><br><br>
 
         <label for="contrassenya"></label>
-        <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya"><br><br>
+        <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya" value="<?=$cookie_password?>"><br><br>
 
-        <input type="checkbox" name="rememberMe" value=1 <?=$checked?>> Remember Me<br><br>
+        <input type="checkbox" name="rememberMe" value=<?=$checked?>> Remember Me<br><br>
 
         <input type="submit" id="login" name="login" value="Log In"><br><br>
     </form>

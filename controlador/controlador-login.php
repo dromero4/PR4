@@ -1,5 +1,7 @@
 <?php
     if (!empty($usuari) && !empty($contrassenya)) {
+        $rememberMe = $_POST['rememberMe'];
+
         if (verificarCompte($usuari, $contrassenya, $connexio)) {
             session_start();
             
@@ -31,6 +33,18 @@
             //En cas d'estar logat, s'enva directament a la pagina de consultar articles.
             if (isset($_SESSION['usuari'])) {
                 header('Location:../index.php');
+            }
+
+            if ($rememberMe) {
+                setcookie('cookie_user', $usuari, time() + (30 * 24 * 60 * 60), "/"); // 30 días
+                setcookie('cookie_password', $contrassenya, time() + (30 * 24 * 60 * 60), "/");
+                setcookie('cookie_remember', '1', time() + (30 * 24 * 60 * 60), "/");
+                
+            } else {
+                // Eliminar cookies si no está marcada
+                setcookie('cookie_user', '', time() - 3600, "/");
+                setcookie('cookie_password', '', time() - 3600, "/");
+                setcookie('cookie_remember', '', time() - 3600, "/");
             }
         } else {
             //En cas de no ser correcte la contrassenya
