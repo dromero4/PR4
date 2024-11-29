@@ -14,7 +14,7 @@ include_once 'navbar.view.php';
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <h3>Quin article vols esborrar? </h3>
+    <h3 style="color: white">Quin article vols esborrar? </h3>
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="POST">
         <label for="id"></label>
         <!-- input per inserir l'ID -->

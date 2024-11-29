@@ -14,7 +14,7 @@ include_once 'navbar.view.php';
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <h3>Quin element vols inserir? </h3>
+    <h3 style="color: white">Quin element vols inserir? </h3>
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="POST">
         <label for="model"></label>
         <!-- input per inserir el model de l'article -->

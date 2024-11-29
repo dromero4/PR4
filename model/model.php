@@ -284,8 +284,6 @@ function verificarCompteCorreu($correu, $contrassenya, $connexio){
     } catch (Error $e){
         throw new Error($e->getMessage());
     }
-    
-    
 }
 
 //Funcio per seleccionar el correu en questió de l'usuari que estigui logat

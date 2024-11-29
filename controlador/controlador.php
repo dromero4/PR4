@@ -46,9 +46,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(verificarInsertar($model, $nom, $preu, $connexio) == true){ //Aqui verifiquem si el model que hem inserit ja existeix a la base de dades
                 $missatges[] = "Aquest producte ja existeix";
             } else {
-                
-                if(!isEmpty($model, $nom, $preu)){ //Si no son buits i si no son a la base de dades, afegim l'article.
+                if(!empty($model) && !empty($nom) && !empty($preu)){
                     insertar($model, $nom, $preu, $_SESSION['correu'], $connexio); //Amb el correu de la persona logada que l'hagi inserit
+                } else {
+                    $missatges[] = "Has d'omplir tots els camps";
                 }
             }
 
@@ -94,30 +95,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }    
 }
 
-//Funcio per verificar si els articles no son buits. 
-//Retorna si son buits o no (Bool)
-function isEmpty($model, $nom, $preu){
-    $empty = false;
-
-    if(empty($model)) {
-        $empty = true;
-        echo "<br>Has d'inserir el model";
-    }
-    if(empty($nom)){
-        $empty = true;
-        echo "<br>Has d'inserir el nom";
-    } 
-    if(empty($preu)){
-        $empty = true;
-        echo "<br>Has d'inserir el preu";
-    } 
-
-    return $empty;
-}
-
-function mostrarMissatges($missatges){
+function mostrarMissatges($missatges) {
     foreach ($missatges as $missatge) { 
-        echo $missatge . "\n"; 
+        echo '<div class="feedback">' . htmlspecialchars($missatge) . '</div>';
     }
 }
 ?>

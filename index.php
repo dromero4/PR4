@@ -56,15 +56,34 @@ try {
        
     }
 
-    // Mostrar la paginación
-    if ($pages > 1): ?>
-        <?php for ($i = 1; $i <= $pages; $i++): ?>
+?>
+<div class="pagination">
+    <?php if ($pages > 1): ?>
+        <!-- Flecha anterior -->
+        <?php if ($pagina > 1): ?>
+            <a href="?page=<?= $pagina - 1; ?>" class="arrow">&laquo;</a>
+        <?php endif; ?>
+
+        <!-- Mostrar solo 3 botones en función de la página actual -->
+        <?php
+        $start = max(1, $pagina - 1); // Calcula el inicio del rango
+        $end = min($pages, $start + 2); // Calcula el fin del rango
+        for ($i = $start; $i <= $end; $i++): ?>
             <a href="?page=<?= htmlspecialchars($i); ?>" 
                class="<?= $i === $pagina ? 'active' : ''; ?>">
                 <?= htmlspecialchars($i); ?>
             </a>
         <?php endfor; ?>
-    <?php endif;
+
+        <!-- Flecha siguiente -->
+        <?php if ($pagina < $pages): ?>
+            <a href="?page=<?= $pagina + 1; ?>" class="arrow">&raquo;</a>
+        <?php endif; ?>
+    <?php endif; ?>
+</div>
+
+
+<?php 
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
@@ -78,6 +97,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <form action="#" method="post">

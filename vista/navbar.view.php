@@ -32,6 +32,7 @@ $vistaDir = BASE_URL . 'vista';
             <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
             <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
         <?php else: ?>
+            <a href="<?= $vistaDir ?>/../index.php"><button>Consultar</button></a>
             <a href="<?= $vistaDir ?>/login.php"><button>Login</button></a>
             <a href="<?= $vistaDir ?>/signup.php"><button>Signup</button></a>
         <?php endif; ?>
