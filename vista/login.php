@@ -28,16 +28,20 @@ include_once '../lib/claus_recaptcha/claus.php';
 
         <input type="checkbox" name="rememberMe" <?php echo isset($_COOKIE['cookie_user']) ? 'checked' : ''; ?>> Remember Me<br><br>
 
-        <div class="botones"><input type="submit" id="login" name="login" value="Log In" disabled><br><br></div>
+        <div class="botones"><input type="submit" id="login" name="login" value="Log In"><br><br></div>
 
 
         <?php if (isset($_SESSION['intents_recaptcha']) && $_SESSION['intents_recaptcha'] >= 3) { ?>
         <div class="g-recaptcha" data-sitekey="<?php echo $clau_publica; ?>" data-callback="enableSubmit"></div>
+        <script>
+            document.getElementById('login').disabled = true;
+        </script>
     <?php } ?>
     </form>
 
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../vista/forgotPassword.php'); ?>" method="post">
         <input type="submit" id="forgotPassword" name="forgotPassword" value="Has oblidat la contrassenya?">
+        
         
     </form>
 
