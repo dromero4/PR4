@@ -261,3 +261,8 @@ button:hover {
     cursor: default;
 }
 
+form input[type="disabled"]{
+    filter: grayscale(1);
+    cursor: default;
+}
+
