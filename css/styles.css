@@ -16,7 +16,6 @@ body {
     background-color: #f4f4f4;
     text-align: center;
     padding-top: 60px; /* Para evitar que el contenido se superponga con el navbar */
-    overflow: hidden; /* Evita barras de desplazamiento si el fondo se expande */
 }
 
 body::before {
