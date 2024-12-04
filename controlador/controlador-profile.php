@@ -14,8 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $correu = $_POST['correuPerfil'] ?? null;
     $fotoPerfil = $_POST['imagen'] ?? null;
 
-    var_dump($fotoPerfil);
-
     // Verificar que el usuario y correo son válidos
     if ($usuari && $correu) {
         // Intentar actualizar el usuario
