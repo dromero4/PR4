@@ -4,7 +4,8 @@ include_once 'controlador.php';
 if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
     //encriptem la contrassenya a hash per així ja tenir la contrassenya encriptada
     $contrassenyaHash = password_hash($contrassenya, PASSWORD_DEFAULT);
-    include_once '../vista/signup.php';
+
+    // include_once '../vista/signup.php';
     //Verifiquem si el correu es més llarg de 40 caràcters
     if(strlen($correu) > 40){
         $missatges[] = "El correu ha de tenir menys de 40 caràcters...";
@@ -22,30 +23,28 @@ if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
                 una lletra minuscula, un numero i un caràcter especial';
 
                 } else {
-                    if(insertarUsuari($correu, $usuari, $contrassenyaHash, $connexio)){ //En cas de ser tot correcte, inserim l'usuari a la base de dades amb la contrassenya encriptada
+                    if(insertarUsuari($correu, $usuari, $contrassenyaHash, $imatgePerfil, $connexio)){ //En cas de ser tot correcte, inserim l'usuari a la base de dades amb la contrassenya encriptada
                         $missatges[] =  "<br>Usuari creat correctament<br><br>";
+                        $_SESSION['fotoPerfil'] = $imatgePerfil;
                         ?>
                         <a href="../vista/login.php"><button>Fes login</button></a>
                         <?php
                     } else {
                         //En cas d'haver algun error
-                        include_once '../vista/signup.php';
                         $missatges[] =  "<br>No s'ha pogut crear l'usuari";
                     }
                 }
             } else {
                 //En cas de no ser les contrassenyes de registre iguals
-                include_once '../vista/signup.php';
                 $missatges[] = "Les contrassenyes han de ser iguals...";
             }
         }
     }                
 } else {
     //En cas de no haver omplert les dades
-    include_once '../vista/signup.php';
     $missatges[] = "<br>Has d'introduïr les dades...";
 }
-
+include_once '../vista/signup.php';
 mostrarMissatges($missatges);
 ?>
 

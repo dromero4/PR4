@@ -8,10 +8,9 @@ if(!empty($contrassenya) && !empty($contrassenyaCanviar)){
     if(verificarCompteCorreu($_SESSION['correu'], $contrassenya, $connexio)){
         if(verificarContrassenya($contrassenyaCanviar)){
             if(reiniciarPassword($_SESSION['correu'], $contrassenya, $contrassenyaCanviar, $connexio)){
-                $missatges[] = "No s'ha pogut canviar la contrassenya";
-            } else {
                 $missatges[] = "Password canviada correctament";
-                
+            } else {
+                $missatges[] = "No s'ha pogut canviar la contrassenya";
             }
         } else {
             $missatges[] = 'La contrassenya no és vàlida<br>

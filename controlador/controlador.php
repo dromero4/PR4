@@ -35,6 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             break;
             //Per registrar-se
         case 'Sign Up':
+            $imatgePerfil = $_POST['imagenPerfil'] ?? null;
             include_once 'controlador-signup.php';
             break;
     }

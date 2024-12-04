@@ -1,7 +1,6 @@
 <?php
-include_once '../lib/claus_recaptcha/claus.php';
-// Iniciar sesión al principio
 session_start();
+include_once '../lib/claus_recaptcha/claus.php';
 
 // Verificar si los campos de usuario y contraseña están vacíos
 if (!empty($usuari) && !empty($contrassenya)) {
@@ -40,8 +39,10 @@ if (!empty($usuari) && !empty($contrassenya)) {
         $remember = $_POST['rememberMe'] ?? null;
         if ($remember === 'on') {
             // Si está marcado, guardar las cookies
-            setcookie('cookie_user', $usuari, time() + 60 * 60 * 24 * 30, "/"); // 1 mes
-            setcookie('cookie_password', $contrassenya, time() + 60 * 60 * 24 * 30, "/");
+            if(!isset($_COOKIE['cookie_user']) && !isset($_COOKIE['cookie_password'])){
+                setcookie('cookie_user', $usuari, time() + 60 * 60 * 24 * 30, "/"); // 1 mes
+                setcookie('cookie_password', $contrassenya, time() + 60 * 60 * 24 * 30, "/");
+            }
         } else {
             // Si no está marcado, eliminar las cookies
             setcookie('cookie_user', '', time() - 3600, "/");

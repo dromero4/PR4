@@ -185,12 +185,13 @@ function verificarID($id, $connexio){
 }
 
 //Funcio per insertar usuari
-function insertarUsuari($correu, $usuari, $contrassenyaHash, $connexio){
+function insertarUsuari($correu, $usuari, $contrassenyaHash, $profileImg, $connexio){
     try{
-        $insertarUsuari = $connexio->prepare("INSERT INTO usuaris(correu, usuari, contrassenya) VALUES(:correu, :usuari, :contrassenya)");
+        $insertarUsuari = $connexio->prepare("INSERT INTO usuaris(correu, usuari, contrassenya, profileImg) VALUES(:correu, :usuari, :contrassenya, :profileImg)");
         $insertarUsuari->bindParam(":correu", $correu);
         $insertarUsuari->bindParam(":usuari", $usuari);
         $insertarUsuari->bindParam(":contrassenya", $contrassenyaHash);
+        $insertarUsuari->bindParam(":profileImg", $profileImg);
         $insertarUsuari->execute();
         if($insertarUsuari){
             return true;
@@ -532,5 +533,50 @@ function generarOrdenSQL($orderBy) {
     // Si el valor no es válido, usar 'id ASC' como predeterminado
     return $ordenesValidos[$orderBy] ?? 'id ASC';
 }
+
+function actualitzarUsuari($connexio, $usuari, $correu, $correuActual, $fotoPerfil){
+    try{
+        $actualitzarUsuari = $connexio->prepare("UPDATE usuaris SET usuari = :nouUsuari, correu = :nouCorreu, profileImg = :profileImg WHERE correu = :correuActual");
+        $actualitzarUsuari->bindParam(':nouUsuari', $usuari);
+        $actualitzarUsuari->bindParam(':nouCorreu', $correu);
+        $actualitzarUsuari->bindParam(':correuActual', $correuActual);
+        $actualitzarUsuari->bindParam(':profileImg', $fotoPerfil);
+        if($actualitzarUsuari->execute()){
+            $actualitzarArticles = $connexio->prepare("UPDATE articles SET correu = :nouCorreu WHERE correu = :correuActual");
+            $actualitzarArticles->bindParam(':nouCorreu', $correu);
+            $actualitzarArticles->bindParam(':correuActual', $correuActual);
+            if($actualitzarArticles->execute()){
+                return true;
+            }
+        }
+    } catch (PDOException $e){
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+function getImage($connexio, $correu){
+    try{
+        // Preparamos la consulta para obtener la URL de la imagen de perfil
+        $getImage = $connexio->prepare("SELECT profileImg FROM usuaris WHERE correu = :correu");
+        $getImage->bindParam(':correu', $correu);
+        $getImage->execute();
+
+        $imatge = $getImage->fetchColumn();
+
+        if($getImage->rowCount() != 0){
+            return $imatge;
+        } else {
+            return "Hola";
+        }
+        
+    } catch (PDOException $e){
+        // En caso de error, lo mostramos
+        echo $e->getMessage();
+        return null; // En caso de error, retornamos null
+    }
+}
+
+
+
 
 ?>

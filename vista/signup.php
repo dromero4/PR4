@@ -31,6 +31,10 @@ $contrassenya2 = isset($_POST['contrassenya2']) ? $_POST['contrassenya2'] : '';
         <label for="contrassenya2"></label>
         <input type="password" id="contrassenya2" name="contrassenya2" placeholder="Contrassenya" value="<?php echo htmlspecialchars($contrassenya2); ?>"><br><br>
 
+        <label for="fotoPerfil">
+        <input type="text" name="imagenPerfil" placeholder="URL de la imatge">
+        </label>
+
         <input type="submit" id="login" name="login" value="Sign Up">
     </form>
 </body>

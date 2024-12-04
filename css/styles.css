@@ -265,3 +265,6 @@ form input[type="disabled"]{
     cursor: default;
 }
 
+.botonEditar{
+    background-color: #686767;
+}
