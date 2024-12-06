@@ -2,6 +2,7 @@
 session_start();
 include_once '../lib/claus_recaptcha/claus.php';
 
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
 // Verificar si los campos de usuario y contraseña están vacíos
 if (!empty($usuari) && !empty($contrassenya)) {
 
@@ -72,8 +73,6 @@ if (!empty($usuari) && !empty($contrassenya)) {
     $missatges[] = "Has d'introduïr les dades";
 }
 
-
-
 // Función de verificación del reCAPTCHA
 function recaptcha($clau_privada) {
     $recaptcha = false;
@@ -116,4 +115,10 @@ include_once '../vista/login.php';
 foreach ($missatges as $missatge) {
     echo '<div class="feedback">' . htmlspecialchars($missatge) . '</div>';
 }
+}
+
+
+
+
+
 ?>
