@@ -220,18 +220,23 @@ function verificarCorreu($correu, $connexio){
 
 //Funcio per verificar si l'usuari existeix a l'hora de registarr-se
 function verificarUsuari($usuari, $connexio){
-    try{
+    try {
+        // Preparar la consulta para verificar si el usuario ya existe
         $verificarUsuari = $connexio->prepare("SELECT * FROM usuaris WHERE usuari = :usuari");
         $verificarUsuari->bindParam(":usuari", $usuari);
         $verificarUsuari->execute();
     
-        if($verificarUsuari->rowCount() > 0){
-            return true;
+        // Si la consulta devuelve una fila, significa que el usuario ya está en la base de datos
+        if ($verificarUsuari->rowCount() > 0) {
+            return true;  // El usuario ya existe
         }
-    } catch (Error $e){
-        throw new Error($e->getMessage());
-    }
     
+        return false;  // El usuario no existe
+    
+    } catch (PDOException $e) {
+        // Manejo de excepciones en caso de que falle la consulta
+        throw new Exception("Error al verificar el usuario: " . $e->getMessage());
+    }
 }
 
 //Funcio per verificar si la contrassenya i l'usuari coincideix a l'hora de logar-se

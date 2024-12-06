@@ -39,14 +39,12 @@ if (!empty($usuari) && !empty($contrassenya)) {
         $remember = $_POST['rememberMe'] ?? null;
         if ($remember === 'on') {
             // Si está marcado, guardar las cookies
-            if(!isset($_COOKIE['cookie_user']) && !isset($_COOKIE['cookie_password'])){
-                setcookie('cookie_user', $usuari, time() + 60 * 60 * 24 * 30, "/"); // 1 mes
-                setcookie('cookie_password', $contrassenya, time() + 60 * 60 * 24 * 30, "/");
-            }
+            setcookie('cookie_user', $usuari, time() + 60 * 60 * 24 * 30, "/"); // 1 mes
+            setcookie('cookie_password', $contrassenya, time() + 60 * 60 * 24 * 30, "/");
         } else {
             // Si no está marcado, eliminar las cookies
-            setcookie('cookie_user', '', time() - 3600, "/");
-            setcookie('cookie_password', '', time() - 3600, "/");
+            unset($_COOKIE['cookie_user']);
+            unset($_COOKIE['cookie_password']);
         }
 
         // Redirigir a la página principal si ya está logueado

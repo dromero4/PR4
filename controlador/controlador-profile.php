@@ -12,46 +12,75 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Obtiene los datos enviados por el formulario
     $usuari = $_POST['usuariPerfil'] ?? null;
     $correu = $_POST['correuPerfil'] ?? null;
-    $fotoPerfil = $_POST['imagen'] ?? null;
+    $fotoPerfil = $_POST['imagen'] ?? null; // Foto de perfil proporcionada por el formulario
 
     // Verificar que el usuario y correo son válidos
     if ($usuari && $correu) {
-        // Intentar actualizar el usuario
-        if(verificarUsuari($usuari, $connexio)){
-            if(verificarCorreu($correu, $connexio)){
-                if(verificarImatge($fotoPerfil)){
-                    if (actualitzarUsuari($connexio, $usuari, $correu, $_SESSION['correu'], $fotoPerfil)) {
-                        // Actualizar datos en la sesión
-                        $_SESSION['usuari'] = $usuari;
-                        $_SESSION['correu'] = $correu;
-                        $_SESSION['fotoPerfil'] = $fotoPerfil;
-            
-                        // Si la cookie existe, actualizarla también
-                        if (isset($_COOKIE['cookie_user'])) {
-                            setcookie('cookie_user', $usuari, time() + (86400 * 30 * 30 * 24), "/");  // 30 días de validez
-                        }
-            
-                        // Mensaje de éxito
-                        $missatges[] = "S'ha actualitzat correctament!";
-                    } else {
-                        // Mensaje de error si no se pudo actualizar
-                        $missatges[] = "No s'ha pogut actualitzar el perfil.";
-                    }
-                } else {
-                    $missatges[] = "La imatge no és vàlida.";
-                }
+        // Comprobar si el usuario o correo han cambiado y realizar las actualizaciones necesarias
+        $actualitzarUsuari = false;
+        $actualitzarCorreu = false;
+        $actualitzarFoto = false;
+
+        // Verificar si el usuario ha cambiado
+        if ($usuari != $_SESSION['usuari']) {
+            if(verificarUsuari($usuari, $connexio)) {
+                $missatges[] = "El usuario ya existe"; // El usuario ya está registrado
             } else {
-                $missatges[] = 'El correo electrónico ya existe en el sistema';
+                $actualitzarUsuari = true;  // El usuario no existe, se puede proceder con la actualización
+            }
+        }
+
+        // Verificar si el correo ha cambiado
+        if ($correu != $_SESSION['correu']) {
+            if(verificarCorreu($correu, $connexio)){
+                $missatges[] = "El correo electrónico ya existe en el sistema";
+            } else {
+                $actualitzarCorreu = true;
+            }
+        }
+
+        // Verificar si la imagen ha cambiado (y es válida)
+        if ($fotoPerfil && $fotoPerfil != $_SESSION['fotoPerfil']) {
+            if(verificarImatge($fotoPerfil)){
+                $actualitzarFoto = true;
+            } else {
+                $missatges[] = "La imagen no es válida.";
             }
         } else {
-            $missatges[] = 'El usuari ya existe';
+            // Si no hay nueva imagen, no actualices la foto de perfil
+            $fotoPerfil = $_SESSION['fotoPerfil'];  // Mantener la foto actual si no se proporciona una nueva
         }
-        
+
+        // Solo intentar actualizar si algún campo ha cambiado
+        if ($actualitzarUsuari || $actualitzarCorreu || $actualitzarFoto) {
+            // Intentar actualizar el usuario
+            if (actualitzarUsuari($connexio, $usuari, $correu, $_SESSION['correu'], $fotoPerfil)) {
+                // Actualizar datos en la sesión
+                $_SESSION['usuari'] = $usuari ?: $_SESSION['usuari'];
+                $_SESSION['correu'] = $correu ?: $_SESSION['correu'];
+                $_SESSION['fotoPerfil'] = $fotoPerfil; // Mantener la foto actualizada
+
+                // Si la cookie existe, actualizarla también
+                if (isset($_COOKIE['cookie_user'])) {
+                    setcookie('cookie_user', $usuari, time() + (86400 * 30 * 30 * 24), "/");  // 30 días de validez
+                }
+
+                // Mensaje de éxito
+                $missatges[] = "S'ha actualitzat correctament!";
+            } else {
+                // Mensaje de error si no se pudo actualizar
+                $missatges[] = "No s'ha pogut actualitzar el perfil.";
+            }
+        } else {
+            // Si no hubo cambios
+            $missatges[] = "No s'han realitzat canvis.";
+        }
     } else {
         // Si faltan datos
         $missatges[] = "Datos inválidos o incompletos.";
     }
 
+    include_once '../vista/profile.php';
     // Mostrar los mensajes
     mostrarMissatges($missatges);
     
@@ -67,4 +96,3 @@ function verificarImatge($imatge){
         return true;
     }
 }
-

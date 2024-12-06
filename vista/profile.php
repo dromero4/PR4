@@ -30,11 +30,11 @@ $imageUrl = getImage($connexio, $_SESSION['correu']);
                 <?php
                     if ($imageUrl) {
                         // Mostramos la imagen usando la URL obtenida
-                        echo '<img src="' . htmlspecialchars($imageUrl) . '" alt="Foto de perfil" width="150px" style="border-radius: 60%;">';
+                        echo '<img id="fotoPerfilActual" src="' . htmlspecialchars($imageUrl) . '" alt="Foto de perfil" width="150px" style="border-radius: 60%;">';
 
                     } else {
                         // Si no hay imagen, mostramos una imagen predeterminada o un placeholder
-                        echo '<img src="../imagenes/fotoPredeterminada.webp" width="150px">';
+                        echo '<img id="fotoPerfilActual" src="../imagenes/fotoPredeterminada.webp" width="150px">';
                     }
                     ?>
                 </div>
