@@ -13,6 +13,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         } else {
             $_SESSION['correu'] = 'No disponible';  // En caso de que no esté disponible
         }
+
+        if (isset($_SESSION['github_user'])) {
+            $user_info = $_SESSION['github_user'];
+            echo 'Hola, ' . htmlspecialchars($user_info['login']) . '!';
+            echo '<br><img src="' . $user_info['avatar_url'] . '" alt="Avatar">';
+        } else {
+            echo 'Por favor, inicia sesión con GitHub.';
+        }
     }
 // Verificar si los campos de usuario y contraseña están vacíos
 if (!empty($usuari) && !empty($contrassenya)) {
