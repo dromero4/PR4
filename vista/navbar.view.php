@@ -10,7 +10,7 @@
 <body>
 <?php
 require_once __DIR__ . '/../database/env.php';
-require_once '../oauth/callback.php';
+require_once __DIR__ . '/oauth/callback.php';
 
 // Definir la ruta de la carpeta de vistas
 $vistaDir = BASE_URL . 'vista';
