@@ -5,7 +5,7 @@ if(isset($_GET['code'])){
     require_once '../oauth/oauth.php';
     $code = $_GET['code'];
 
-    $token_url = 'https://github/login/oauth/access_token';
+    $token_url = 'https://github.com/login/oauth/access_token';
     $post_data = [
         'client_id' => client_id,
         'client_secret' => client_secret,
