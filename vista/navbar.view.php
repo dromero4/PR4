@@ -10,6 +10,7 @@
 <body>
 <?php
 require_once __DIR__ . '/../database/env.php';
+require_once '../oauth/callback.php';
 
 // Definir la ruta de la carpeta de vistas
 $vistaDir = BASE_URL . 'vista';
@@ -30,6 +31,9 @@ $vistaDir = BASE_URL . 'vista';
     <div class="right">
         <?php if (isset($_SESSION['usuari'])): ?>
             <a href="<?= $vistaDir ?>/profile.php"><button>Perfil</button></a>
+            <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
+            <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
+        <?php else if(isset($user_info['login'])): ?>
             <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
             <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
         <?php else: ?>

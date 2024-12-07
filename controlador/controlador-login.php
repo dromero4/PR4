@@ -1,8 +1,19 @@
 <?php
 session_start();
 include_once '../lib/claus_recaptcha/claus.php';
+require_once '../oauth/callback.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if(isset($user_info['login'])){
+        $_SESSION['usuari'] = $user_info['login'];
+        $_SESSION['fotoPerfil'] = $user_info['avatar_url'];
+
+        if (isset($user_info['email'])) {
+            $_SESSION['correu'] = $user_info['email'];  // Guardar el correo en la sesión
+        } else {
+            $_SESSION['correu'] = 'No disponible';  // En caso de que no esté disponible
+        }
+    }
 // Verificar si los campos de usuario y contraseña están vacíos
 if (!empty($usuari) && !empty($contrassenya)) {
 

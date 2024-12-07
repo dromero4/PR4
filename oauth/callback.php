@@ -52,9 +52,15 @@ if(isset($_GET['code'])){
 
         $user_info = json_decode($user_response, true);
 
-        echo 'Hola, ' . htmlspecialchars($user_info['login']) . '!<br>';
-        echo 'Nombre: ' . htmlspecialchars($user_info['name']) . '<br>';
-        echo 'Correo: ' . htmlspecialchars($user_info['email']) . '<br>';
+        if (isset($user_info['login'])) {
+            // El nombre de usuario de GitHub
+            $github_username = $user_info['login'];
+            echo "Hola, " . htmlspecialchars($github_username) . "!<br>";
+            Header('Location: ../index.php');
+            exit();
+        } else {
+            echo "Error al obtener los datos del usuario.";
+        }
     } else {
         echo "Error: No s'ha pogut obtenir l'access token <br>Respuesta de GitHub: " . print_r($data, true);
     }
