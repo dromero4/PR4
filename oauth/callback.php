@@ -56,7 +56,7 @@ if(isset($_GET['code'])){
             // El nombre de usuario de GitHub
             $github_username = $user_info['login'];
             echo "Hola, " . htmlspecialchars($github_username) . "!<br>";
-            Header('Location: ../index.php');
+            include_once BASE_PATH . 'index.php';
             exit();
         } else {
             echo "Error al obtener los datos del usuario.";
