@@ -33,7 +33,7 @@ $vistaDir = BASE_URL . 'vista';
             <a href="<?= $vistaDir ?>/profile.php"><button>Perfil</button></a>
             <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
             <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
-        <?php else if(isset($user_info['login'])): ?>
+        <?php elseif(isset($user_info['login'])): ?>
             <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
             <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
         <?php else: ?>
