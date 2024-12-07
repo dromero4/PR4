@@ -23,7 +23,15 @@ if(isset($_GET['code'])){
     ]);
 
     $respuesta = curl_exec($ch);
+    $curl_error = curl_error($ch);
     curl_close($ch);
+
+    if ($response === false) {
+        // Si hay un error en la solicitud cURL, muestra el mensaje de error
+        die('Error en cURL: ' . $curl_error);
+    }
+
+    echo "Respuesta de GitHub: <pre>" . print_r($response, true) . "</pre>";
 
     $data = json_decode($respuesta, true);
 
@@ -48,7 +56,7 @@ if(isset($_GET['code'])){
         echo 'Nombre: ' . htmlspecialchars($user_info['name']) . '<br>';
         echo 'Correo: ' . htmlspecialchars($user_info['email']) . '<br>';
     } else {
-        echo "Error: No s'ha pogut obtenir l'access token";
+        echo "Error: No s'ha pogut obtenir l'access token <br>Respuesta de GitHub: ' . print_r($data, true);";
     }
 } else {
     echo "Error: No s'ha pogut obtenir el codi de autorització";
