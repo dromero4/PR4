@@ -1,5 +1,5 @@
 <?php 
-
+require '../database/env.php';
 
 if(isset($_GET['code'])){
     require_once '../oauth/oauth.php';
