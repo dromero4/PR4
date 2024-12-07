@@ -56,7 +56,7 @@ if(isset($_GET['code'])){
         echo 'Nombre: ' . htmlspecialchars($user_info['name']) . '<br>';
         echo 'Correo: ' . htmlspecialchars($user_info['email']) . '<br>';
     } else {
-        echo "Error: No s'ha pogut obtenir l'access token <br>Respuesta de GitHub: ' . print_r($data, true);";
+        echo "Error: No s'ha pogut obtenir l'access token <br>Respuesta de GitHub: " . print_r($data, true);
     }
 } else {
     echo "Error: No s'ha pogut obtenir el codi de autorització";
