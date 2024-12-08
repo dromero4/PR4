@@ -1,4 +1,7 @@
 <?php
+if(session_start() == PHP_SESSION_NONE){
+    session_start();
+}
 require_once '../oauth/oauth.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -69,7 +72,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     $_SESSION['usuari'] = $github_username;
                     $_SESSION['correu'] = $user_info['email'];
                     $_SESSION['fotoPerfil'] = $user_info['avatar_url'];
-                    echo "Hola, " . htmlspecialchars($github_username) . "!<br>";
+                    header('Location: ../index.php');
                     include_once BASE_PATH . 'index.php';
                 } else {
                     echo "Error al obtener los datos del usuario.";
