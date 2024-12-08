@@ -19,7 +19,7 @@ require_once BASE_PATH . 'model/model.php';
 require_once BASE_PATH . 'database/connexio.php';
 require_once BASE_PATH . 'controlador/controlador-oauth.php';
 
-$github = getAuth($connexio, $_SESSION['usuari']) ?? '"NADA"';
+$github = getAuth($connexio, $_SESSION['usuari']);
 
 // Definir la ruta de la carpeta de vistas
 $vistaDir = BASE_URL . 'vista';

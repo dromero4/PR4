@@ -1,8 +1,6 @@
 <?php
 session_start();  // Inicia la sesión al principio del archivo
 
-require_once '../oauth/oauth.php';
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $github_login = $_POST['github_login'];
 
@@ -70,7 +68,7 @@ try {
                 $_SESSION['correu'] = $user_info['email'];
                 $_SESSION['fotoPerfil'] = $user_info['avatar_url'];
 
-                
+
             } else {
                 echo "Error al obtener los datos del usuario.";
             }
