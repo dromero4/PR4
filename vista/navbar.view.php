@@ -17,6 +17,7 @@ if(session_start() == PHP_SESSION_NONE){
 require_once __DIR__ . '/../database/env.php';
 require_once BASE_PATH . 'model/model.php';
 require_once BASE_PATH . 'database/connexio.php';
+require_once BASE_PATH . 'controlador/controlador-oauth.php';
 
 $github = getAuth($connexio, $_SESSION['usuari']) ?? '"NADA"';
 

@@ -70,9 +70,7 @@ try {
                 $_SESSION['correu'] = $user_info['email'];
                 $_SESSION['fotoPerfil'] = $user_info['avatar_url'];
 
-                // Redirige al usuario a la página principal (o a cualquier página que desees)
-                header('Location: index.php');
-                exit;  // Detén la ejecución del script después de la redirección
+                
             } else {
                 echo "Error al obtener los datos del usuario.";
             }
