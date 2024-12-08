@@ -3,9 +3,9 @@ session_start();
 include_once '../lib/claus_recaptcha/claus.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    
 // Verificar si los campos de usuario y contraseña están vacíos
 if (!empty($usuari) && !empty($contrassenya)) {
-
     // Verificar las credenciales del usuario
     if (verificarCompte($usuari, $contrassenya, $connexio)) {
         // Si las credenciales son correctas
@@ -116,9 +116,5 @@ foreach ($missatges as $missatge) {
     echo '<div class="feedback">' . htmlspecialchars($missatge) . '</div>';
 }
 }
-
-
-
-
 
 ?>

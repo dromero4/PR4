@@ -5,7 +5,6 @@ $cookie_user = isset($_COOKIE['cookie_user']) ? $_COOKIE['cookie_user'] : '';
 $cookie_pass = isset($_COOKIE['cookie_password']) ? $_COOKIE['cookie_password'] : '';
 
 include_once '../lib/claus_recaptcha/claus.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +37,11 @@ include_once '../lib/claus_recaptcha/claus.php';
         </script>
     <?php } ?>
     </form>
+
+    <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador-github.php'); ?>" method="post">
+        <input type="submit" name="github_login" value="Log in with GitHub">
+    </form>
+
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../vista/forgotPassword.php'); ?>" method="post">
         <input type="submit" id="forgotPassword" name="forgotPassword" value="Has oblidat la contrassenya?">
         

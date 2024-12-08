@@ -423,21 +423,21 @@ function getCorreuByID($id, $connexio){
     
 }
 
-// function getNamebyCorreu($correu, $connexio){
+function getNamebyCorreu($correu, $connexio){
 
-//     $getNameByCorreu = $connexio->prepare("SELECT usuari FROM usuaris WHERE correu = :correu");
-//     $getNameByCorreu->bindParam(":correu", $correu);
-//     $getNameByCorreu->execute();
+    $getNameByCorreu = $connexio->prepare("SELECT usuari FROM usuaris WHERE correu = :correu");
+    $getNameByCorreu->bindParam(":correu", $correu);
+    $getNameByCorreu->execute();
 
-//     $usuari = $getNameByCorreu->fetch(PDO::FETCH_ASSOC);
+    $usuari = $getNameByCorreu->fetch(PDO::FETCH_ASSOC);
 
-//     if($getNameByCorreu->execute()){
-//         return $usuari['usuari'];
+    if($usuari){
+        return $usuari['usuari'];
 
-//     } else {
-//         echo "Hi ha hagut un problema...";
-//     }
-// }
+    } else {
+        echo "Hi ha hagut un problema...";
+    }
+}
 
 function verificarToken($token, $correu, $connexio){
     try{
@@ -581,13 +581,13 @@ function getImage($connexio, $correu){
     }
 }
 
-function afegirUsuariOAuth($connexio, $usuari, $correu, $autenticacio, $token, $imatgePerfil){
+function afegirUsuariOAuth($connexio, $usuari, $correu, $imatgePerfil, $autenticacio){
     try{
-        $afegirUsuariOAuth = $connexio->prepare("INSERT INTO usuaris VALUES(:correu, :usuari, :token, :profileImg, :token)");
+        $afegirUsuariOAuth = $connexio->prepare("INSERT INTO usuaris VALUES(:correu, :usuari, :profileImg, :autenticacio)");
         $afegirUsuariOAuth->bindParam(':correu', $correu);
         $afegirUsuariOAuth->bindParam(':usuari', $usuari);
-        $afegirUsuariOAuth->bindParam(':token', $token);
         $afegirUsuariOAuth->bindParam(':profileImg', $imatgePerfil);
+        $afegirUsuariOAuth->bindParam(':autentiacio', $autenticacio);
         $afegirUsuariOAuth->execute();
     } catch (Error $e){
         echo $e->getMessage();
@@ -606,4 +606,26 @@ function getAuth($connexio, $usuari){
         return true;
     }
 }
+
+function loginSocialProviderUser($connexio, $email, $usuari, $fotoPerfil) {
+    return false;
+
+    // Verificar si el usuario ya existe en el sistema
+    $user = getNamebyCorreu($email, $connexio); // Función que busca al usuario por correo electrónico en la base de datos
+
+    if ($user) {
+        // Si el usuario existe, iniciar sesión (esto podría implicar iniciar sesión en una base de datos, generar un token, etc.)
+        $_SESSION['correu'] = $user['email'];
+        $_SESSION['usuari'] = $user['displayName'];
+        // Redirigir o mostrar la página principal
+    } else {
+        // Si el usuario no existe, registrar al nuevo usuario
+        if(afegirUsuariOAuth($connexio, $usuari, $email, $fotoPerfil, 'github')){
+            return true;
+        }
+        
+        // Redirigir o mostrar la página principal
+    }
+}
+
 ?>

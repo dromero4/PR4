@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require_once __DIR__ . '/database/env.php';
 include BASE_PATH . 'vista/navbar.view.php';
 require_once 'database/connexio.php';
