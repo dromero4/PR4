@@ -1,8 +1,3 @@
-<?php 
-if(session_start() == PHP_SESSION_NONE){
-    session_start();
-}
-?>
 <!DOCTYPE html>
 <!-- DAVID ROMERO -->
 <html lang="en">
@@ -16,10 +11,6 @@ if(session_start() == PHP_SESSION_NONE){
 <?php
 require_once __DIR__ . '/../database/env.php';
 require_once BASE_PATH . 'model/model.php';
-require_once BASE_PATH . 'database/connexio.php';
-require_once BASE_PATH . 'controlador/controlador-oauth.php';
-
-$github = getAuth($connexio, $_SESSION['usuari']);
 
 // Definir la ruta de la carpeta de vistas
 $vistaDir = BASE_URL . 'vista';
@@ -41,9 +32,6 @@ $vistaDir = BASE_URL . 'vista';
         <?php if (isset($_SESSION['usuari'])): ?>
             <a href="<?= $vistaDir ?>/profile.php"><button>Perfil</button></a>
             <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
-            <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
-        <?php elseif($github): ?>
-            <?php echo $_SESSION['fotoPerfil']; ?>
             <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
         <?php else: ?>
             <a href="<?= $vistaDir ?>/../index.php"><button>Consultar</button></a>
