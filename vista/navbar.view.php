@@ -1,3 +1,8 @@
+<?php 
+if(session_start() == PHP_SESSION_NONE){
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <!-- DAVID ROMERO -->
 <html lang="en">
