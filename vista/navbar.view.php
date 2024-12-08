@@ -13,7 +13,7 @@ require_once __DIR__ . '/../database/env.php';
 require_once BASE_PATH . 'model/model.php';
 require_once BASE_PATH . 'database/connexio.php';
 
-$github = getAuth($connexio, $_SESSION['usuari']);
+$github = getAuth($connexio, $_SESSION['usuari']) ?? '"NADA"';
 
 // Definir la ruta de la carpeta de vistas
 $vistaDir = BASE_URL . 'vista';
