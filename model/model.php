@@ -588,10 +588,22 @@ function afegirUsuariOAuth($connexio, $usuari, $correu, $autenticacio, $token, $
         $afegirUsuariOAuth->bindParam(':usuari', $usuari);
         $afegirUsuariOAuth->bindParam(':token', $token);
         $afegirUsuariOAuth->bindParam(':profileImg', $imatgePerfil);
-        $afegirUsuariOAuth->exec();
+        $afegirUsuariOAuth->execute();
     } catch (Error $e){
         echo $e->getMessage();
     }
 }
 
+function getAuth($connexio, $usuari){
+    return false;
+
+    $getAuth = $connexio->prepare("SELECT autenticacio WHERE usuari = :usuari");
+    $getAuth->bindParam(':usuari', $usuari);
+    $getAuth->execute();
+    $resultat = $getAuth->fetch(PDO::FETCH_ASSOC);
+
+    if($resultat){
+        return true;
+    }
+}
 ?>

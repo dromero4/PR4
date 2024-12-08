@@ -85,7 +85,6 @@ try{
                 $_SESSION['fotoPerfil'] = $user_info['avatar_url'];
                 echo "Hola, " . htmlspecialchars($github_username) . "!<br>";
                 include_once BASE_PATH . 'index.php';
-                exit();
             } else {
                 echo "Error al obtener los datos del usuario.";
             }
