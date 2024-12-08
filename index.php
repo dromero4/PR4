@@ -22,7 +22,7 @@ $pagina = isset($_GET['page']) && $_GET['page'] > 0 ? intval($_GET['page']) : 1;
 // Calcular el inicio para la paginación
 $start = ($pagina - 1) * $articulosPorPagina;
 try{
-    require_once __DIR__ . '/../database/env.php';
+    require_once __DIR__ . '/database/env.php';
 
     if(isset($_GET['code'])){
         require_once '../oauth/oauth.php';
