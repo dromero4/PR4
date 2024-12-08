@@ -18,7 +18,7 @@ $vistaDir = BASE_URL . 'vista';
 
 <nav>
     <div class="left">
-        <?php if (isset($_SESSION['usuari'])): ?>
+        <?php if (isset($_SESSION['usuari']) || isset($user_info['login'])): ?>
             <a href="<?= $vistaDir ?>/insertar.php">Insertar</a>
             <a href="<?= $vistaDir ?>/modificar.php">Modificar</a>
             <a href="<?= $vistaDir ?>/eliminar.php">Eliminar</a>
