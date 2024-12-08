@@ -581,7 +581,17 @@ function getImage($connexio, $correu){
     }
 }
 
-
-
+function afegirUsuariOAuth($connexio, $usuari, $correu, $autenticacio, $token, $imatgePerfil){
+    try{
+        $afegirUsuariOAuth = $connexio->prepare("INSERT INTO usuaris VALUES(:correu, :usuari, :token, :profileImg, :token)");
+        $afegirUsuariOAuth->bindParam(':correu', $correu);
+        $afegirUsuariOAuth->bindParam(':usuari', $usuari);
+        $afegirUsuariOAuth->bindParam(':token', $token);
+        $afegirUsuariOAuth->bindParam(':profileImg', $imatgePerfil);
+        $afegirUsuariOAuth->exec();
+    } catch (Error $e){
+        echo $e->getMessage();
+    }
+}
 
 ?>

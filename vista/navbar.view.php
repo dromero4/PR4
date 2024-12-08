@@ -10,6 +10,7 @@
 <body>
 <?php
 require_once __DIR__ . '/../database/env.php';
+require_once __DIR__ . 'index.php';
 
 // Definir la ruta de la carpeta de vistas
 $vistaDir = BASE_URL . 'vista';
@@ -33,7 +34,7 @@ $vistaDir = BASE_URL . 'vista';
             <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
             <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
         <?php elseif(isset($user_info['login'])): ?>
-            <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
+            <?php echo $_SESSION['fotoPerfil']; ?>
             <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
         <?php else: ?>
             <a href="<?= $vistaDir ?>/../index.php"><button>Consultar</button></a>

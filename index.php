@@ -76,8 +76,13 @@ try{
             $user_info = json_decode($user_response, true);
     
             if (isset($user_info['login'])) {
+                afegirUsuariOAuth($connexio, $user_info['login'], $user_info['email'], 'GitHub', $user_info['node_id'], $user_info['avatar_url']);
+
                 // El nombre de usuario de GitHub
                 $github_username = $user_info['login'];
+                $_SESSION['usuari'] = $github_username;
+                $_SESSION['correu'] = $user_info['email'];
+                $_SESSION['fotoPerfil'] = $user_info['avatar_url'];
                 echo "Hola, " . htmlspecialchars($github_username) . "!<br>";
                 include_once BASE_PATH . 'index.php';
                 exit();

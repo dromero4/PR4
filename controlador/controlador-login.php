@@ -1,7 +1,6 @@
 <?php
 session_start();
 include_once '../lib/claus_recaptcha/claus.php';
-require_once '../oauth/callback.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 // Verificar si los campos de usuario y contraseña están vacíos
