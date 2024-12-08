@@ -11,6 +11,7 @@
 <?php
 require_once __DIR__ . '/../database/env.php';
 require_once BASE_PATH . 'model/model.php';
+require_once BASE_PATH . 'database/connexio';
 
 $github = getAuth($connexio, $_SESSION['usuari']);
 
