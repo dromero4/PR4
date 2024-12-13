@@ -25,9 +25,6 @@ if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
                 } else {
                     if(insertarUsuari($correu, $usuari, $contrassenyaHash, $imatgePerfil, $connexio)){ //En cas de ser tot correcte, inserim l'usuari a la base de dades amb la contrassenya encriptada
                         $missatges[] =  "Usuari creat correctament";
-                        $_SESSION['fotoPerfil'] = $imatgePerfil;
-                        $_SESSION['usuari'] = $usuari;
-                        $_SESSION['correu'] = $correu;
                         ?>
                         <a href="../vista/login.php"><button>Fes login</button></a>
                         <?php

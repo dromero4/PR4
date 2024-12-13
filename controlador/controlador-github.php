@@ -46,10 +46,6 @@ try {
     
     $token = $github->getAccessToken();
     
-    if(!$token){
-        die("error en el token");
-    }
-    
     $userProfile = $github->getUserProfile();
 
     if (isset($_GET['state']) && $_GET['state'] === $_SESSION['oauth_state']) {

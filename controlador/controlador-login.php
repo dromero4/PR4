@@ -10,6 +10,7 @@ if (!empty($usuari) && !empty($contrassenya)) {
     if (verificarCompte($usuari, $contrassenya, $connexio)) {
         // Si las credenciales son correctas
         $_SESSION['intents_recaptcha'] = 0; // Reseteamos el contador de intentos fallidos
+        $_SESSION['fotoPerfil'] = $imatgePerfil;
 
         // Establecer el tiempo de expiración de la sesión a 40 minutos
         $timeout_duration = 40 * 60;

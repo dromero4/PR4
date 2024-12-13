@@ -37,18 +37,20 @@ try {
 
     // Mostrar los artículos
     if ($fetch) {
-        echo "<table border='1'>";
-        echo "<tr><th>ID</th><th>Model</th><th>Nom</th><th>Preu</th><th>Correu</th></tr>";
-        foreach ($fetch as $entrada) {
-            echo "<tr>
-                <td>{$entrada['id']}</td>
-                <td>{$entrada['model']}</td>
-                <td>{$entrada['nom']}</td>
-                <td>{$entrada['preu']}</td>
-                <td>{$entrada['correu']}</td>
-            </tr>";
-        }
-        echo "</table>";
+        echo "<div class='card-container'>";
+            foreach ($fetch as $entrada) {
+            echo "<div class='card'>
+                <h3>ID: {$entrada['id']}</h3>
+                <p>Modelo: {$entrada['model']}</p>
+                <p>Nombre: {$entrada['nom']}</p>
+                <p>Precio: {$entrada['preu']}</p>
+                <p>Correo: {$entrada['correu']}</p>
+                <div class='delete-article'>
+                    <button class='delete-article-button'>Hola</button>
+                </div>
+    </div>";
+}
+echo "</div>";
 
         
     } else {
