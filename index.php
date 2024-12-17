@@ -81,8 +81,9 @@ try {
                 <p>Correo: {$entrada['correu']}</p>
                 </div>";
             }
+            echo "</div>";
         }
-        echo "</div>";
+        
     } else {
         if ($fetch) {
             echo "<div class='card-container'>";
@@ -125,10 +126,12 @@ try {
                         </div>";
                     }
                 }
-            }       
-            echo "</div>";
-            echo "<div class='feedback'>No se encontraron resultados para '<b>" . htmlspecialchars($query) . "</b>'</div>";
+                echo "</div>";
+                
         }
+
+            
+    }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
