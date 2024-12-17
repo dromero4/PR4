@@ -151,20 +151,7 @@ function modificar($model, $nom, $preu, $id, $correu, $connexio){
     
 }
 
-//Funcio per eliminar l'ID
-function eliminar($id, $connexio){
-    try{
-        $eliminar = $connexio->prepare("DELETE FROM articles WHERE id = :id");
-        $eliminar->bindParam(":id", $id);
-        $eliminar->execute();
-    
-        if($eliminar){
-            return true;
-        }
-    } catch (Error $e){
-        throw new Error($e->getMessage());
-    }
-}
+//Funcio per eliminar un article segons l'ID es a un altre lloc
 
 //Funcio per verificar previament si existeix l'ID a la base de dades
 function verificarID($id, $connexio){
@@ -624,8 +611,35 @@ function loginSocialProviderUser($connexio, $email, $usuari, $fotoPerfil) {
             return true;
         }
         
-        // Redirigir o mostrar la página principal
+    }
+}
+function eliminar($connexio, $id){
+    try{
+        $eliminar = $connexio->prepare("DELETE FROM articles WHERE id = :id");
+        $eliminar->bindParam(":id", $id);
+        $eliminar->execute();
+    
+        if($eliminar){
+            return true;
+        }
+    } catch (Error $e){
+        throw new Error($e->getMessage());
     }
 }
 
+
+
+function searchBar($connexio, $query){
+    $searchBar = $connexio->prepare("SELECT * FROM articles WHERE nom LIKE :query");
+    $searchBar->bindParam(':query', $query);
+    $searchBar->execute();
+
+    $resultat = $searchBar->fetchAll(PDO::FETCH_ASSOC);
+
+    if(count($resultat) == 0){
+        return false;
+    }
+
+    return $resultat;
+}
 ?>

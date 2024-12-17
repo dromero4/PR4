@@ -5,7 +5,7 @@
     box-sizing: border-box;
 }
 
-h3 {
+h2, h3 {
     text-align: center;
     margin-top: 3%;
 }
@@ -269,18 +269,44 @@ form input[type="disabled"]{
     background-color: #686767;
 }
 
-.card-container{
+.card-container {
     display: flex;
     flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
-    gap: 5rem;
 }
 
 .card {
     border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    width: 200px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    width: 350px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    transition: transform 0.3s ease;
 }
+
+.card p{
+    font-size: 20px;
+    margin: 15px;
+}
+
+.card-actions{
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.cards-form{
+    all: unset;
+    display: inline;
+}
+
+.card-form button {
+    all: unset; /* Resetea estilos del botón */
+    cursor: pointer; /* Cambia el cursor a mano */
+    background: none;
+    border: none;
+    padding: 0;
+}
+

@@ -80,7 +80,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             //pel cas d'eliminar
             if($id){ //si l'id no es buit
                 if(verificarID($id, $connexio)){ //verifiquem que l'id existeixi
-                    if(eliminar($id, $connexio)){ //i si existeix, l'elimina
+                    if(eliminar($connexio, $id)){ //i si existeix, l'elimina
                         $missatges[] = "Eliminat correctament ID: $id";
                     } else {
                         $missatges[] = "No s'ha pogut eliminar...";

@@ -4,6 +4,8 @@ session_start();
 //Incluïm el navbar per poder-nos moure de lloc
 include_once 'navbar.view.php';
 
+$id = $_POST['id'];
+
 ?>
 
 <!DOCTYPE html>
@@ -16,10 +18,10 @@ include_once 'navbar.view.php';
 </head>
 <body>
     <!-- Inputs diversos per modificar els articles -->
-    <h3 style="color: white">Quin article vols modificar?</h3>
+    <h2 style="color: white">Modificar article</h2>
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="POST">
         <label for="id"></label>
-        <input type="number" id="id" name="id" placeholder="ID: "><br><br>
+        <input type="number" id="id" name="id" placeholder= "ID: <?php echo htmlspecialchars($id)?>" value="<?php echo htmlspecialchars($id)?>"><br><br>
 
         <label for="model"></label>
         <input type="text" id="model" name="model" placeholder="Model: "><br><br>

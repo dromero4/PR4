@@ -19,10 +19,8 @@ $vistaDir = BASE_URL . 'vista';
 <nav>
     <div class="left">
         <?php if (isset($_SESSION['usuari'])): ?>
-            <a href="<?= $vistaDir ?>/insertar.php">Insertar</a>
-            <a href="<?= $vistaDir ?>/modificar.php">Modificar</a>
-            <a href="<?= $vistaDir ?>/eliminar.php">Eliminar</a>
-            <a href="<?= $vistaDir ?>/../index.php">Consultar</a>
+            <a href="<?= $vistaDir ?>/insertar.php">Insertar article</a>
+            <a href="<?= $vistaDir ?>/../index.php">Consultar articles</a>
             
 
         <?php endif; ?>

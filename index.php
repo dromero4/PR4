@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$missatges = [];
+
 require_once __DIR__ . '/database/env.php';
 include BASE_PATH . 'vista/navbar.view.php';
 require_once 'database/connexio.php';
@@ -36,28 +38,100 @@ try {
     }
 
     // Mostrar los artículos
-    if ($fetch) {
+    $query = $_POST['search-input'] ?? null;
+
+    $resultados = searchBar($connexio, $query);
+    if (!empty($resultados)) {
         echo "<div class='card-container'>";
-            foreach ($fetch as $entrada) {
-            echo "<div class='card'>
+        foreach ($resultados as $entrada) {
+            if(isset($_SESSION['usuari'])){
+                echo "<div class='card' id='card-{$entrada['id']}'>
                 <h3>ID: {$entrada['id']}</h3>
                 <p>Modelo: {$entrada['model']}</p>
                 <p>Nombre: {$entrada['nom']}</p>
                 <p>Precio: {$entrada['preu']}</p>
                 <p>Correo: {$entrada['correu']}</p>
-                <div class='delete-article'>
-                    <button class='delete-article-button'>Hola</button>
-                </div>
-    </div>";
-}
-echo "</div>";
-
-        
+                <div class='card-actions'>
+                    <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                        <input type='hidden' name='id' value='{$entrada['id']}'>
+                            <button name='article-button' value='delete'>
+                                <img src='imagenes/icones/trash.svg'>
+                            </button>
+                    </form>
+                    <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                        <input type='hidden' name='id' value='{$entrada['id']}'>
+                            <button name='article-button' value='edit'>
+                                <img src='imagenes/icones/edit.svg'>
+                            </button>
+                    </form>
+                    <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                        <input type='hidden' name='id' value='{$entrada['id']}'>
+                            <button name='article-button' value='qr'>
+                                <img src='imagenes/icones/icons8-código-qr-24.png'>
+                            </button>
+                    </form>
+                    </div>
+                </div>";
+            } else {
+                echo "<div class='card' id='card-{$entrada['id']}'>
+                <h3>ID: {$entrada['id']}</h3>
+                <p>Modelo: {$entrada['model']}</p>
+                <p>Nombre: {$entrada['nom']}</p>
+                <p>Precio: {$entrada['preu']}</p>
+                <p>Correo: {$entrada['correu']}</p>
+                </div>";
+            }
+        }
+        echo "</div>";
     } else {
-        echo "<br>No se encontraron artículos.";
-       
-    }
-
+        if ($fetch) {
+            echo "<div class='card-container'>";
+                foreach ($fetch as $entrada) {
+                    if(isset($_SESSION['usuari'])){
+                        echo "<div class='card' id='card-{$entrada['id']}'>
+                        <h3>ID: {$entrada['id']}</h3>
+                        <p>Modelo: {$entrada['model']}</p>
+                        <p>Nombre: {$entrada['nom']}</p>
+                        <p>Precio: {$entrada['preu']}</p>
+                        <p>Correo: {$entrada['correu']}</p>
+                        <div class='card-actions'>
+                            <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                                <input type='hidden' name='id' value='{$entrada['id']}'>
+                                    <button name='article-button' value='delete'>
+                                        <img src='imagenes/icones/trash.svg'>
+                                    </button>
+                            </form>
+                            <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                                <input type='hidden' name='id' value='{$entrada['id']}'>
+                                    <button name='article-button' value='edit'>
+                                        <img src='imagenes/icones/edit.svg'>
+                                    </button>
+                            </form>
+                            <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                                <input type='hidden' name='id' value='{$entrada['id']}'>
+                                    <button name='article-button' value='qr'>
+                                        <img src='imagenes/icones/icons8-código-qr-24.png'>
+                                    </button>
+                            </form>
+                            </div>
+                        </div>";
+                    } else {
+                        echo "<div class='card' id='card-{$entrada['id']}'>
+                        <h3>ID: {$entrada['id']}</h3>
+                        <p>Modelo: {$entrada['model']}</p>
+                        <p>Nombre: {$entrada['nom']}</p>
+                        <p>Precio: {$entrada['preu']}</p>
+                        <p>Correo: {$entrada['correu']}</p>
+                        </div>";
+                    }
+                }
+            }       
+            echo "</div>";
+            echo "<div class='feedback'>No se encontraron resultados para '<b>" . htmlspecialchars($query) . "</b>'</div>";
+        }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
 ?>
 <div class="pagination">
     <?php if ($pages > 1): ?>
@@ -85,13 +159,7 @@ echo "</div>";
 </div>
 
 
-<?php 
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -100,6 +168,8 @@ echo "</div>";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="JavaScript/card-index.js"></script>
+    <script src="JavaScript/search-bar.js"></script>
 </head>
 <body>
     <form action="#" method="post">
@@ -121,5 +191,13 @@ echo "</div>";
         <br><br>
         <input type="submit" name="OrderBy" value="Enviar">
     </form>
+
+    <form action="#" method="POST"> 
+        <input type="text" name="search-input" placeholder="Cercar articles...">
+        <input type="submit" name="search-button" value="Search">
+    </form>
+</form>
 </body>
 </html>
+
+
