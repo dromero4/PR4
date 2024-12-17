@@ -58,7 +58,7 @@ try {
                                 <img src='imagenes/icones/trash.svg'>
                             </button>
                     </form>
-                    <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                    <form action='vista/modificar.php' method='post' class='cards-form'>
                         <input type='hidden' name='id' value='{$entrada['id']}'>
                             <button name='article-button' value='edit'>
                                 <img src='imagenes/icones/edit.svg'>
@@ -102,7 +102,7 @@ try {
                                         <img src='imagenes/icones/trash.svg'>
                                     </button>
                             </form>
-                            <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                            <form action='vista/modificar.php' method='post' class='cards-form'>
                                 <input type='hidden' name='id' value='{$entrada['id']}'>
                                     <button name='article-button' value='edit'>
                                         <img src='imagenes/icones/edit.svg'>
