@@ -21,7 +21,7 @@ $id = $_POST['id'];
     <h2 style="color: white">Modificar article</h2>
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="POST">
         <label for="id"></label>
-        <input type="number" id="id" name="id" placeholder= "ID: <?php echo htmlspecialchars($id)?>" value="<?php echo htmlspecialchars($id)?>"><br><br>
+        <input type="number" id="id" name="id" placeholder= "ID: <?php echo htmlspecialchars($id)?>" value="<?php echo htmlspecialchars($id)?>" disabled><br><br>
 
         <label for="model"></label>
         <input type="text" id="model" name="model" placeholder="Model: "><br><br>
