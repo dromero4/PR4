@@ -98,9 +98,29 @@ try {
                         <div class='card-actions'>
                             <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
                                 <input type='hidden' name='id' value='{$entrada['id']}'>
-                                    <button name='article-button' value='delete'>
-                                        <img src='imagenes/icones/trash.svg'>
-                                    </button>
+                                <button type='button' data-bs-toggle='modal' data-bs-target='#eliminarArticle'>
+                                    <img src='imagenes/icones/trash.svg'>
+                                </button>
+
+                                <div class='modal fade' id='eliminarArticle'>
+                                    <div class='modal-dialog'>
+                                        <div class='modal-content'>
+
+                                            <div class='modal-header'>
+                                                <h3 class='modal-title'>Esborrar article</h3>
+                                            </div>
+
+                                            <div class='modal-body'>
+                                                Estas segur que vols eliminar l'article?
+                                            </div>
+
+                                            <div class='modal-footer'>
+                                            <button type='submit' data-bs-dismiss='modal' name='article-button' value='delete'>Si</button>
+                                            <button type='button' data-bs-dismiss='modal'>No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                             <form action='vista/modificar.php' method='post' class='cards-form'>
                                 <input type='hidden' name='id' value='{$entrada['id']}'>
@@ -173,6 +193,8 @@ try {
     <link rel="stylesheet" href="css/styles.css">
     <script src="JavaScript/card-index.js"></script>
     <script src="JavaScript/search-bar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <form action="#" method="post">
