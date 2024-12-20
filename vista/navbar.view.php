@@ -11,9 +11,16 @@
 <?php
 require_once __DIR__ . '/../database/env.php';
 require_once BASE_PATH . 'model/model.php';
+require_once BASE_PATH . 'database/connexio.php';
 
 // Definir la ruta de la carpeta de vistas
 $vistaDir = BASE_URL . 'vista';
+if(isset($_SESSION['usuari'])){
+    $admin = verificarAdmin($connexio, $_SESSION['correu']);
+}
+
+
+
 ?>
 
 <nav>
@@ -27,11 +34,16 @@ $vistaDir = BASE_URL . 'vista';
     </div>
 
     <div class="right">
-        <?php if (isset($_SESSION['usuari'])): ?>
+        <?php if(isset($_SESSION['usuari']) && !$admin): ?>
             <a href="<?= $vistaDir ?>/profile.php"><button>Perfil</button></a>
             <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
             <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
-        <?php else: ?>
+        <?php elseif(isset($_SESSION['usuari']) && $admin): ?>
+            <a href="<?= $vistaDir ?>/users.php"><button>Usuaris</button></a>
+            <a href="<?= $vistaDir ?>/profile.php"><button>Perfil</button></a>
+            <a href="<?= $vistaDir ?>/reiniciarPassword.php"><button>Canviar contrassenya</button></a>
+            <a href="<?= $vistaDir ?>/../controlador/logout.php"><button>Logout</button></a>
+        <?php else:?>
             <a href="<?= $vistaDir ?>/../index.php"><button>Consultar</button></a>
             <a href="<?= $vistaDir ?>/login.php"><button>Login</button></a>
             <a href="<?= $vistaDir ?>/signup.php"><button>Signup</button></a>

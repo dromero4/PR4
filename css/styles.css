@@ -310,3 +310,7 @@ form input[type="disabled"]{
     padding: 0;
 }
 
+#container-users{
+    background-color: #53535350;
+}
+

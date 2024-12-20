@@ -25,9 +25,6 @@ if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
                 } else {
                     if(insertarUsuari($correu, $usuari, $contrassenyaHash, $imatgePerfil, $connexio)){ //En cas de ser tot correcte, inserim l'usuari a la base de dades amb la contrassenya encriptada
                         $missatges[] =  "Usuari creat correctament";
-                        ?>
-                        <a href="../vista/login.php"><button>Fes login</button></a>
-                        <?php
                     } else {
                         //En cas d'haver algun error
                         $missatges[] =  "No s'ha pogut crear l'usuari";
@@ -46,4 +43,5 @@ if(!empty($usuari) && !empty($contrassenya) && !empty($correu)){
 include_once '../vista/signup.php';
 mostrarMissatges($missatges);
 ?>
+<a href="../vista/login.php"><button>Fes login</button></a>
 

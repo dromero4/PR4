@@ -1,4 +1,6 @@
 <?php
+
+use LDAP\Result;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 //DAVID ROMERO
@@ -623,7 +625,7 @@ function eliminar($connexio, $id){
             return true;
         }
     } catch (Error $e){
-        throw new Error($e->getMessage());
+        echo $e->getMessage();
     }
 }
 
@@ -642,4 +644,57 @@ function searchBar($connexio, $query){
 
     return $resultat;
 }
+
+function verificarAdmin($connexio, $correu){
+    try{
+        $verificarAdmin = $connexio->prepare("SELECT admin FROM usuaris WHERE correu = :correu");
+        $verificarAdmin->bindParam(':correu', $correu);
+        $verificarAdmin->execute();
+    
+        $resultat = $verificarAdmin->fetch(PDO::FETCH_ASSOC);
+    
+        if($resultat['admin'] == 1){
+            return true;
+        } else {
+            return false;
+        }
+    } catch (Error $e){
+        echo $e->getMessage();
+    }
+    
+}
+
+function mostrarDadesUsuaris($connexio){
+    try{
+        $mostrarDadesUsuaris = $connexio->prepare("SELECT profileImg, correu, usuari FROM usuaris");
+        $mostrarDadesUsuaris->execute();
+    
+        if($mostrarDadesUsuaris->rowCount() > 0){
+            return $mostrarDadesUsuaris->fetchAll(PDO::FETCH_ASSOC);
+        }
+    } catch (Error $e){
+        echo $e->getMessage();
+    }
+    
+
+    
+}
+
+function deleteUser($connexio, $correu) {
+    try {
+        // Primero eliminamos los registros de articles asociados al correo del usuario
+        $deleteArticles = $connexio->prepare("DELETE FROM articles WHERE correu = :correu");
+        $deleteArticles->bindParam(':correu', $correu);
+        $deleteArticles->execute();
+
+        // Luego eliminamos el usuario de la tabla usuaris
+        $deleteUser = $connexio->prepare("DELETE FROM usuaris WHERE correu = :correu");
+        $deleteUser->bindParam(':correu', $correu);
+        $deleteUser->execute();
+
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
 ?>
