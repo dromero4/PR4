@@ -27,37 +27,39 @@ if(isset($_SESSION['usuari'])){
     <div class="container-fluid">
         <a class="navbar-brand ms-2" href='<?= $vistaDir?>/../index.php'>Brand Padel</a>
         <?php if(isset($_SESSION['usuari']) && !$admin): ?>
-            <li class="nav-link dropdown" id="drpdwn">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                    <img src="<?= BASE_PATH?>imagenes/icones/settings-svgrepo-com.svg">
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end bg-dark">
-                    <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/profile.php">Perfil</a></li>
-                    <li><a class="dropdown-item text-white" href="<?= $vistaDir?>">Canviar contrasenya</a></li>
-                    <li><a class="dropdown-item text-white" href="<?= $vistaDir?>">Logout</a></li>
-                </ul>
-             </li>
-        <?php elseif(isset($_SESSION['usuari']) && $admin): ?>
-             <li class="nav-link dropdown" id="drpdwn">
-             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                    <img src="<?= BASE_PATH?>imagenes/icones/settings-svgrepo-com.svg">
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end bg-dark">
-                    <li><a class="dropdown-item text-white" href="#">Usuaris</a></li>
-                    <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/profile.php">Perfil</a></li>
-                    <li><a class="dropdown-item text-white" href="#">Canviar contrasenya</a></li>
-                    <li><a class="dropdown-item text-white" href="#">Logout</a></li>
-                </ul>
-             </li>
-        <?php else:?>
-            <li class="nav-link dropdown" id="drpdwn">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Get ready with us</a>
-                <ul class="dropdown-menu dropdown-menu-end bg-dark">
-                    <li><a class="dropdown-item text-white" href="#">Login</a></li>
-                    <li><a class="dropdown-item text-white" href="#">Signup</a></li>
-                </ul>
-             </li>
-        <?php endif; ?>
+    <li class="nav-link dropdown" id="drpdwn">
+        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+            <?= $_SESSION['correu'] ?>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end bg-dark">
+            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/profile.php">Perfil</a></li>
+            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/reiniciarPassword.php">Canviar contrasenya</a></li>
+            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/../controlador/logout.php">Logout</a></li>
+        </ul>
+    </li>
+<?php elseif(isset($_SESSION['usuari']) && $admin): ?>
+    <li class="nav-link dropdown" id="drpdwn">
+        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+            <?= $_SESSION['correu'].': Admin' ?>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end bg-dark">
+            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/users.php">Usuaris</a></li>
+            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/profile.php">Perfil</a></li>
+            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/reiniciarPassword.php">Canviar contrasenya</a></li>
+            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/../controlador/logout.php">Logout</a></li>
+        </ul>
+    </li>
+<?php else:?>
+    <li class="nav-link dropdown" id="drpdwn">
+        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+            Menu
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end bg-dark">
+            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/login.php">Login</a></li>
+            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/register.php">Register</a></li>
+        </ul>
+    </li>
+<?php endif; ?>
     </div>
 </nav>
 

@@ -67,7 +67,6 @@ nav .right a button {
     margin-left: 10px;
     cursor: pointer;
     font-size: 16px;
-    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
@@ -95,7 +94,6 @@ nav .right a button:hover {
     width: 250px; /* Ajusta el tamaño de los campos de entrada */
     margin-right: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
     background-color: #fff;
 }
 
@@ -104,7 +102,6 @@ nav .right a button:hover {
     background-color: #525252;
     color: white;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s ease;
@@ -125,7 +122,6 @@ nav .right a button:hover {
     padding: 10px;
     background-color: #ffffff7d;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
 }
 
 #fotoPerfilActual {
@@ -142,7 +138,6 @@ nav .right a button:hover {
     width: 100%;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 5px;
 }
 
 #submitProfile{
@@ -153,7 +148,6 @@ nav .right a button:hover {
     width: 100%;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 5px;
 }
 
 #guardarCanvis{
@@ -164,14 +158,12 @@ nav .right a button:hover {
     width: 100%;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 5px;
     text-align: center;
 }
 
 .feedback {
     padding: 15px;
     margin: 10px 0;
-    border-radius: 5px;
     font-size: 16px;
     font-family: Arial, sans-serif;
     text-align: center;

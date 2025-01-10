@@ -40,7 +40,7 @@ $usuarios = mostrarDadesUsuaris($connexio);
                 <td class="text-center m-2"><?= htmlspecialchars($user["correu"]) ?? "Correu no disponible"; ?></td>
                 <td class="text-center m-2"><?= htmlspecialchars($user["usuari"]) ?? "Usuari no disponible"; ?></td>
 
-                
+                <!-- Solo funciona si el usuario se llama admin (se tiene que llamar asi si o si asi que no hay problema) -->
                 <td class="text-center m-3">
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eliminarUsuari"<?= ($user['usuari'] == 'admin') ? 'disabled' : ''; ?>>
                         <img src="../imagenes/icones/trash.svg">
