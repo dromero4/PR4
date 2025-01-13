@@ -26,40 +26,54 @@ if(isset($_SESSION['usuari'])){
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="navbar">
     <div class="container-fluid">
         <a class="navbar-brand ms-2" href='<?= $vistaDir?>/../index.php'>Brand Padel</a>
-        <?php if(isset($_SESSION['usuari']) && !$admin): ?>
-    <li class="nav-link dropdown" id="drpdwn">
-        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-            <?= $_SESSION['correu'] ?>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end bg-dark">
-            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/profile.php">Perfil</a></li>
-            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/reiniciarPassword.php">Canviar contrasenya</a></li>
-            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/../controlador/logout.php">Logout</a></li>
-        </ul>
-    </li>
-<?php elseif(isset($_SESSION['usuari']) && $admin): ?>
-    <li class="nav-link dropdown" id="drpdwn">
-        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-            <?= $_SESSION['correu'].': Admin' ?>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end bg-dark">
-            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/users.php">Usuaris</a></li>
-            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/profile.php">Perfil</a></li>
-            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/reiniciarPassword.php">Canviar contrasenya</a></li>
-            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/../controlador/logout.php">Logout</a></li>
-        </ul>
-    </li>
-<?php else:?>
-    <li class="nav-link dropdown" id="drpdwn">
-        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-            Menu
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end bg-dark">
-            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/login.php">Login</a></li>
-            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/register.php">Register</a></li>
-        </ul>
-    </li>
-<?php endif; ?>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <?php if(isset($_SESSION['usuari']) && !$admin): ?>
+                    <a href="<?= $vistaDir?>/insertar.php">
+                            <button class="botones mt-1" type="button">
+                            <img src="<?= $vistaDir?>/../imagenes/icones/plus-svgrepo-com.svg" id="menu" style="width: 25px"> Add article
+                        </button>
+                        </a>
+                    <li class="nav-link dropdown" id="drpdwn">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                            <?= $_SESSION['correu'] ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end bg-dark">
+                            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/profile.php">Perfil</a></li>
+                            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/reiniciarPassword.php">Canviar contrasenya</a></li>
+                            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/../controlador/logout.php">Logout</a></li>
+                        </ul>
+                    </li>
+                <?php elseif(isset($_SESSION['usuari']) && $admin): ?>
+                        <a href="<?= $vistaDir?>/insertar.php">
+                            <button class="botones mt-1" type="button">
+                            <img src="<?= $vistaDir?>/../imagenes/icones/plus-svgrepo-com.svg" id="menu" style="width: 25px"> Add article
+                        </button>
+                        </a>
+                    <li class="nav-link dropdown" id="drpdwn">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                            <?= $_SESSION['correu'].': Admin' ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end bg-dark">
+                            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/users.php">Usuaris</a></li>
+                            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/profile.php">Perfil</a></li>
+                            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/reiniciarPassword.php">Canviar contrasenya</a></li>
+                            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/../controlador/logout.php">Logout</a></li>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-link dropdown" id="drpdwn">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                            Menu
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end bg-dark">
+                            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/login.php">Login</a></li>
+                            <li><a class="dropdown-item text-white" href="<?= $vistaDir?>/signup.php">Register</a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
     </div>
 </nav>
 
