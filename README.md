@@ -41,11 +41,17 @@ A la secció d'usuaris hi podem trobar: `correu`, `usuari` i `contrassenya`.
 
 La base de dades està exportada amb aquest fitxer.
 
->[NOTA]:
-- **Correu** prueba@prueba.com
-- **Usuari** prueba
-- **Contrassenya** davidD1234%
+> [!NOTE]
+> Correu: prueba@prueba.com <br>
+> Usuari: prueba <br>
+> Contrasenya: davidD1234% <br>
+> Encara que sempre pots crear el teu propi usuari. <br>
 
-Encara que sempre pots crear el teu propi usuari.
+
+> [!WARNING]
+> PHP.ini modified in order to show the png QR
+> 
+> <img src="https://github.com/user-attachments/assets/eb911b96-b7e8-4c87-a8c1-eac7caafcdd6" width:120px>
+
 
 
