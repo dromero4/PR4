@@ -18,10 +18,6 @@ switch ($opcio){
         }
         header('Location: ../index.php');
         break;
-    
-    case 'qr':
-        echo "To Do";
-        break;
 
     case 'deleteUser':
         $correu = $_POST['article-button-mail'];

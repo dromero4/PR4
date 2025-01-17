@@ -51,6 +51,7 @@ try {
                 <p>Nombre: {$entrada['nom']}</p>
                 <p>Precio: {$entrada['preu']}</p>
                 <p>Correo: {$entrada['correu']}</p>
+                <hr>
                 <div class='card-actions'>
                     <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
                         <input type='hidden' name='id' value='{$entrada['id']}'>
@@ -64,7 +65,7 @@ try {
                                 <img src='imagenes/icones/edit.svg'>
                             </button>
                     </form>
-                    <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                    <form action='controlador/controlador-qr.php' method='post' class='cards-form'>
                         <input type='hidden' name='id' value='{$entrada['id']}'>
                             <button name='article-button' value='qr'>
                                 <img src='imagenes/icones/icons8-código-qr-24.png'>
@@ -75,10 +76,12 @@ try {
             } else {
                 echo "<div class='card' id='card-{$entrada['id']}'>
                 <h3>ID: {$entrada['id']}</h3>
+                <hr>
                 <p>Modelo: {$entrada['model']}</p>
                 <p>Nombre: {$entrada['nom']}</p>
                 <p>Precio: {$entrada['preu']}</p>
                 <p>Correo: {$entrada['correu']}</p>
+                <hr>
                 </div>";
             }
             echo "</div>";
@@ -91,10 +94,12 @@ try {
                     if(isset($_SESSION['usuari'])){
                         echo "<div class='card' id='card-{$entrada['id']}'>
                         <h3>ID: {$entrada['id']}</h3>
+                        <hr>
                         <p>Modelo: {$entrada['model']}</p>
                         <p>Nombre: {$entrada['nom']}</p>
                         <p>Precio: {$entrada['preu']}</p>
                         <p>Correo: {$entrada['correu']}</p>
+                        <hr>
                         <div class='card-actions'>
                             <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
                                 <input type='hidden' name='id' value='{$entrada['id']}'>
@@ -128,8 +133,12 @@ try {
                                         <img src='imagenes/icones/edit.svg'>
                                     </button>
                             </form>
-                            <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                            <form action='controlador/controlador-qr.php' method='get' class='cards-form'>
                                 <input type='hidden' name='id' value='{$entrada['id']}'>
+                                <input type='hidden' name='model' value='{$entrada['model']}'>
+                                <input type='hidden' name='nom' value='{$entrada['nom']}'>
+                                <input type='hidden' name='preu' value='{$entrada['preu']}'>
+                                <input type='hidden' name='correu' value='{$entrada['correu']}'>
                                     <button name='article-button' value='qr'>
                                         <img src='imagenes/icones/icons8-código-qr-24.png'>
                                     </button>
@@ -139,10 +148,12 @@ try {
                     } else {
                         echo "<div class='card' id='card-{$entrada['id']}'>
                         <h3>ID: {$entrada['id']}</h3>
+                        <hr>
                         <p>Modelo: {$entrada['model']}</p>
                         <p>Nombre: {$entrada['nom']}</p>
                         <p>Precio: {$entrada['preu']}</p>
                         <p>Correo: {$entrada['correu']}</p>
+                        <hr>
                         </div>";
                     }
                 }

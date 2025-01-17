@@ -41,11 +41,16 @@ A la secció d'usuaris hi podem trobar: `correu`, `usuari` i `contrassenya`.
 
 La base de dades està exportada amb aquest fitxer.
 
->[NOTA]:
+[NOTE]:
 - **Correu** prueba@prueba.com
 - **Usuari** prueba
 - **Contrassenya** davidD1234%
 
 Encara que sempre pots crear el teu propi usuari.
 
+
+[!WARNING]:
+PHP.ini modified.
+
+(https://github.com/dromero4/gif/blob/ef8acb425aa2764d8a32f894a93a7887a03891dd/GifReadMe.gif)
 
