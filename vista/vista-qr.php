@@ -2,6 +2,12 @@
 include_once 'navbar.view.php';
 
 session_start();
+
+
+$modelo_qr = $_GET['model'];
+$nom_qr = $_GET['nom'];
+$preu_qr = $_GET['preu'];
+$correu_qr = $_GET['correu'];
 ?>
 
 <!DOCTYPE html>
@@ -21,13 +27,13 @@ session_start();
                 <img src="../imagenes/fotoPredeterminada.webp">
             </div>
             <div class="info-container">
-                <p><strong>Modelo: </strong></p> <!-- modelo -->
+                <p><strong>Modelo: </strong><?= $modelo_qr ?></p> <!-- modelo -->
                 <hr>
-                <p><strong>Nombre: </strong></p> <!-- nombre -->
+                <p><strong>Nombre: </strong><?= $nom_qr ?></p> <!-- nombre -->
                 <hr>
-                <p><strong>Precio: </strong></p> <!-- precio -->
+                <p><strong>Precio: </strong> <?= $preu_qr ?></p> <!-- precio -->
                 <hr>
-                <p><strong>Correo: </strong></p> <!-- correo -->
+                <p><strong>Correo: </strong> <?= $correu_qr ?></p> <!-- correo -->
                 <hr>
             </div>
             <div class="botones-qr">
