@@ -94,8 +94,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             mostrarMissatges($missatges);
             break;
     }    
-} else {
-    echo "Fuck off";
 }
 
 function mostrarMissatges($missatges) {

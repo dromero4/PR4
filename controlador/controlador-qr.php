@@ -12,9 +12,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $preu_qr = htmlspecialchars($_GET['preu']);
     $correu_qr = htmlspecialchars($_GET['correu']);
 
-    $qr_link = "https://www.davidromero.cat/controlador/controlador-qr.php?id=$id_qr&model=$model_qr&nom=$nom_qr&preu=$preu_qr&correu=$correu_qr";
+    $qr_link = "https://www.davidromero.cat/vista/vista-qr.php?id=$id_qr&model=$model_qr&nom=$nom_qr&preu=$preu_qr&correu=$correu_qr";
 
     echo '<img class="DivQR" src="'.(new QRCode)->render($qr_link).'" width=300px alt="QR Code" />';
-
 }
 ?>
