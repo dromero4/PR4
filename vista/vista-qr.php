@@ -4,10 +4,10 @@ include_once 'navbar.view.php';
 session_start();
 
 
-$modelo_qr = $_GET['model'];
-$nom_qr = $_GET['nom'];
-$preu_qr = $_GET['preu'];
-$correu_qr = $_GET['correu'];
+$modelo_qr = $_GET['model'] ?? null;
+$nom_qr = $_GET['nom'] ?? null;
+$preu_qr = $_GET['preu'] ?? null;
+$correu_qr = $_GET['correu'] ?? null;
 ?>
 
 <!DOCTYPE html>
