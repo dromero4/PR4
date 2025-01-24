@@ -706,19 +706,6 @@ function deleteUser($connexio, $correu)
 function showQR($qr_link)
 {
     require_once '../lib/vendor/autoload.php';
-    $qrCode = new \chillerlan\QRCode\QRCode();
 
-    // Define la ruta donde quieres guardar la imagen
-    $filePath = '../public/qr_images/qr_code.png';  // Cambiar la ruta a una carpeta pública
-
-    // Verifica si la carpeta de imágenes existe, si no la crea
-    if (!is_dir('../public/qr_images')) {
-        mkdir('../public/qr_images', 0777, true);
-    }
-
-    // Guardar el código QR como imagen PNG
-    $qrCode->render($qr_link, $filePath);
-
-    // Devuelve la etiqueta de la imagen para mostrarla
-    return '<img src="/qr_images/qr_code.png" alt="QR Code" />';
+    return '<img src="' . (new QRCode)->render($qr_link) . '"alt="QR Code" />';
 }

@@ -23,6 +23,17 @@ $correu_qr = $_GET['correu'] ?? null;
 </head>
 
 <body>
+
+    <script>
+        const qrData = {
+            id: "<?= htmlspecialchars($id_qr ?? '') ?>",
+            model: "<?= htmlspecialchars($modelo_qr ?? '') ?>",
+            name: "<?= htmlspecialchars($nom_qr ?? '') ?>",
+            price: "<?= htmlspecialchars($preu_qr ?? '') ?>",
+            email: "<?= htmlspecialchars($correu_qr ?? '') ?>"
+        };
+    </script>
+
     <div class="info-container mt-4">
         <div class="image mt-4" id="qrImage">
             <?= $show_qr ?>
