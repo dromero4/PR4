@@ -44,12 +44,12 @@ try {
     if (!empty($resultados)) {
         echo "<div class='card-container'>";
         foreach ($resultados as $entrada) {
-            if(isset($_SESSION['usuari'])){
+            if (isset($_SESSION['usuari'])) {
                 echo "<div class='card' id='card-{$entrada['id']}'>
                 <h3>ID: {$entrada['id']}</h3>
                 <p>Modelo: {$entrada['model']}</p>
                 <p>Nombre: {$entrada['nom']}</p>
-                <p>Precio: {$entrada['preu']}</p>
+                <p>Precio: {$entrada['preu']}€</p>
                 <p>Correo: {$entrada['correu']}</p>
                 <hr>
                 <div class='card-actions'>
@@ -79,25 +79,24 @@ try {
                 <hr>
                 <p>Modelo: {$entrada['model']}</p>
                 <p>Nombre: {$entrada['nom']}</p>
-                <p>Precio: {$entrada['preu']}</p>
+                <p>Precio: {$entrada['preu']}€</p>
                 <p>Correo: {$entrada['correu']}</p>
                 <hr>
                 </div>";
             }
             echo "</div>";
         }
-        
     } else {
         if ($fetch) {
             echo "<div class='card-container'>";
-                foreach ($fetch as $entrada) {
-                    if(isset($_SESSION['usuari'])){
-                        echo "<div class='card' id='card-{$entrada['id']}'>
+            foreach ($fetch as $entrada) {
+                if (isset($_SESSION['usuari'])) {
+                    echo "<div class='card' id='card-{$entrada['id']}'>
                         <h3>ID: {$entrada['id']}</h3>
                         <hr>
                         <p>Modelo: {$entrada['model']}</p>
                         <p>Nombre: {$entrada['nom']}</p>
-                        <p>Precio: {$entrada['preu']}</p>
+                        <p>Precio: {$entrada['preu']}€</p>
                         <p>Correo: {$entrada['correu']}</p>
                         <hr>
                         <div class='card-actions'>
@@ -145,23 +144,20 @@ try {
                             </form>
                             </div>
                         </div>";
-                    } else {
-                        echo "<div class='card' id='card-{$entrada['id']}'>
+                } else {
+                    echo "<div class='card' id='card-{$entrada['id']}'>
                         <h3>ID: {$entrada['id']}</h3>
                         <hr>
                         <p>Modelo: {$entrada['model']}</p>
                         <p>Nombre: {$entrada['nom']}</p>
-                        <p>Precio: {$entrada['preu']}</p>
+                        <p>Precio: {$entrada['preu']}€</p>
                         <p>Correo: {$entrada['correu']}</p>
                         <hr>
                         </div>";
-                    }
                 }
-                echo "</div>";
-                
+            }
+            echo "</div>";
         }
-
-            
     }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
@@ -179,8 +175,8 @@ try {
         $start = max(1, $pagina - 1); // Calcula el inicio del rango
         $end = min($pages, $start + 2); // Calcula el fin del rango
         for ($i = $start; $i <= $end; $i++): ?>
-            <a href="?page=<?= htmlspecialchars($i); ?>" 
-               class="<?= $i === $pagina ? 'active' : ''; ?>">
+            <a href="?page=<?= htmlspecialchars($i); ?>"
+                class="<?= $i === $pagina ? 'active' : ''; ?>">
                 <?= htmlspecialchars($i); ?>
             </a>
         <?php endfor; ?>
@@ -197,15 +193,17 @@ try {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
+
 <body>
     <form action="#" method="post">
         <label for="orderBy">Order by || Post Per Page</label>
@@ -227,12 +225,11 @@ try {
         <input type="submit" name="OrderBy" value="Enviar">
     </form>
 
-    <form action="#" method="POST"> 
-        <input type="text" name="search-input" placeholder="Cercar articles...">
+    <form action="#" method="POST">
+        <input type="text" name="search-input" placeholder="Cercar articles per nom">
         <input type="submit" name="search-button" value="Search">
     </form>
-</form>
+    </form>
 </body>
+
 </html>
-
-

@@ -1,11 +1,7 @@
 <?php
-use chillerlan\QRCode\QRCode;
 
-require_once '../lib/vendor/autoload.php';
-require_once __DIR__ . '/../database/env.php';
-require_once BASE_PATH . '/database/connexio.php';
-
-if($_SERVER['REQUEST_METHOD'] == 'GET'){
+require_once '../model/model.php';
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $id_qr = htmlspecialchars($_GET['id']);
     $model_qr = htmlspecialchars($_GET['model']);
     $nom_qr = htmlspecialchars($_GET['nom']);
@@ -14,6 +10,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
     $qr_link = "https://www.davidromero.cat/vista/vista-qr.php?id=$id_qr&model=$model_qr&nom=$nom_qr&preu=$preu_qr&correu=$correu_qr";
 
-    echo '<img class="DivQR" src="'.(new QRCode)->render($qr_link).'" width=300px alt="QR Code" />';
+    $show_qr = showQR($qr_link);
 }
-?>
+
+include_once '../vista/vista-qr.php';
