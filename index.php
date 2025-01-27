@@ -46,33 +46,58 @@ try {
         foreach ($resultados as $entrada) {
             if (isset($_SESSION['usuari'])) {
                 echo "<div class='card' id='card-{$entrada['id']}'>
-                <h3>ID: {$entrada['id']}</h3>
-                <p>Modelo: {$entrada['model']}</p>
-                <p>Nombre: {$entrada['nom']}</p>
-                <p>Precio: {$entrada['preu']}€</p>
-                <p>Correo: {$entrada['correu']}</p>
-                <hr>
-                <div class='card-actions'>
-                    <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
-                        <input type='hidden' name='id' value='{$entrada['id']}'>
-                            <button name='article-button' value='delete'>
-                                <img src='imagenes/icones/trash.svg'>
-                            </button>
-                    </form>
-                    <form action='vista/modificar.php' method='post' class='cards-form'>
-                        <input type='hidden' name='id' value='{$entrada['id']}'>
-                            <button name='article-button' value='edit'>
-                                <img src='imagenes/icones/edit.svg'>
-                            </button>
-                    </form>
-                    <form action='controlador/controlador-qr.php' method='post' class='cards-form'>
-                        <input type='hidden' name='id' value='{$entrada['id']}'>
-                            <button name='article-button' value='qr'>
-                                <img src='imagenes/icones/icons8-código-qr-24.png'>
-                            </button>
-                    </form>
-                    </div>
-                </div>";
+                        <h3>ID: {$entrada['id']}</h3>
+                        <hr>
+                        <p>Modelo: {$entrada['model']}</p>
+                        <p>Nombre: {$entrada['nom']}</p>
+                        <p>Precio: {$entrada['preu']}€</p>
+                        <p>Correo: {$entrada['correu']}</p>
+                        <hr>
+                        <div class='card-actions'>
+                            <form action='controlador/controlador-cards.php' method='post' class='cards-form'>
+                                <input type='hidden' name='id' value='{$entrada['id']}'>
+                                <button type='button' data-bs-toggle='modal' data-bs-target='#eliminarArticle'>
+                                    <img src='imagenes/icones/trash.svg'>
+                                </button>
+
+                                <div class='modal fade' id='eliminarArticle'>
+                                    <div class='modal-dialog'>
+                                        <div class='modal-content'>
+
+                                            <div class='modal-header'>
+                                                <h3 class='modal-title'>Esborrar article</h3>
+                                            </div>
+
+                                            <div class='modal-body'>
+                                                Estas segur que vols eliminar l'article?
+                                            </div>
+
+                                            <div class='modal-footer'>
+                                            <button type='submit' data-bs-dismiss='modal' name='article-button' value='delete'>Si</button>
+                                            <button type='button' data-bs-dismiss='modal'>No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form action='vista/modificar.php' method='post' class='cards-form'>
+                                <input type='hidden' name='id' value='{$entrada['id']}'>
+                                    <button name='article-button' value='edit'>
+                                        <img src='imagenes/icones/edit.svg'>
+                                    </button>
+                            </form>
+                            <form action='controlador/controlador-qr.php' method='get' class='cards-form'>
+                                <input type='hidden' name='id' value='{$entrada['id']}'>
+                                <input type='hidden' name='model' value='{$entrada['model']}'>
+                                <input type='hidden' name='nom' value='{$entrada['nom']}'>
+                                <input type='hidden' name='preu' value='{$entrada['preu']}'>
+                                <input type='hidden' name='correu' value='{$entrada['correu']}'>
+                                    <button name='article-button' value='qr'>
+                                        <img src='imagenes/icones/icons8-código-qr-24.png'>
+                                    </button>
+                            </form>
+                            </div>
+                        </div>";
             } else {
                 echo "<div class='card' id='card-{$entrada['id']}'>
                 <h3>ID: {$entrada['id']}</h3>
@@ -202,6 +227,7 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
 </head>
 
 <body>
@@ -225,10 +251,9 @@ try {
         <input type="submit" name="OrderBy" value="Enviar">
     </form>
 
-    <form action="#" method="POST">
+    <form method="POST">
         <input type="text" name="search-input" placeholder="Cercar articles per nom">
         <input type="submit" name="search-button" value="Search">
-    </form>
     </form>
 </body>
 

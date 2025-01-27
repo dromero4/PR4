@@ -3,7 +3,8 @@ require_once __DIR__ . '/../database/env.php';
 require_once BASE_PATH . 'database/connexio.php';
 require_once '../model/model.php';
 
-if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $query = $_POST['search-input'];
 
     $resultados = searchBar($connexio, $query);
@@ -24,4 +25,3 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         echo "<p>No se encontraron resultados para '<b>" . htmlspecialchars($query) . "</b>'</p>";
     }
 }
-?>
