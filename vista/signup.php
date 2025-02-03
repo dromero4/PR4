@@ -24,7 +24,7 @@ $contrassenya2 = isset($_POST['contrassenya2']) ? $_POST['contrassenya2'] : '';
 
 <body>
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="post">
-        <label for="correu" aria-hidden=true>
+        <label for="correu" aria-label="correu">
             <input type="text" id="correu" name="correu" placeholder="Correu" value="<?php echo htmlspecialchars($correu); ?>"><br><br>
         </label>
 
