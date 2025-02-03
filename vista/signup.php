@@ -28,20 +28,20 @@ $contrassenya2 = isset($_POST['contrassenya2']) ? $_POST['contrassenya2'] : '';
             <input type="text" id="correu" name="correu" placeholder="Correu" value="<?php echo htmlspecialchars($correu); ?>"><br><br>
         </label>
 
-        <label for="usuari">
+        <label for="usuari" aria-label="usuari">
             <input type="text" id="usuari" name="usuari" placeholder="Usuari" value="<?php echo htmlspecialchars($usuari); ?>"><br><br>
         </label>
 
-        <label for="contrassenya">
+        <label for="contrassenya" aria-label="contrassenya">
             <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya" value="<?php echo htmlspecialchars($contrassenya); ?>"><br><br>
         </label>
 
-        <label for="contrassenya2">
+        <label for="contrassenya2" aria-label="contrassenya2">
             <input type="password" id="contrassenya2" name="contrassenya2" placeholder="Contrassenya" value="<?php echo htmlspecialchars($contrassenya2); ?>"><br><br>
         </label>
 
-        <label for="fotoPerfil">
-            <input type="text" name="imagenPerfil" placeholder="URL de la imatge">
+        <label for="fotoPerfil" aria-label="imagenPerfil">
+            <input type="text" id="imagenPerfil" name="imagenPerfil" placeholder="URL de la imatge">
         </label>
 
         <input type="submit" id="login" name="login" value="Sign Up">
