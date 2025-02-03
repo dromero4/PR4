@@ -8,4 +8,3 @@ define('DB_VAR', [
 
 define('BASE_PATH', dirname(__DIR__) . '/');
 define('BASE_URL', '/Servidor/PR4-NEW/');
-?>

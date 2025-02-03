@@ -1,7 +1,7 @@
 <?php
-
+// Usar la clase QRCode de chillerlan
 use chillerlan\QRCode\QRCode;
-use LDAP\Result;
+use chillerlan\QRCode\QROptions;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 //DAVID ROMERO
@@ -708,4 +708,37 @@ function showQR($qr_link)
     require_once '../lib/vendor/autoload.php';
 
     return '<img src="' . (new QRCode)->render($qr_link) . '"alt="QR Code" />';
+}
+
+
+// Generar y añadir a la base de datos un token aleatorio
+function generarToken($connexio, $correu)
+{
+    $token = bin2hex(random_bytes(32));
+
+    try {
+        $generarToken = $connexio->prepare('UPDATE usuaris SET API_Token = :token WHERE correu = :correu');
+        $generarToken->bindParam(':token', $token);
+        $generarToken->bindParam(':correu', $correu);
+
+        $generarToken->execute(); // Ejecutamos la consulta
+
+        if ($generarToken->rowCount() > 0) {
+            return $token; // Retornamos el token generado si se actualizó correctamente
+        } else {
+            return false; // Si no se actualizó ninguna fila, devolvemos false
+        }
+    } catch (PDOException $e) {
+        echo "Error de base de datos: " . $e->getMessage();
+        return false;
+    }
+}
+
+
+// Verificar si el token es válido
+function validarToken($pdo, $token)
+{
+    $stmt = $pdo->prepare("SELECT * FROM usuaris WHERE API_Token = ?");
+    $stmt->execute([$token]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }

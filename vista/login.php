@@ -21,11 +21,13 @@ include_once '../lib/claus_recaptcha/claus.php';
 <body>
     <!-- Inputs diversos per poder inserir les dades de l'usuari -->
     <form id="form-login" action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="post">
-        <label for="usuari"></label>
+        <label for="usuari">
         <input type="text" id="usuari" name="usuari" placeholder="Usuari" value="<?php echo $cookie_user?>"><br><br>
+        </label>
 
-        <label for="contrassenya"></label>
+        <label for="contrassenya">
         <input type="password" id="contrassenya" name="contrassenya" placeholder="Contrassenya" value="<?php echo $cookie_pass?>"><br><br>
+        </label>
 
         <input type="checkbox" name="rememberMe" <?php echo isset($_COOKIE['cookie_user']) ? 'checked' : ''; ?>> Remember Me<br><br>
 

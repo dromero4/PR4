@@ -1,0 +1,2 @@
+Rearrange the .htaccess file
+upload to github the .env file in order to don't show the personal variables. (env.example)

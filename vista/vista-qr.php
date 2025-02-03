@@ -1,7 +1,6 @@
 <?php
 include_once 'navbar.view.php';
 require_once '../controlador/controlador-qr.php';
-session_start();
 
 $modelo_qr = $_GET['model'] ?? null;
 $nom_qr = $_GET['nom'] ?? null;

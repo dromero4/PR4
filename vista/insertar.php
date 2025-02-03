@@ -1,12 +1,12 @@
 <?php
 session_start();
-//Inserim la navbar per poder-nos moure de lloc
+//Inserim el navbar per poder-nos moure de lloc
 include_once 'navbar.view.php';
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +15,7 @@ include_once 'navbar.view.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <h3 style="color: white">Quin element vols inserir? </h3>
     <form action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="POST">
@@ -34,4 +35,5 @@ include_once 'navbar.view.php';
         <input type="submit" name="Enviar" value="Insertar">
     </form>
 </body>
+
 </html>
