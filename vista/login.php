@@ -32,7 +32,7 @@ include_once '../lib/claus_recaptcha/claus.php';
         </label>
 
         <label for="rememberMe">Remember Me
-            <input type="checkbox" name="rememberMe" <?php echo isset($_COOKIE['cookie_user']) ? 'checked' : ''; ?>>
+            <input type="checkbox" id="rememberMe" name="rememberMe" <?php echo isset($_COOKIE['cookie_user']) ? 'checked' : ''; ?>>
         </label><br><br>
 
         <div class="botones"><input type="submit" id="login" name="login" value="Log In"><br><br></div>
