@@ -3,10 +3,10 @@
 <?php
 require_once 'env-api.php';
 
-$direccio = DB_VAR['DB_HOST'];
-$nomBBDD = DB_VAR['DB_NAME'];
-$usuaris = DB_VAR['DB_USER'];
-$contrasenya = DB_VAR['DB_PASSWORD'];
+$direccio = DB_VAR['DB_HOST2'];
+$nomBBDD = DB_VAR['DB_NAME2'];
+$usuaris = DB_VAR['DB_USER2'];
+$contrasenya = DB_VAR['DB_PASSWORD2'];
 
 //  fitxer per a la connexio a la base de dades
 try {
