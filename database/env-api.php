@@ -1,7 +1,7 @@
 <?php
 define('DB_VAR', [
-    'DB_HOST' => 'localhost',
+    'DB_HOST2' => 'localhost',
     'DB_NAME' => 'api',
-    'DB_USER' => 'root',
-    'DB_PASSWORD' => '',
+    'DB_USER2' => 'root',
+    'DB_PASSWORD2' => '',
 ]);
