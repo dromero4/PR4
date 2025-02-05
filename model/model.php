@@ -765,7 +765,11 @@ function api($connexio, $nombre)
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Enviar la respuesta como JSON
-        echo json_encode(["status" => "success", "data" => $resultados]);
+        if ($resultados) {
+            echo json_encode(["status" => "success", "data" => $resultados]);
+        } else {
+            echo json_encode(["status" => "error", "data" => 'There is no objects']);
+        }
     } catch (PDOException $e) {
         echo json_encode(["status" => "error", "message" => $e->getMessage()]);
     }

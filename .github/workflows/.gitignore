@@ -1,4 +1,3 @@
-/env.php
-/.htaccess
-/pruebas.html
-/ToDo
+*env.php
+*.htaccess
+*pruebas.html
