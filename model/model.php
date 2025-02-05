@@ -768,7 +768,7 @@ function api($connexio, $nombre)
         if ($resultados) {
             echo json_encode(["status" => "success", "data" => $resultados]);
         } else {
-            echo json_encode(["status" => "error", "data" => 'There is no objects']);
+            echo json_encode(["status" => "error", "message" => 'There is no objects']);
         }
     } catch (PDOException $e) {
         echo json_encode(["status" => "error", "message" => $e->getMessage()]);

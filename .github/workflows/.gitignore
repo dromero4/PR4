@@ -1,3 +1,4 @@
-*env.php
-*.htaccess
-*pruebas.html
+connexio-api.php
+connexio.php
+env-api.php
+env.php
