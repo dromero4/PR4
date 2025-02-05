@@ -741,4 +741,70 @@ function validarToken($pdo, $token)
     $stmt = $pdo->prepare("SELECT * FROM usuaris WHERE API_Token = ?");
     $stmt->execute([$token]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Depuración: Ver si el token existe en la BD
+    echo json_encode([
+        "debug" => "Validación de token",
+        "token_busqueda" => $token,
+        "resultado_bd" => $usuario
+    ]);
+    exit;
+}
+
+function api($connexio, $nombre)
+{
+    try {
+        // Cambiar :nom a :nombre para ser consistente con el parámetro
+        $sql = "SELECT * FROM articles_api WHERE Nom LIKE :Nom";
+        $stmt = $connexio->prepare($sql);
+
+        // Usar el parámetro :nombre con el valor modificado '%$nombre%'
+        $stmt->execute(["Nom" => "%$nombre%"]);
+
+        // Obtener los resultados
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Enviar la respuesta como JSON
+        echo json_encode(["status" => "success", "data" => $resultados]);
+    } catch (PDOException $e) {
+        echo json_encode(["status" => "error", "message" => $e->getMessage()]);
+    }
+}
+
+
+// Función de verificación del reCAPTCHA
+function recaptcha($clau_privada)
+{
+    $recaptcha = false;
+
+    // Obtener el token reCAPTCHA enviado desde el formulario
+    $recaptcha_token = $_POST['g-recaptcha-response'] ?? null;
+
+    // Verificar si el token reCAPTCHA está presente
+    if (empty($recaptcha_token)) {
+        return false;
+        exit();
+    }
+
+    // URL de la API de Google para verificar el token
+    $url = 'https://www.google.com/recaptcha/api/siteverify';
+
+    // Realizar la solicitud POST a Google para verificar el token
+    $respuesta = file_get_contents("$url?secret=$clau_privada&response=$recaptcha_token");
+
+    // Decodificar la respuesta JSON
+    $json = json_decode($respuesta);
+
+    // Comprobar si la validación fue exitosa
+    $success = $json->success;
+
+    if (!$success) {
+        // Si la validación de reCAPTCHA falla, redirigir con un error
+        header('Location: ../index.php?error=Error en el captcha...');
+        die();
+    } else {
+        $recaptcha = true;
+    }
+
+    return $recaptcha;
 }

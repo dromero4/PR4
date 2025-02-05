@@ -44,7 +44,7 @@ $contrassenya2 = isset($_POST['contrassenya2']) ? $_POST['contrassenya2'] : '';
             <input type="text" id="imagenPerfil" name="imagenPerfil" placeholder="URL de la imatge">
         </label>
 
-        <input type="submit" id="login" name="login" value="Sign Up">
+        <input type="submit" name="login" value="Sign Up">
     </form>
 </body>
 

@@ -22,7 +22,7 @@ include_once '../lib/claus_recaptcha/claus.php';
 
 <body>
     <!-- Inputs diversos per poder inserir les dades de l'usuari -->
-    <form id="form-login" action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador.php'); ?>" method="post">
+    <form id="form-login" action="<?php echo htmlspecialchars(dirname($_SERVER['PHP_SELF']) . '/../controlador/controlador-login.php'); ?>" method="POST">
         <label for="usuari" aria-label="usuari">
             <input type="text" id="usuari" name="usuari" placeholder="Usuari" value="<?php echo $cookie_user ?>"><br><br>
         </label>

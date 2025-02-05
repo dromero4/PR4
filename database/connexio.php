@@ -3,10 +3,10 @@
 <?php
 require_once 'env.php';
 
-$direccio = DB_VAR['DB_HOST1'];
-$nomBBDD = DB_VAR['DB_NAME1'];
-$usuaris = DB_VAR['DB_USER1'];
-$contrasenya = DB_VAR['DB_PASSWORD1'];
+$direccio = DB_VAR1['DB_HOST1'];
+$nomBBDD = DB_VAR1['DB_NAME1'];
+$usuaris = DB_VAR1['DB_USER1'];
+$contrasenya = DB_VAR1['DB_PASSWORD1'];
 
 //  fitxer per a la connexio a la base de dades
 try {

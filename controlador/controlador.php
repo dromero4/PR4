@@ -11,10 +11,8 @@ $nom = $_POST['nom'] ?? null;
 $preu = $_POST['preu'] ?? null;
 
 //Variables dels usuaris
-$correu = $_POST['correu'] ?? null;
-$usuari = $_POST['usuari'] ?? null;
-$contrassenya = $_POST['contrassenya'] ?? null;
-$contrassenya2 = $_POST['contrassenya2'] ?? null;
+
+
 
 //variable del login
 $login = $_POST['login'] ?? null;
@@ -30,13 +28,9 @@ $missatges = []; //Gestió de missatges / errors.
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     switch ($login) {
-        case 'Log In':
-            include_once 'controlador-login.php';
-            break;
-            //Per registrar-se
-        case 'Sign Up':
+        case 'Sign up':
             $imatgePerfil = $_POST['imagenPerfil'] ?? null;
-            include_once 'controlador-signup.php';
+            require_once 'controlador-signup.php';
             break;
     }
 

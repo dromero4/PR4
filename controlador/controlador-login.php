@@ -2,13 +2,36 @@
 session_start();
 include_once '../lib/claus_recaptcha/claus.php';
 require_once '../model/model.php';
+require_once '../database/connexio.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+$correu = $_POST['correu'] ?? null;
+$usuari = $_POST['usuari'] ?? null;
+$contrassenya = $_POST['contrassenya'] ?? null;
+$contrassenya2 = $_POST['contrassenya2'] ?? null;
+
+if (isset($usuari)) {
     // Verificar si los campos de usuario y contraseña están vacíos
     if (!empty($usuari) && !empty($contrassenya)) {
         // Verificar las credenciales del usuario
         if (verificarCompte($usuari, $contrassenya, $connexio)) {
+
+            // Variables del usuario
+            $_SESSION['usuari'] = $usuari;
+            $resultatCorreu = seleccionarCorreu($usuari, $connexio);
+            $_SESSION['correu'] = $resultatCorreu['correu'];
+
+
+
+            //Generar i insertar l'api-token a la base de dades de l'usuari
+            $token_api = generarToken($connexio, $_SESSION['correu']);
+
+            if ($token_api) {
+                echo "Token generado: " . $token_api;
+            } else {
+                echo "Hubo un error generando el token.";
+            }
+
             // Si las credenciales son correctas
             $_SESSION['intents_recaptcha'] = 0; // Reseteamos el contador de intentos fallidos
             $_SESSION['fotoPerfil'] = $imatgePerfil;
@@ -33,19 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Actualizar la última actividad
             $_SESSION['LAST_ACTIVITY'] = time();
 
-            // Variables del usuario
-            $_SESSION['usuari'] = $usuari;
-            $resultatCorreu = seleccionarCorreu($usuari, $connexio);
-            $_SESSION['correu'] = $resultatCorreu['correu'];
 
-            var_dump($_SESSION['correu']);
-            //Generar i insertar l'api-token a la base de dades de l'usuari
-            $token_api = generarToken($connexio, $resultatCorreu);
-
-            if (verificarToken($token_api, $_SESSION['correu'], $connexio)) {
-                var_dump($token_api);
-            } else {
-            }
 
             // Recordar al usuario (Remember Me)
             $remember = $_POST['rememberMe'] ?? null;
@@ -84,43 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $missatges[] = "Has d'introduïr les dades";
     }
 
-    // Función de verificación del reCAPTCHA
-    function recaptcha($clau_privada)
-    {
-        $recaptcha = false;
-
-        // Obtener el token reCAPTCHA enviado desde el formulario
-        $recaptcha_token = $_POST['g-recaptcha-response'] ?? null;
-
-        // Verificar si el token reCAPTCHA está presente
-        if (empty($recaptcha_token)) {
-            return false;
-            exit();
-        }
-
-        // URL de la API de Google para verificar el token
-        $url = 'https://www.google.com/recaptcha/api/siteverify';
-
-        // Realizar la solicitud POST a Google para verificar el token
-        $respuesta = file_get_contents("$url?secret=$clau_privada&response=$recaptcha_token");
-
-        // Decodificar la respuesta JSON
-        $json = json_decode($respuesta);
-
-        // Comprobar si la validación fue exitosa
-        $success = $json->success;
-
-        if (!$success) {
-            // Si la validación de reCAPTCHA falla, redirigir con un error
-            header('Location: ../index.php?error=Error en el captcha...');
-            die();
-        } else {
-            $recaptcha = true;
-        }
-
-        return $recaptcha;
-    }
-
+    $recaptcha = recaptcha($clau_privada);
     include_once '../vista/login.php';
 
     // Mostrar los mensajes
